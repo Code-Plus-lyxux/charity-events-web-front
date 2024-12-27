@@ -9,6 +9,19 @@ export default {
     theme: {
         extend: {
             colors: {
+                mint: {
+                    50: "#eafff8",
+                    100: "#cdfeec",
+                    200: "#a0fadd",
+                    300: "#63f2cc",
+                    400: "#25e2b7",
+                    500: "#00b894",
+                    600: "#00a484",
+                    700: "#00836e",
+                    800: "#006758",
+                    900: "#00554a",
+                    950: "#00302b",
+                },
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
                 card: {
