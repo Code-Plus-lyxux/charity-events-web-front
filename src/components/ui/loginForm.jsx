@@ -82,7 +82,7 @@ export default function LoginForm() {
                 />
                 <div className="flex justify-end">
                     <Link
-                        href="/forgot-password"
+                        href="/auth/reset-password"
                         className="text-sm font-bold text-mint-800 hover:text-mint-600  dark:text-mint-500 dark:hover:text-mint-300 "
                     >
                         Forgot password?

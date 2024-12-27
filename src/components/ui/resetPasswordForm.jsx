@@ -3,10 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import Link from "next/link";
-import emailIcon from "@/assets/img/email-icon.png";
-import { InputWithIcon } from "@/components/ui/inputWithIcon";
-import userIcon from "@/assets/img/user-icon.png";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -16,11 +12,12 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { PasswordInput } from "./passwordInput";
+import checkIcon from "@/assets/img/check-icon.png";
+import Image from "next/image";
 
 // Define the form schema
 const formSchema = z
     .object({
-        email: z.string().email(),
         password: z
             .string()
             .min(8, "Password must be at least 8 characters")
@@ -32,9 +29,6 @@ const formSchema = z
                 /(?=.*[a-z])(?=.*[A-Z])/,
                 "Password must contain at least 1 uppercase and 1 lowercase letter"
             ),
-        fullName: z.string().min(3, {
-            message: "Full Name must be at least 3 characters.",
-        }),
         confirmPassword: z.string(),
     })
     .refine((data) => data.password === data.confirmPassword, {
@@ -42,13 +36,11 @@ const formSchema = z
         path: ["confirmPassword"],
     });
 
-export default function signupForm() {
+export default function ResetPasswordForm() {
     // Initialize useForm
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "",
-            fullName: "",
             password: "",
             confirmPassword: "",
         },
@@ -65,44 +57,6 @@ export default function signupForm() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6 w-full max-w-sm"
             >
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <InputWithIcon
-                                    className="pl-10 placeholder:text-gray-500"
-                                    type="email"
-                                    iconSrc={emailIcon}
-                                    alt="email icon"
-                                    placeholder="E-mail"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <InputWithIcon
-                                    className="pl-10 placeholder:text-gray-500"
-                                    type="text"
-                                    iconSrc={userIcon}
-                                    alt="user icon"
-                                    placeholder="Full Name"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
                 <FormField
                     control={form.control}
                     name="password"
@@ -134,12 +88,46 @@ export default function signupForm() {
                         </FormItem>
                     )}
                 />
+
+                <div>
+                    <p className="pb-3">Password Rules:</p>
+                    <ul>
+                        <li className="flex items-center gap-2">
+                            <Image
+                                src={checkIcon}
+                                alt="checkmark"
+                                width={16}
+                                height={16}
+                            />
+                            At least 8 characters
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <Image
+                                src={checkIcon}
+                                alt="checkmark"
+                                width={16}
+                                height={16}
+                            />
+                            At least 1 special character
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <Image
+                                src={checkIcon}
+                                alt="checkmark"
+                                width={16}
+                                height={16}
+                            />
+                            At least 1 uppercase letter and 1 lowercase letter
+                        </li>
+                    </ul>
+                </div>
+
                 <div className="py-6">
                     <Button
                         type="submit"
                         className="w-full rounded-3xl py-6 text-lg bg-mint-500 hover:bg-mint-700"
                     >
-                        SIGN UP
+                        CONFIRM
                     </Button>
                 </div>
             </form>
