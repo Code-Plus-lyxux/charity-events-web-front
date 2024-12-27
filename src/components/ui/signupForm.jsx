@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import Link from "next/link";
 import emailIcon from "@/assets/img/email-icon.png";
 import { InputWithIcon } from "@/components/ui/inputWithIcon";
 import userIcon from "@/assets/img/user-icon.png";
@@ -16,6 +15,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { PasswordInput } from "./passwordInput";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/authContext";
 
 // Define the form schema
 const formSchema = z
@@ -43,6 +44,8 @@ const formSchema = z
     });
 
 export default function signupForm() {
+    const { setEmail } = useAuth();
+    const router = useRouter();
     // Initialize useForm
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -56,6 +59,8 @@ export default function signupForm() {
 
     // Handle form submission
     const onSubmit = (values) => {
+        setEmail(values.email);
+        router.push("/auth/verify");
         console.log("Form submitted with values:", values); //TODO: add changes here to sign up
     };
 
