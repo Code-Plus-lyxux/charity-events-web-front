@@ -14,15 +14,18 @@ const PasswordInput = React.forwardRef(({ className, ...props }, ref) => {
                 <Image
                     src={passwordIcon}
                     alt="password icon"
-                    width={16}
-                    height={16}
+                    width={20}
+                    height={20}
                     className="object-contain"
                 />
             </div>
             <Input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                className={cn("pl-10 placeholder:text-gray-500", className)}
+                className={cn(
+                    "pl-10 placeholder:text-gray-500 border-mint-500 py-6",
+                    className
+                )}
                 ref={ref}
                 {...props}
             />
@@ -32,9 +35,9 @@ const PasswordInput = React.forwardRef(({ className, ...props }, ref) => {
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
             >
                 {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-black" />
+                    <EyeOff className="h-5 w-5 text-black transform scale-x-[-1]" />
                 ) : (
-                    <Eye className="h-4 w-4 text-black" />
+                    <Eye className="h-5 w-5 text-black" />
                 )}
             </button>
         </div>

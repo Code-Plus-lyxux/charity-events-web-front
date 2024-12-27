@@ -11,13 +11,16 @@ export const InputWithIcon = React.forwardRef(
                     <Image
                         src={iconSrc}
                         alt={alt}
-                        width={16}
-                        height={16}
+                        width={20}
+                        height={20}
                         className="object-contain"
                     />
                 </div>
                 <Input
-                    className={cn("pl-10 placeholder:text-gray-500", className)}
+                    className={cn(
+                        "pl-10 placeholder:text-gray-500 border-mint-500 py-6",
+                        className
+                    )}
                     type={type}
                     {...props}
                     ref={ref}

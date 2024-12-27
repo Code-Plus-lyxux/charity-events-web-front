@@ -72,7 +72,7 @@ export default function LoginForm() {
                         <FormItem>
                             <FormControl>
                                 <PasswordInput
-                                    className="pl-10 placeholder:text-gray-500"
+                                    className="pl-10 placeholder:text-gray-500 appearance-none"
                                     {...field}
                                 />
                             </FormControl>
@@ -83,13 +83,16 @@ export default function LoginForm() {
                 <div className="flex justify-end">
                     <Link
                         href="/forgot-password"
-                        className="text-sm text-mint-950 hover:text-mint-800  dark:text-mint-500 dark:hover:text-mint-300 "
+                        className="text-sm font-bold text-mint-800 hover:text-mint-600  dark:text-mint-500 dark:hover:text-mint-300 "
                     >
                         Forgot password?
                     </Link>
                 </div>
-                <Button type="submit" className="w-full">
-                    Login
+                <Button
+                    type="submit"
+                    className="w-full rounded-3xl py-6 text-lg bg-mint-500 hover:bg-mint-700"
+                >
+                    LOGIN
                 </Button>
             </form>
         </Form>
