@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* text-[#00302b] hover:text-emerald-800  dark:text-[#25e2b7] dark:hover:text-[#a0fadd] */
+
 * {
-    background-color: hsl(220, 26%, 14%); /* added for working purposes */
+    background-color: rgb(56, 58, 58);
 }
 
 body {
