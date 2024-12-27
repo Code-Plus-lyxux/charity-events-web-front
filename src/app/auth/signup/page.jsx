@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
-import loginImg from "@/assets/img/world-hands.png";
+import signupImg from "@/assets/img/hands-heart.png";
 import givewellLogo from "@/assets/img/givewell-logo.png";
-import LoginForm from "@/components/ui/loginForm";
+import SignupForm from "@/components/ui/signupForm";
 import { Button } from "@/components/ui/button";
 import googleColorIcon from "@/assets/img/google-color.png";
 
-export default function Login() {
+export default function Signup() {
     const handleGoogleLogin = () => {
         console.log("Sign in with Google"); //TODO: add changes here to redirect to google
     };
@@ -14,13 +14,14 @@ export default function Login() {
     return (
         <div className="flex flex-col lg:flex-row justify-around">
             <div className="flex justify-center items-center">
-                <Image
-                    src={loginImg}
-                    width={580}
-                    height={575}
-                    alt="logo with a world behind the supportive hands"
-                    className="border-black border-2"
-                ></Image>
+                <div className="border-black border-2 size-[580] flex items-center">
+                    <Image
+                        src={signupImg}
+                        width={580}
+                        height={580}
+                        alt="logo with a world behind the heart made out of hands"
+                    ></Image>
+                </div>
             </div>
             <div>
                 <div className="flex justify-center items-center z-10">
@@ -32,7 +33,7 @@ export default function Login() {
                     ></Image>
                 </div>
                 <div className="flex justify-center items-center px-4 mt-[-60px]">
-                    <LoginForm></LoginForm>
+                    <SignupForm></SignupForm>
                 </div>
                 <div className="flex items-center justify-center w-full my-4">
                     <div className="border-t border-gray-500 w-[180px]"></div>
@@ -53,12 +54,12 @@ export default function Login() {
                         Sign in with Google
                     </Button>
                     <div className="mt-4 pb-6 w-full text-center">
-                        Don't have an account?{" "}
+                        Already have an account?{" "}
                         <a
-                            href="/auth/signup"
+                            href="/auth/login"
                             className="text-mint-800 underline hover:text-mint-600 font-bold"
                         >
-                            Sign up
+                            Login
                         </a>
                     </div>
                 </div>

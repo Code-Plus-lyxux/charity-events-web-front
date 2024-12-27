@@ -6,9 +6,9 @@
     background-color: rgb(56, 58, 58);
 } */
 
-body {
+/* body {
     font-family: Arial, Helvetica, sans-serif;
-}
+} */
 
 @layer base {
     :root {
