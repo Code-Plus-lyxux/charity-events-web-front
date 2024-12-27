@@ -4,9 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
-import Image from "next/image";
 import emailIcon from "@/assets/img/email-icon.png";
-import passwordIcon from "@/assets/img/password-icon.png";
+import { InputWithIcon } from "@/components/ui/inputWithIcon";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,10 +13,9 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { PasswordInput } from "./passwordInput";
 
 // Define the form schema
 const formSchema = z.object({
@@ -54,22 +52,14 @@ export default function LoginForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <div className="relative">
-                                    <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                                        <Image
-                                            src={emailIcon}
-                                            alt="input icon"
-                                            width={16}
-                                            height={16}
-                                            className="object-contain"
-                                        />
-                                    </div>
-                                    <Input
-                                        className="pl-10 placeholder:text-gray-500"
-                                        placeholder="E-mail"
-                                        {...field}
-                                    />
-                                </div>
+                                <InputWithIcon
+                                    className="pl-10 placeholder:text-gray-500"
+                                    type="email"
+                                    iconSrc={emailIcon}
+                                    alt="email icon"
+                                    placeholder="E-mail"
+                                    {...field}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -81,23 +71,10 @@ export default function LoginForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <div className="relative">
-                                    <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                                        <Image
-                                            src={passwordIcon}
-                                            alt="input icon"
-                                            width={16}
-                                            height={16}
-                                            className="object-contain"
-                                        />
-                                    </div>
-                                    <Input
-                                        placeholder="Password"
-                                        className="pl-10 placeholder:text-gray-500"
-                                        type="password"
-                                        {...field}
-                                    />
-                                </div>
+                                <PasswordInput
+                                    className="pl-10 placeholder:text-gray-500"
+                                    {...field}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -106,7 +83,7 @@ export default function LoginForm() {
                 <div className="flex justify-end">
                     <Link
                         href="/forgot-password"
-                        className="text-sm text-[#00302b] hover:text-emerald-800  dark:text-[#25e2b7] dark:hover:text-[#a0fadd] "
+                        className="text-sm text-mint-950 hover:text-mint-800  dark:text-mint-500 dark:hover:text-mint-300 "
                     >
                         Forgot password?
                     </Link>
