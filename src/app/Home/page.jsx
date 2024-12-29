@@ -1,10 +1,10 @@
 import React from 'react';
 import { FaMapMarkerAlt, FaCalendarPlus } from 'react-icons/fa';
-// import './Home.css';
+import './Home.css';
 
 const EventCard = ({ imageSrc, location, date, title, description }) => {
   return (
-    <div className="event-card-container flex w-full ml-[148px] mt-10 gap-[61px] flex-wrap md:flex-nowrap">
+    <div className="event-card-container flex w-[1223px] h-[219px]  mt-10 gap-[61px] flex-wrap md:flex-nowrap">
       <div>
         <img
           src={imageSrc}
@@ -13,15 +13,15 @@ const EventCard = ({ imageSrc, location, date, title, description }) => {
         />
       </div>
       <div className="event-info border border-gray-300 rounded-[20px] p-[24px] shadow-sm w-[772px] h-[219px]">
-        <div className="event-details flex items-center gap-2 text-[16px] leading-[18.75px] text-gray-500">
+        <div className="event-details flex items-center gap-2 text-[16px] leading-[18.75px] text-gray-600">
           <span className="flex items-center gap-1">
-            <FaMapMarkerAlt className="text-gray-400" />
+            <FaMapMarkerAlt className="text-gray-600" />
             {location}
           </span>
           <span>•</span>
           <span>{date}</span>
         </div>
-        <h3 className="event-title text-[24px] leading-[28.13px] font-semibold text-gray-800 mt-[20px]">
+        <h3 className="event-title text-[24px] leading-[28.13px] font-semibold text-black mt-[20px]">
           {title}
         </h3>
         <p className="event-description mt-[14px] text-[18px] leading-[21.09px] text-gray-600">
@@ -99,21 +99,21 @@ const HomePage = () => {
           />
         </div>
       </section>
-      <section className="events-section w-full max-w-full h-[1046px]">
+      <section className="events-section  w-full max-w-full h-[1046px] flex justify-center items-center">
         <div>
           <div>
-            <h3 className="location-title text-lg leading-6 font-roboto text-gray-600 flex items-center w-40 h-5 mt-24 ml-[148px]">
+            <h3 className="location-title text-lg leading-6 font-roboto text-gray-600 flex items-center w-40 h-5 mt-24 ">
               <FaMapMarkerAlt className="text-gray-600 mr-2" />
               Kandy, Sri Lanka
             </h3>
           </div>
-          <div className="events-header w-full max-w-full h-[723px] mt-0 ml-[148px]">
+          <div className="events-header w-full max-w-full h-[723px] mt-0 ">
             <h2 className="events-heading font-roboto font-bold text-[40px] leading-[72px] text-black">
               Upcoming Events in your area
             </h2>
           </div>
           <div className="explore-button-container w-44 h-14 mt-[-725px]">
-            <button className="explore-events-btn bg-greenbutton text-white font-roboto font-medium text-[16px] leading-[32px] text-center py-1.5 px-4 border-none rounded-[50px] w-[174px] h-[54px] ml-[1199px]">
+            <button className="explore-events-btn bg-greenbutton text-white font-roboto font-medium text-[16px] leading-[32px] text-center py-1.5 px-4 border-none rounded-[50px] w-[174px] h-[54px] ml-[1048px]">
               Explore Events
             </button>
           </div>
@@ -122,6 +122,76 @@ const HomePage = () => {
           ))}
         </div>
       </section>
+
+      
+      <section className="whatwedo-section w-full max-w-full h-[758px] mt-[108px]">
+  <div className="whatwedo-header text-center mt-[10px] gap-[24px] font-roboto w-[1016px] h-[172px] align-center mx-auto">
+    <h2 className="whatwedo-title text-gray-500 text-[18px] leading-[21.09px] font-bold">
+      What we do
+    </h2>
+    <h1 className="whatwedo-main-title text-[40px] leading-[46.88px] font-bold mt-2">
+      Connect, Contribute, and Create Change Together
+    </h1>
+    <p className="whatwedo-description text-gray-600 mt-4 font-[400] text-[24px] leading-[28.13px]">
+      We help you host impactful volunteer events and find opportunities to contribute to meaningful 
+      causes in your community.
+    </p>
+  </div>
+
+  <div className="whatwedo-grid-container flex justify-center items-center mt-8">
+    <div className="whatwedo-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="whatwedo-card bg-green-100 p-8 rounded-[20px] text-center w-[288px] h-[276px]">
+        <div className="whatwedo-icon-container w-[24px] h-[24px] mx-auto mt-[32px] text-green-500">
+          <FaCalendarPlus className="whatwedo-icon w-[24px] h-[24px]" />
+        </div>
+        <h3 className="whatwedo-card-title font-bold text-[20px] leading-[23.44px] mb-2 mt-1">Host Volunteer Events</h3>
+        <p className="whatwedo-card-description text-gray-600 text-[16px] font-[400] leading-[18.75px] w-[240px] mx-auto">
+          Whether you're passionate about the environment, animal welfare, or social causes, our platform 
+          makes it simple for you to create and host volunteer events. Engage your community, raise awareness, 
+          and drive change.
+        </p>
+      </div>
+
+      <div className="whatwedo-card bg-green-100 p-8 rounded-[20px] text-center w-[288px] h-[276px]">
+        <div className="whatwedo-icon-container w-[24px] h-[24px] mx-auto mt-[32px] text-green-500">
+          <FaCalendarPlus className="whatwedo-icon w-[24px] h-[24px]" />
+        </div>
+        <h3 className="whatwedo-card-title font-bold text-lg mb-2">Join Events Near You</h3>
+        <p className="whatwedo-card-description text-gray-600 text-[16px] font-[400] leading-[18.75px] w-[240px] mx-auto">
+          Looking for ways to give back? Browse local volunteer opportunities and join events that match your interests. Every action counts in building a better community.
+        </p>
+      </div>
+
+      <div className="whatwedo-card bg-green-100 p-8 rounded-[20px] text-center w-[288px] h-[276px]">
+        <div className="whatwedo-icon-container w-[24px] h-[24px] mx-auto mt-[32px] text-green-500">
+          <FaCalendarPlus className="whatwedo-icon w-[24px] h-[24px]" />
+        </div>
+        <h3 className="whatwedo-card-title font-bold text-lg mb-2">Impactful Connections</h3>
+        <p className="whatwedo-card-description text-gray-600 text-[16px] font-[400] leading-[18.75px] w-[240px] mx-auto">
+          Volunteerism connects people. By hosting or joining events, you meet like-minded individuals who share your vision for a better world.
+        </p>
+      </div>
+
+      <div className="whatwedo-card bg-green-100 p-8 rounded-[20px] text-center w-[288px] h-[276px]">
+        <div className="whatwedo-icon-container w-[24px] h-[24px] mx-auto mt-[32px] text-green-500">
+          <FaCalendarPlus className="whatwedo-icon w-[24px] h-[24px]" />
+        </div>
+        <h3 className="whatwedo-card-title font-bold text-lg mb-2">Track Your Contributions</h3>
+        <p className="whatwedo-card-description text-gray-600 text-[16px] font-[400] leading-[18.75px] w-[240px] mx-auto">
+          See the difference you’re making! Our platform allows you to track the events you've hosted or participated in and share your experiences with others.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div className="whatwedo-button-container text-center mt-8 w-[222px] h-[70px] mx-auto">
+    <button className="whatwedo-button w-[222px] h-[70px] bg-greenbutton text-white font-roboto font-medium text-[22px] leading-[38px] text-center py-4 px-8 rounded-[50px]">
+      <span>Host Your Event</span>
+    </button>
+  </div>
+        </section>
+
+
 
 
     </div>
