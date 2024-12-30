@@ -13,7 +13,7 @@ export default function ShareBar() {
             </Button>
             <Button
                 variant="outline"
-                className="w-full rounded-3xl py-6 text-lg bg-white border-mint-500 border-2 hover:text-mint-500"
+                className="w-2/5 lg:w-full rounded-3xl px-4 py-6 text-lg bg-white border-mint-500 border-2 hover:text-mint-500 shrink"
             >
                 Share
                 <ShareIcon strokeWidth={2} size={42} />
