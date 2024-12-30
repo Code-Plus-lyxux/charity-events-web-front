@@ -1,6 +1,7 @@
 import HeroCard from "@/components/event/heroCard";
 import EventTabs from "@/components/event/eventTabs";
 import HostCard from "@/components/event/hostCard";
+import ShareBar from "@/components/event/shareBar";
 export default async function EventPage({ params }) {
     const id = (await params).id;
 
@@ -64,7 +65,10 @@ export default async function EventPage({ params }) {
                 <HostCard host={event.host}></HostCard>
             </section>
 
-            <section>{/* share bar section */}</section>
+            <section>
+                {/* share bar section */}
+                <ShareBar></ShareBar>
+            </section>
 
             <section>{/* comment section */}</section>
         </>
