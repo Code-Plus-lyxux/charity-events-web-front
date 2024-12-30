@@ -11,6 +11,7 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         greenbutton: "#00B894",
+        greenhand:"#00B894",
       },
       screens: {
         xs: '480px', 

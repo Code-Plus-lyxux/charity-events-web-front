@@ -20,13 +20,14 @@ const EventCard = ({ imageSrc, location, date, title, description }) => {
           className="event-image w-full md:w-[390px] h-[219px] rounded-[23.53px] object-cover"
         />
         <div
-          className={`hand-icon absolute top-4 right-5 bg-white p-2 rounded-full shadow cursor-pointer ${
-            isHandIconActive ? "bg-greenbutton" : "text-gray-600"
-          }`}
-          onClick={toggleHandIcon}
-        >
-          <FaHandPaper />
-        </div>
+            className={`hand-icon absolute top-4 right-5 p-2 rounded-full shadow cursor-pointer ${
+            isHandIconActive ? "bg-greenhand" : "bg-white"
+            }`}
+           onClick={toggleHandIcon}
+          >
+             <FaHandPaper className={isHandIconActive ? "text-white" : "text-gray-600"} />
+         </div>
+
       </div>
       <div className="event-info border border-gray-300 rounded-[20px] p-[24px] shadow-sm w-full md:w-[772px] h-[219px]">
         <div className="event-details flex items-center gap-2 text-[16px] leading-[18.75px] text-gray-600">
