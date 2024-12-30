@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+
     darkMode: ["class"],
     content: [
         "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -24,6 +25,7 @@ export default {
                 },
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
+                greenbutton: "#00B894",
                 card: {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
@@ -67,6 +69,10 @@ export default {
                 lg: "var(--radius)",
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
+            },
+            screens: {
+             xs: '480px', 
+             lg: '1024px', 
             },
         },
     },
