@@ -5,6 +5,7 @@ import ShareBar from "@/components/event/shareBar";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { CommentWithIcon } from "@/components/ui/addComment";
+import CommentCard from "@/components/ui/commentCard";
 export default async function EventPage({ params }) {
     const id = (await params).id;
 
@@ -43,10 +44,36 @@ export default async function EventPage({ params }) {
         comments: [
             {
                 author: "Lucifer Barret",
-                avatar: "/host-avatar.png",
+                avatar: "/lucifer-barret.png",
                 content: `Such an amazing event! Excited to participate and 
                 contribute. Thank you for organizing this. Let's make a positive 
                 impact together!`,
+            },
+            {
+                author: "Ayesha Perera",
+                avatar: "/ayesha-perera.png",
+                content: `This event is a perfect opportunity to give back to 
+                the community while also spending time with like-minded people. 
+                Excited to participate!`,
+            },
+            {
+                author: "Nuwan Silva",
+                avatar: "/nuwan-silva.png",
+                content: `I'm so grateful for events like this that bring people 
+                together to support a good cause. Can't wait to join in!`,
+            },
+            {
+                author: "Kavindi Jayasekara",
+                avatar: "/kavindi-jayasekara.png",
+                content: `I'm so excited to participate in this event. It's a 
+                great opportunity to give back to the community and also learn 
+                more about animal welfare.`,
+            },
+            {
+                author: "Amal Fernando",
+                avatar: "/amal-fernando.png",
+                content: `This event is a perfect way to spend a day while doing 
+                something meaningful. Can't wait to join in and make a difference!`,
             },
         ],
     };
@@ -78,7 +105,23 @@ export default async function EventPage({ params }) {
                 <CommentWithIcon />
             </div>
 
-            <section>{/* comment section */}</section>
+            <section className="px-9 mt-5">
+                {/* comment section */}
+                <div className="flex">
+                    <p className="font-semibold">Comments</p>
+                    <p className="ml-5 bg-mint-500 px-2 text-white rounded-full">
+                        {event.comments.length}
+                    </p>
+                </div>
+                <div className="flex flex-col">
+                    {event.comments.map((comment, index) => (
+                        <CommentCard
+                            key={index}
+                            comment={comment}
+                        ></CommentCard>
+                    ))}
+                </div>
+            </section>
         </>
     );
 }
