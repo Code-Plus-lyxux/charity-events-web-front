@@ -1,5 +1,6 @@
 import HeroCard from "@/components/event/heroCard";
 import EventTabs from "@/components/event/eventTabs";
+import HostCard from "@/components/event/hostCard";
 export default async function EventPage({ params }) {
     const id = (await params).id;
 
@@ -33,12 +34,12 @@ export default async function EventPage({ params }) {
         ],
         host: {
             name: "Haven Paws Animal Shelter",
-            avatar: "/api/placeholder/48/48",
+            avatar: "/host-avatar.png",
         },
         comments: [
             {
                 author: "Lucifer Barret",
-                avatar: "/api/placeholder/40/40",
+                avatar: "/host-avatar.png",
                 content: `Such an amazing event! Excited to participate and 
                 contribute. Thank you for organizing this. Let's make a positive 
                 impact together!`,
@@ -58,7 +59,10 @@ export default async function EventPage({ params }) {
                 <EventTabs event={event}></EventTabs>
             </main>
 
-            <section>{/* host details section */}</section>
+            <section>
+                {/* host details section */}
+                <HostCard host={event.host}></HostCard>
+            </section>
 
             <section>{/* share bar section */}</section>
 

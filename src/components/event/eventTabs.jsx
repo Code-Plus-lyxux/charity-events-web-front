@@ -29,18 +29,21 @@ export default function EventTabs({ event }) {
                     className="grow rounded-b-md bg-white p-5 outline-none "
                     value="tab1"
                 >
-                    <div className="flex mb-5 items-center">
-                        <CalendarDays />
-                        <p className="ml-5  text-base leading-normal ">
-                            {event.date} at {event.time}
-                        </p>
+                    <div className="flex lg:flex-row flex-col mb-5">
+                        <div className="flex flex-row mb-5 lg:mr-10">
+                            <CalendarDays />
+                            <p className="ml-5  text-base leading-normal ">
+                                {event.date} at {event.time}
+                            </p>
+                        </div>
+                        <div className="flex flex-row">
+                            <MapPin />
+                            <p className="ml-5 text-base leading-normal ">
+                                {event.location}
+                            </p>
+                        </div>
                     </div>
-                    <div className="flex mb-5 items-center">
-                        <MapPin />
-                        <p className="ml-5  text-base leading-normal ">
-                            {event.location}
-                        </p>
-                    </div>
+                    <div className="flex mb-5 items-center"></div>
                     <p className="mb-5 text-2xl leading-normal font-bold">
                         About the event
                     </p>
