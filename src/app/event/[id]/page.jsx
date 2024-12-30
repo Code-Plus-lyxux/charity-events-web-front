@@ -1,3 +1,4 @@
+import HeroCard from "@/components/event/heroCard";
 export default async function EventPage({ params }) {
     const id = (await params).id;
 
@@ -44,8 +45,19 @@ export default async function EventPage({ params }) {
     };
 
     return (
-        <div>
-            <h1>Event {id}</h1>
-        </div>
+        <>
+            <section>
+                {/* hero section */}
+                <HeroCard event={event}></HeroCard>
+            </section>
+
+            <main>{/* main content */}</main>
+
+            <section>{/* host details section */}</section>
+
+            <section>{/* share bar section */}</section>
+
+            <section>{/* comment section */}</section>
+        </>
     );
 }
