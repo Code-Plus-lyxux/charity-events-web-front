@@ -25,7 +25,7 @@ const EventCard = ({ imageSrc, location, date, title, description }) => {
             }`}
            onClick={toggleHandIcon}
           >
-             <FaHandPaper className={isHandIconActive ? "text-white" : "text-gray-600"} />
+             <FaHandPaper className={isHandIconActive ? "text-white" : "text-greenhand"} />
          </div>
 
       </div>
