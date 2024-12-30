@@ -90,9 +90,8 @@ export default function ResetPasswordForm() {
                 />
 
                 <div>
-                    <p className="pb-3">Password Rules:</p>
                     <ul>
-                        <li className="flex items-center gap-2">
+                        <li className="flex items-center gap-2 mt-10">
                             <Image
                                 src={checkIcon}
                                 alt="checkmark"

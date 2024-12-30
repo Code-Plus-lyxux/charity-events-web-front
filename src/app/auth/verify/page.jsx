@@ -5,6 +5,7 @@ import givewellLogo from "@/assets/img/givewell-logo.png";
 import { useAuth } from "@/hooks/authContext";
 import VerificationForm from "@/components/ui/verificationForm";
 import { Button } from "@/components/ui/button";
+import { CircleArrowLeft } from "lucide-react";
 
 export default function Verify() {
     const { email } = useAuth();
@@ -33,30 +34,31 @@ export default function Verify() {
                     ></Image>
                 </div>
 
-                <div className="flex flex-col justify-center items-center px-4 mt-24 lg:mt-0">
-                    <p className="text-2xl font-bold">
+                <div className="lg:flex lg:justify-center lg:mt-[-60px] lg:pb-4 mt-40 lg:flex-col">
+                    <div className="relative flex items-center mb-4 lg:hidden">
+                        <CircleArrowLeft
+                            className="absolute -top-10 left-1 w-9 h-9 cursor-pointer text-gray-500"
+                            onClick={() =>
+                                (window.location.href = "/auth/login")
+                            }
+                        />
+                    </div>
+                    <p className="text-2xl font-bold flex justify-center items-center lg:mb-0 lg:pb-0">
                         Enter the Verification Code
                     </p>
-                    <p className="mb-6">
-                        sent to{" "}
-                        {email?.slice(0, email.indexOf("@") - 3) +
-                            "*".repeat(3) +
-                            "***" +
-                            email.slice(email.indexOf("@"))}
-                    </p>
+                    <div className="flex justify-center items-center">
+                        <p className="mb-6">
+                            We have sent a code to{" "}
+                            {email?.slice(0, email.indexOf("@") - 3) +
+                                "*".repeat(3) +
+                                "***" +
+                                email.slice(email.indexOf("@"))}
+                        </p>
+                    </div>
                 </div>
 
-                <div className="flex flex-col justify-center items-center w-full px-4">
-                    <VerificationForm />
-                </div>
                 <div className="flex flex-col justify-center items-center w-full px-4 mb-9">
-                    <Button
-                        onClick={() => (window.location.href = "/auth/signup")}
-                        className="w-full max-w-sm rounded-3xl py-6 text-lg border-mint-500"
-                        variant="outline"
-                    >
-                        CANCEL
-                    </Button>
+                    <VerificationForm />
                 </div>
             </div>
         </div>

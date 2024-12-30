@@ -193,7 +193,7 @@ export default function VerificationForm() {
 
                 <div className="flex flex-col justify-center">
                     <p className="text-center text-lg">
-                        Did't receive the code?
+                        Didn't receive the code?
                     </p>
                     <div className="flex items-center justify-center">
                         <a

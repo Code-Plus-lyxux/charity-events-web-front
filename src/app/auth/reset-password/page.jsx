@@ -4,6 +4,7 @@ import loginImg from "@/assets/img/world-hands.png";
 import givewellLogo from "@/assets/img/givewell-logo.png";
 import ResetPasswordForm from "@/components/ui/resetPasswordForm";
 import { Button } from "@/components/ui/button";
+import { CircleArrowLeft } from "lucide-react";
 
 export default function ResetPassword() {
     return (
@@ -27,6 +28,14 @@ export default function ResetPassword() {
                     ></Image>
                 </div>
                 <div className="lg:flex lg:justify-center lg:mt-[-60px] lg:pb-4 mt-40">
+                    <div className="relative flex items-center mb-4 lg:hidden">
+                        <CircleArrowLeft
+                            className="absolute -top-10 left-1 w-9 h-9 cursor-pointer text-gray-500"
+                            onClick={() =>
+                                (window.location.href = "/auth/login")
+                            }
+                        />
+                    </div>
                     <p className="flex justify-center items-center text-2xl font-semibold mb-20 lg:mb-0 lg:pb-10">
                         Reset Your Password
                     </p>
