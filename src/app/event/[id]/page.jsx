@@ -1,4 +1,5 @@
 import HeroCard from "@/components/event/heroCard";
+import EventTabs from "@/components/event/eventTabs";
 export default async function EventPage({ params }) {
     const id = (await params).id;
 
@@ -9,6 +10,7 @@ export default async function EventPage({ params }) {
         Shelter and Make a Difference`,
         location: "Haven Paws Animal Shelter, Kandy",
         date: "21 December 2024",
+        time: "09:00 AM to 04:00 PM",
         status: "Upcoming",
         attendeeCount: 500,
         description: [
@@ -51,7 +53,10 @@ export default async function EventPage({ params }) {
                 <HeroCard event={event}></HeroCard>
             </section>
 
-            <main>{/* main content */}</main>
+            <main>
+                {/* main content */}
+                <EventTabs event={event}></EventTabs>
+            </main>
 
             <section>{/* host details section */}</section>
 

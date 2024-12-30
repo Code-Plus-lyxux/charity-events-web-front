@@ -1,6 +1,8 @@
+"use client";
 import { Calendar, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import usersIcon from "@/assets/img/users-icon.png";
+import { use } from "react";
 export default function HeroCard({ event }) {
     return (
         <>
@@ -9,6 +11,7 @@ export default function HeroCard({ event }) {
                     <ArrowLeft
                         size={35}
                         className="bg-white rounded-full text-black cursor-pointer"
+                        onClick={() => window.history.back()}
                     ></ArrowLeft>
                 </div>
                 <img
