@@ -87,6 +87,36 @@ export default function UserEvents({ user }) {
                 },
             ],
         },
+        {
+            id: 2,
+            title: `Help Reduce Waste: Join the Clean-up Initiative at the Kandy Lake`,
+            location: "Kandy Lake, Kandy",
+            date: "15 January 2024",
+            time: "08:00 AM to 12:00 PM",
+            imageSrc: "/images/frame 11.png",
+            status: "Upcoming",
+            attendeeCount: 200,
+            description: [
+                `Join us for a morning of cleaning up the Kandy Lake! We'll be providing gloves, trash bags, and water, so all you need to bring is your enthusiasm and energy. We'll be picking up trash and debris from the lake and surrounding areas, and making a real difference in our community.`,
+                `This event is a great opportunity to meet like-minded people who care about the environment and want to make a positive impact. We'll also be providing educational materials and resources on how to reduce waste and live a more sustainable lifestyle.`,
+            ],
+            host: {
+                name: "Kandy Lake Clean-up Initiative",
+                avatar: "/kavindi-jayasekara.png",
+            },
+            comments: [
+                {
+                    author: "Ayesha Perera",
+                    avatar: "/ayesha-perera.png",
+                    content: `I'm so excited to participate in this event! It's a great way to give back to the community and make a real difference. Thanks for organizing this!`,
+                },
+                {
+                    author: "Amal Fernando",
+                    avatar: "/amal-fernando.png",
+                    content: `This event is a great opportunity to learn more about waste reduction and sustainability. Can't wait to participate!`,
+                },
+            ],
+        },
     ];
 
     return (
@@ -116,6 +146,7 @@ export default function UserEvents({ user }) {
                     <div className="flex flex-col mb-5">
                         {allEvents.map((event, index) => {
                             const {
+                                id,
                                 imageSrc,
                                 title,
                                 date,
@@ -123,8 +154,9 @@ export default function UserEvents({ user }) {
                                 description,
                             } = event;
                             return (
-                                <div key={event.id}>
+                                <div key={id}>
                                     <UserEventCard
+                                        id={id}
                                         title={title}
                                         date={date}
                                         location={location}
@@ -141,7 +173,7 @@ export default function UserEvents({ user }) {
                     value="tab2"
                 >
                     <p className="mb-5 text-[15px] leading-normal text-mauve11">
-                        Add media here
+                        Add going events
                     </p>
                 </Tabs.Content>
             </Tabs.Root>
