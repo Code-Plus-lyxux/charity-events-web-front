@@ -2,8 +2,6 @@ import HeroCard from "@/components/event/heroCard";
 import EventTabs from "@/components/event/eventTabs";
 import HostCard from "@/components/event/hostCard";
 import ShareBar from "@/components/event/shareBar";
-import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import { CommentWithIcon } from "@/components/ui/addComment";
 import CommentCard from "@/components/ui/commentCard";
 export default async function EventPage({ params }) {
@@ -12,11 +10,13 @@ export default async function EventPage({ params }) {
     //retrieve event details here with api call from the backend with event_id
     //this is a sample event details from the design
     const event = {
+        id,
         title: `Support Animal Welfare: Spend a Day Volunteering at the Local 
         Shelter and Make a Difference`,
         location: "Haven Paws Animal Shelter, Kandy",
         date: "21 December 2024",
         time: "09:00 AM to 04:00 PM",
+        imageSrc: "/images/dog home.jpeg",
         status: "Upcoming",
         attendeeCount: 500,
         description: [
