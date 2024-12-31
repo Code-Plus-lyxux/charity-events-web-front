@@ -1,10 +1,24 @@
 "use client";
+import { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import AllEventsIcon from "../icon/allEventsIcon";
 import { IoHandLeft } from "react-icons/io5";
 import UserEventCard from "./userEventCard";
 
 export default function UserEvents({ user }) {
+    const [eventStates, setEventStates] = useState({
+        1: false,
+        2: false,
+        3: false,
+    });
+
+    const toggleGoing = (id) => {
+        setEventStates((prevState) => ({
+            ...prevState,
+            [id]: !prevState[id],
+        }));
+    };
+
     const {
         id,
         name,
@@ -156,6 +170,8 @@ export default function UserEvents({ user }) {
                             return (
                                 <div key={id}>
                                     <UserEventCard
+                                        isGoing={eventStates[id]}
+                                        toggleGoing={toggleGoing}
                                         id={id}
                                         title={title}
                                         date={date}
@@ -174,7 +190,6 @@ export default function UserEvents({ user }) {
                 >
                     <div>
                         {/* Add going events */}
-                        {console.log("upcoming events:", eventsAttending)}
                         {eventsAttending.length === 0 ? (
                             <p>No upcoming events found</p>
                         ) : (
@@ -182,7 +197,7 @@ export default function UserEvents({ user }) {
                                 //pull from backend db and fill the events
                                 return (
                                     //ignore this section, this is for frontend demo only
-                                    <>
+                                    <div key={`user-event-${id}`}>
                                         <UserEventCard
                                             id={id}
                                             title={allEvents[index].title}
@@ -193,7 +208,7 @@ export default function UserEvents({ user }) {
                                             }
                                             imageSrc={allEvents[index].imageSrc}
                                         />
-                                    </>
+                                    </div>
                                 );
                             })
                         )}

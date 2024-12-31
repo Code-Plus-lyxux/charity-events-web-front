@@ -16,7 +16,7 @@ export default function ProfileCard({ user }) {
     return (
         <div className="flex flex-col">
             <div
-                className="self-end p-1"
+                className="self-end py-3 px-4"
                 onClick={() => console.log("href to profile settings page")}
             >
                 <GearIcon className="self-end hover:cursor-pointer hover:stroke-mint-500" />

@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { IoHandLeft } from "react-icons/io5";
 import { useState } from "react";
 export default function UserEventCard({
+    isGoing,
+    toggleGoing,
     id,
     title,
     location,
@@ -13,10 +15,9 @@ export default function UserEventCard({
     description,
     status,
 }) {
-    const [isGoing, setIsGoing] = useState(false);
     const handleOnClick = (id) => {
         console.log("clicked event ID: ", id); //add changes here
-        setIsGoing(!isGoing); //state only used for changes in appearance as of 31st 0f Dec 2024 because of not enough project data to decide when is database is called.
+        toggleGoing(id); //state only used for changes in appearance as of 31st 0f Dec 2024 because of not enough project data to decide when is database is called.
     };
 
     return (
