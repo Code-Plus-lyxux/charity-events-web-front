@@ -4,7 +4,6 @@ import loginImg from "@/assets/img/world-hands.png";
 import givewellLogo from "@/assets/img/givewell-logo.png";
 import { useAuth } from "@/hooks/authContext";
 import VerificationForm from "@/components/ui/verificationForm";
-import { Button } from "@/components/ui/button";
 import { CircleArrowLeft } from "lucide-react";
 
 export default function Verify() {

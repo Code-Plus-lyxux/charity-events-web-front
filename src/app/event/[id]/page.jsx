@@ -2,8 +2,6 @@ import HeroCard from "@/components/event/heroCard";
 import EventTabs from "@/components/event/eventTabs";
 import HostCard from "@/components/event/hostCard";
 import ShareBar from "@/components/event/shareBar";
-import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import { CommentWithIcon } from "@/components/ui/addComment";
 import CommentCard from "@/components/ui/commentCard";
 export default async function EventPage({ params }) {
