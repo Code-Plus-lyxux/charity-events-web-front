@@ -1,11 +1,13 @@
+import ProfileCard from "@/components/user/profileCard";
+import UserEvents from "@/components/user/userEvents";
 export default async function Profile({ params }) {
     const id = (await params).id;
 
     const user = {
-        id,
+        id: 1,
         name: "Lucifer Barret",
         email: "luciferbarret@gmail.com",
-        profilePicture: "lucifer-barret.png",
+        profilePicture: "/lucifer-barret.png",
         bio: "I like charity events",
         eventsAttended: [1, 2, 3], //event ids
         eventsCreated: [4, 5],
@@ -14,8 +16,14 @@ export default async function Profile({ params }) {
 
     return (
         <>
-            <section>{"add profile card"}</section>
-            <section>{"add tabs component"}</section>
+            <section>
+                {/* {"add profile card"} */}
+                <ProfileCard user={user} />
+            </section>
+            <section>
+                {/* {"add tabs component"} */}
+                <UserEvents user={user} />
+            </section>
         </>
     );
 }
