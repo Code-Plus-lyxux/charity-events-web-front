@@ -172,9 +172,32 @@ export default function UserEvents({ user }) {
                     className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
                     value="tab2"
                 >
-                    <p className="mb-5 text-[15px] leading-normal text-mauve11">
-                        Add going events
-                    </p>
+                    <div>
+                        {/* Add going events */}
+                        {console.log("upcoming events:", eventsAttending)}
+                        {eventsAttending.length === 0 ? (
+                            <p>No upcoming events found</p>
+                        ) : (
+                            eventsAttending.map((id, index) => {
+                                //pull from backend db and fill the events
+                                return (
+                                    //ignore this section, this is for frontend demo only
+                                    <>
+                                        <UserEventCard
+                                            id={id}
+                                            title={allEvents[index].title}
+                                            date={allEvents[index].date}
+                                            location={allEvents[index].location}
+                                            description={
+                                                allEvents[index].description
+                                            }
+                                            imageSrc={allEvents[index].imageSrc}
+                                        />
+                                    </>
+                                );
+                            })
+                        )}
+                    </div>
                 </Tabs.Content>
             </Tabs.Root>
         </div>

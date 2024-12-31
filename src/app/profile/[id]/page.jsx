@@ -11,7 +11,7 @@ export default async function Profile({ params }) {
         bio: "I like charity events",
         eventsAttended: [1, 2, 3], //event ids
         eventsCreated: [4, 5],
-        eventsAttending: [6, 7, 8],
+        eventsAttending: [2],
     };
 
     return (

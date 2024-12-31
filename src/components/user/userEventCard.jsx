@@ -16,7 +16,7 @@ export default function UserEventCard({
     const [isGoing, setIsGoing] = useState(false);
     const handleOnClick = (id) => {
         console.log("clicked event ID: ", id); //add changes here
-        setIsGoing(!isGoing);
+        setIsGoing(!isGoing); //state only used for changes in appearance as of 31st 0f Dec 2024 because of not enough project data to decide when is database is called.
     };
 
     return (
@@ -70,7 +70,12 @@ export default function UserEventCard({
                     <div className="absolute top-4 right-4">
                         <Button
                             onClick={() => handleOnClick(id)}
-                            className="rounded-full py-6 text-lg text-mint-500 hover:bg-mint-500 bg-white border-white border-2 hover:text-white hover:border-mint-500"
+                            className={
+                                isGoing
+                                    ? "rounded-full py-6 text-lg hover:text-white bg-mint-500 hover:bg-red-500 border-mint-500 border-2 hover:border-white"
+                                    : "rounded-full py-6 text-lg text-mint-500 hover:bg-mint-500 bg-white border-white border-2 hover:text-white hover:border-mint-500"
+                            }
+                            // className="rounded-full py-6 text-lg text-mint-500 hover:bg-mint-500 bg-white border-white border-2 hover:text-white hover:border-mint-500"
                         >
                             <IoHandLeft
                                 style={{ width: "20px", height: "20px" }}
