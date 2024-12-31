@@ -1,17 +1,33 @@
 'use client'
-import React from 'react';
-import { FaMapMarkerAlt, FaCalendarPlus } from 'react-icons/fa';
+import {useState} from 'react';
+import { FaMapMarkerAlt, FaCalendarPlus, FaHandPaper } from 'react-icons/fa';
 import './Home.css';
 
+
 const EventCard = ({ imageSrc, location, date, title, description }) => {
+  const [isHandIconActive, setIsHandIconActive] = useState(false);
+
+  const toggleHandIcon = () => {
+    setIsHandIconActive(!isHandIconActive);
+  };
+
   return (
-    <div className="event-card-container flex flex-wrap md:flex-nowrap w-full md:w-[1223px] h-[219px] mt-10 gap-[61px]">
-      <div>
+    <div className="event-card-container relative flex flex-wrap md:flex-nowrap w-full md:w-[1223px] h-[219px] mt-10 gap-[61px]">
+      <div className="relative">
         <img
           src={imageSrc}
           alt="Event"
           className="event-image w-full md:w-[390px] h-[219px] rounded-[23.53px] object-cover"
         />
+        <div
+            className={`hand-icon absolute top-4 right-5 p-2 rounded-full shadow cursor-pointer ${
+            isHandIconActive ? "bg-greenhand" : "bg-white"
+            }`}
+           onClick={toggleHandIcon}
+          >
+             <FaHandPaper className={isHandIconActive ? "text-white" : "text-greenhand"} />
+         </div>
+
       </div>
       <div className="event-info border border-gray-300 rounded-[20px] p-[24px] shadow-sm w-full md:w-[772px] h-[219px]">
         <div className="event-details flex items-center gap-2 text-[16px] leading-[18.75px] text-gray-600">
@@ -32,6 +48,9 @@ const EventCard = ({ imageSrc, location, date, title, description }) => {
     </div>
   );
 };
+
+
+
 
 const HomePage = () => {
   const events = [

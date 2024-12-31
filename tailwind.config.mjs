@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-
     darkMode: ["class"],
     content: [
         "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -26,6 +25,7 @@ export default {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
                 greenbutton: "#00B894",
+                greenhand:"#00B894",
                 card: {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
