@@ -199,6 +199,8 @@ export default function UserEvents({ user }) {
                                     //ignore this section, this is for frontend demo only
                                     <div key={`user-event-${id}`}>
                                         <UserEventCard
+                                            isGoing={eventStates[id]}
+                                            toggleGoing={toggleGoing}
                                             id={id}
                                             title={allEvents[index].title}
                                             date={allEvents[index].date}
