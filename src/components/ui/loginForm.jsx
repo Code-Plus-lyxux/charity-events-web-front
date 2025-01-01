@@ -6,7 +6,6 @@ import * as z from "zod";
 import Link from "next/link";
 import emailIcon from "@/assets/img/email-icon.png";
 import { InputWithIcon } from "@/components/ui/inputWithIcon";
-
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,7 +14,7 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
-import { PasswordInput } from "./passwordInput";
+import { PasswordInput } from "@/components/ui/passwordInput";
 
 // Define the form schema
 const formSchema = z.object({

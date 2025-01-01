@@ -14,7 +14,7 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
-import { PasswordInput } from "./passwordInput";
+import { PasswordInput } from "@/components/ui/passwordInput";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/authContext";
 

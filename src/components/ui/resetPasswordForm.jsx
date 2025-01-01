@@ -11,7 +11,7 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
-import { PasswordInput } from "./passwordInput";
+import { PasswordInput } from "@/components/ui/passwordInput";
 import checkIcon from "@/assets/img/check-icon.png";
 import Image from "next/image";
 

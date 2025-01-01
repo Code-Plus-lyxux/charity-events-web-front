@@ -2,7 +2,6 @@
 import { Calendar, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import usersIcon from "@/assets/img/users-icon.png";
-import { use } from "react";
 export default function HeroCard({ event }) {
     return (
         <>

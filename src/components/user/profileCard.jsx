@@ -1,5 +1,5 @@
 "use client";
-import GearIcon from "../icon/gearIcon";
+import GearIcon from "@/components/icon/gearIcon";
 import Image from "next/image";
 export default function ProfileCard({ user }) {
     const {

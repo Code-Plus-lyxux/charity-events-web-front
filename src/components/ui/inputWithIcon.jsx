@@ -1,6 +1,6 @@
 import * as React from "react";
 import Image from "next/image";
-import { Input } from "./input";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 export const InputWithIcon = React.forwardRef(
