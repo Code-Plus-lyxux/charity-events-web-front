@@ -32,7 +32,7 @@ export default function YourEventsTabs({ user }) {
 
     const allEvents = [
         {
-            id: 1,
+            id: 0,
             title: `Support Animal Welfare: Spend a Day Volunteering at the Local 
         Shelter and Make a Difference`,
             location: "Haven Paws Animal Shelter, Kandy",
@@ -100,7 +100,7 @@ export default function YourEventsTabs({ user }) {
             ],
         },
         {
-            id: 2,
+            id: 1,
             title: `Help Reduce Waste: Join the Clean-up Initiative at the Kandy Lake`,
             location: "Kandy Lake, Kandy",
             date: "15 January 2024",
@@ -126,6 +126,96 @@ export default function YourEventsTabs({ user }) {
                     author: "Amal Fernando",
                     avatar: "/amal-fernando.png",
                     content: `This event is a great opportunity to learn more about waste reduction and sustainability. Can't wait to participate!`,
+                },
+            ],
+        },
+        {
+            id: 2,
+            title: `Teach Children to Read: Volunteer at the Local Library`,
+            location: "Kandy Public Library, Kandy",
+            date: "22 January 2024",
+            time: "09:00 AM to 01:00 PM",
+            imageSrc: "/images/frame 13.png",
+            status: "Upcoming",
+            attendeeCount: 150,
+            description: [
+                `Join us at the Kandy Public Library to help teach children to read! We'll be providing materials and guidance, so all you need to bring is your enthusiasm and patience. This event is a great opportunity to make a real difference in the lives of local children.`,
+                `We'll be divided into small groups and working with children one-on-one, so please let us know if you have any experience working with children or have any special skills you can bring to the table.`,
+            ],
+            host: {
+                name: "Kandy Public Library",
+                avatar: "/kavindi-jayasekara.png",
+            },
+            comments: [
+                {
+                    author: "Ayesha Perera",
+                    avatar: "/ayesha-perera.png",
+                    content: `I'm so excited to participate in this event! It's a great way to make a difference in the lives of local children. Thanks for organizing this!`,
+                },
+                {
+                    author: "Amal Fernando",
+                    avatar: "/amal-fernando.png",
+                    content: `This event is a great opportunity to give back to the community and make a real difference. Can't wait to participate!`,
+                },
+            ],
+        },
+        {
+            id: 3,
+            title: `Help the Homeless: Join the Food Drive at the Railway Station`,
+            location: "A Railway Station, Somewhere",
+            date: "29 January 2024",
+            time: "02:00 PM to 06:00 PM",
+            imageSrc: "/images/Frame 12.jpg",
+            status: "Upcoming",
+            attendeeCount: 100,
+            description: [
+                `Join us at the Railway Station to help distribute food to the homeless! We'll be providing food and drinks, so all you need to bring is your enthusiasm and energy. This event is a great opportunity to make a real difference in the lives of those in need.`,
+                `Please note that we'll be distributing food to a large crowd, so please be prepared to get involved and help out where you can.`,
+            ],
+            host: {
+                name: "The Railway Station",
+                avatar: "/amal-fernando.png",
+            },
+            comments: [
+                {
+                    author: "Kavindi Jayasekara",
+                    avatar: "/kavindi-jayasekara.png",
+                    content: `I'm so excited to participate in this event! It's a great way to make a difference in the lives of the homeless. Thanks for organizing this!`,
+                },
+                {
+                    author: "Nuwan Silva",
+                    avatar: "/nuwan-silva.png",
+                    content: `This event is a great opportunity to give back to the community and make a real difference. Can't wait to participate!`,
+                },
+            ],
+        },
+        {
+            id: 4,
+            title: `Plant Trees: Join the Tree Planting Initiative at the Udawattakele Forest Reserve`,
+            location: "Udawattakele Forest Reserve, Kandy",
+            date: "05 February 2024",
+            time: "08:00 AM to 12:00 PM",
+            imageSrc: "/images/frame 77.png",
+            status: "Upcoming",
+            attendeeCount: 50,
+            description: [
+                `Join us at the Udawattakele Forest Reserve to help plant trees! We'll be providing materials and guidance, so all you need to bring is your enthusiasm and energy. This event is a great opportunity to make a real difference in the lives of the environment.`,
+                `Please note that we'll be planting trees in a remote area, so please be prepared to get involved and help out where you can.`,
+            ],
+            host: {
+                name: "Udawattakele Forest Reserve",
+                avatar: "/ayesha-perera.png",
+            },
+            comments: [
+                {
+                    author: "Amal Fernando",
+                    avatar: "/amal-fernando.png",
+                    content: `I'm so excited to participate in this event! It's a great way to make a difference in the lives of the environment. Thanks for organizing this!`,
+                },
+                {
+                    author: "Lucifer Barret",
+                    avatar: "/lucifer-barret.png",
+                    content: `This event is a great opportunity to give back to the environment and make a real difference. Can't wait to participate!`,
                 },
             ],
         },
@@ -162,30 +252,31 @@ export default function YourEventsTabs({ user }) {
                     value="tab1"
                 >
                     <div className="flex flex-col mb-5">
-                        {allEvents.map((event, index) => {
-                            const {
-                                id,
-                                imageSrc,
-                                title,
-                                date,
-                                location,
-                                description,
-                            } = event;
-                            return (
-                                <div key={id}>
-                                    <UserEventCard
-                                        isGoing={eventStates[id]}
-                                        toggleGoing={toggleGoing}
-                                        id={id}
-                                        title={title}
-                                        date={date}
-                                        location={location}
-                                        description={description}
-                                        imageSrc={imageSrc}
-                                    />
-                                </div>
-                            );
-                        })}
+                        {/* Add attended events */}
+                        {eventsCreated.length === 0 ? (
+                            <p>No attended events found</p>
+                        ) : (
+                            eventsCreated.map((id, index) => {
+                                //pull from backend db and fill the events
+                                return (
+                                    //ignore this section, this is for frontend demo only
+                                    <div key={`user-event-${id}`}>
+                                        <UserEventCard
+                                            isGoing={eventStates[id]}
+                                            toggleGoing={toggleGoing}
+                                            id={id}
+                                            title={allEvents[id].title}
+                                            date={allEvents[id].date}
+                                            location={allEvents[id].location}
+                                            description={
+                                                allEvents[id].description
+                                            }
+                                            imageSrc={allEvents[id].imageSrc}
+                                        />
+                                    </div>
+                                );
+                            })
+                        )}
                     </div>
                 </Tabs.Content>
                 <Tabs.Content
@@ -206,13 +297,45 @@ export default function YourEventsTabs({ user }) {
                                             isGoing={eventStates[id]}
                                             toggleGoing={toggleGoing}
                                             id={id}
-                                            title={allEvents[index].title}
-                                            date={allEvents[index].date}
-                                            location={allEvents[index].location}
+                                            title={allEvents[id].title}
+                                            date={allEvents[id].date}
+                                            location={allEvents[id].location}
                                             description={
-                                                allEvents[index].description
+                                                allEvents[id].description
                                             }
-                                            imageSrc={allEvents[index].imageSrc}
+                                            imageSrc={allEvents[id].imageSrc}
+                                        />
+                                    </div>
+                                );
+                            })
+                        )}
+                    </div>
+                </Tabs.Content>
+                <Tabs.Content
+                    className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
+                    value="tab3"
+                >
+                    <div>
+                        {/* Add past events */}
+                        {eventsAttended.length === 0 ? (
+                            <p>No past events found</p>
+                        ) : (
+                            eventsAttended.map((id, index) => {
+                                //pull from backend db and fill the events
+                                return (
+                                    //ignore this section, this is for frontend demo only
+                                    <div key={`user-event-${id}`}>
+                                        <UserEventCard
+                                            isGoing={eventStates[id]}
+                                            toggleGoing={toggleGoing}
+                                            id={id}
+                                            title={allEvents[id].title}
+                                            date={allEvents[id].date}
+                                            location={allEvents[id].location}
+                                            description={
+                                                allEvents[id].description
+                                            }
+                                            imageSrc={allEvents[id].imageSrc}
                                         />
                                     </div>
                                 );

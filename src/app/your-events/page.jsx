@@ -8,18 +8,16 @@ export default function YourEvents() {
         email: "luciferbarret@gmail.com",
         profilePicture: "/lucifer-barret.png",
         bio: "I like charity events",
-        eventsAttended: [1, 2, 3], //event ids
-        eventsCreated: [4, 5],
-        eventsAttending: [2],
+        eventsAttended: [0, 2], //event ids
+        eventsCreated: [3, 4],
+        eventsAttending: [1],
     };
     return (
         <>
             <section>
-                {/* {"add your events card"} */}
                 <YourEventsCard />
             </section>
             <section>
-                {/* {"add tabs component with events"} */}
                 <YourEventsTabs user={user} />
             </section>
         </>
