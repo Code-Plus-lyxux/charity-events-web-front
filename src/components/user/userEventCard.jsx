@@ -22,12 +22,16 @@ export default function UserEventCard({
     return (
         <>
             <div className="flex flex-col lg:hidden border-2 border-slate-200 rounded-2xl p-4 mb-8">
-                <p className="text-xl font-bold">{title}</p>
-                <div className="flex">
-                    <MapPin />
-                    <p className="ml-2">{location}</p>
-                    <CalendarDays className="ml-16" />
-                    <p className="ml-2">{date}</p>
+                <p className="text-sm sm:text-xl font-bold">{title}</p>
+                <div className="flex flex-col sm:flex-row">
+                    <div className="flex">
+                        <MapPin />
+                        <p className="ml-2 text-sm sm:text-lg">{location}</p>
+                    </div>
+                    <div className="flex">
+                        <CalendarDays className="sm:ml-16" />
+                        <p className="ml-2 text-sm sm:text-lg">{date}</p>
+                    </div>
                 </div>
                 <div className="py-4">
                     <div className="relative">
@@ -55,7 +59,7 @@ export default function UserEventCard({
                         </div>
                     </div>
                 </div>
-                <p>{description}</p>
+                <p className="text-sm sm:text-lg">{description}</p>
             </div>
             {/* // for large screens */}
             <div className="lg:flex hidden mb-8">

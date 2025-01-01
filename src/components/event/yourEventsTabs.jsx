@@ -1,12 +1,9 @@
 "use client";
 import { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
-import AllEventsIcon from "@/components/icon/allEventsIcon";
-import { IoHandLeft } from "react-icons/io5";
 import UserEventCard from "@/components/user/userEventCard";
 
-export default function YourEventsTabs() {
-    // { user }  //this is the user object may be want to passed down from the parent component in the future
+export default function YourEventsTabs({ user }) {
     const [eventStates, setEventStates] = useState({
         1: false,
         2: false,
@@ -145,13 +142,19 @@ export default function YourEventsTabs() {
                         className="flex h-[45px] flex-1 cursor-pointer select-none items-center justify-center bg-white px-5 text-[15px] leading-none text-mauve11 outline-none hover:text-violet11 data-[state=active]:text-violet11 data-[state=active]:border-b-[3px] data-[state=active]:border-mint-500"
                         value="tab1"
                     >
-                        <AllEventsIcon />
+                        Hosting
                     </Tabs.Trigger>
                     <Tabs.Trigger
                         className="flex h-[45px] flex-1 cursor-pointer select-none items-center justify-center bg-white px-5 text-[15px] leading-none text-mauve11 outline-none hover:text-violet11 data-[state=active]:text-violet11 data-[state=active]:border-b-[3px] data-[state=active]:border-mint-500"
                         value="tab2"
                     >
-                        <IoHandLeft style={{ width: "20px", height: "20px" }} />
+                        Upcoming Events
+                    </Tabs.Trigger>
+                    <Tabs.Trigger
+                        className="flex h-[45px] flex-1 cursor-pointer select-none items-center justify-center bg-white px-5 text-[15px] leading-none text-mauve11 outline-none hover:text-violet11 data-[state=active]:text-violet11 data-[state=active]:border-b-[3px] data-[state=active]:border-mint-500"
+                        value="tab3"
+                    >
+                        Past Events
                     </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content
