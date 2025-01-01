@@ -2,7 +2,6 @@ import { CalendarDays, MapPin } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { IoHandLeft } from "react-icons/io5";
-import { useState } from "react";
 export default function UserEventCard({
     isGoing,
     toggleGoing,

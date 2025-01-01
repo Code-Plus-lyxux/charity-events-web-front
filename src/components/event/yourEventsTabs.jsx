@@ -5,7 +5,8 @@ import AllEventsIcon from "@/components/icon/allEventsIcon";
 import { IoHandLeft } from "react-icons/io5";
 import UserEventCard from "@/components/user/userEventCard";
 
-export default function UserEvents({ user }) {
+export default function YourEventsTabs() {
+    // { user }  //this is the user object may be want to passed down from the parent component in the future
     const [eventStates, setEventStates] = useState({
         1: false,
         2: false,
