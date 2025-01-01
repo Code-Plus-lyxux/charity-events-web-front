@@ -1,7 +1,23 @@
 'use client'
-import React from 'react'
+import React,{useState}from 'react'
 import './Host_events.css'
 const page = () => {
+    
+    const [imagePreview, setImagePreview] = useState(null);
+    
+    const handleEventImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+
+
   return (
     <div className="Host-Events-Page">
       <section className="hero-section w-full max-w-full h-[310px] font-roboto flex justify-center items-center">
@@ -21,29 +37,41 @@ const page = () => {
       <section className="host-events-section w-full max-w-full h-[937px] font-roboto flex justify-center px-4">
         <div className="host-event-upload-container flex justify-center w-full max-w-5xl h-[206px] border rounded-[6px] border-dashed mt-6">
           <form>
-            <label htmlFor="file-upload" className="host-upload-dotted cursor-pointer flex flex-col items-center text-gray-600 w-full h-full max-w-full">
-              <div className="mb-2">
-                <img 
-                  src="/icons/gallery-import.png" 
-                  alt="Upload"
-                  className="upload-icon w-[24px] h-[24px] mt-[68px]" 
-                />
-              </div>
-              <div>
-                <p className="text-[18px] leading-[21px] font-[400] text-gray-500">Select cover photo</p>
-                <p className="text-sm text-gray-500 flex text-wrap gap-[10px] justify-center">
-                  Upload 
-                  <img 
-                    src="/icons/export.png" 
-                    alt="export" 
-                    className="camera-icon w-[18px] h-[18px]" 
+            <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center text-gray-600 w-full h-full max-w-full">
+            <div className="mb-2">
+                {imagePreview ? (
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="preview-image w-full h-[206px] object-cover rounded-[6px]"
                   />
-                </p>
+                ) : (
+                  <img
+                    src="/icons/gallery-import.png"
+                    alt="Upload"
+                    className="upload-icon w-[24px] h-[24px] mt-[68px]"
+                  />
+                )}
               </div>
+              {!imagePreview && (
+                <div>
+                  <p className="text-[18px] leading-[21px] font-[400] text-gray-500">Select cover photo</p>
+                  <p className="text-sm text-gray-500 flex text-wrap gap-[10px] justify-center">
+                    Upload
+                    <img
+                      src="/icons/export.png"
+                      alt="export"
+                      className="camera-icon w-[18px] h-[18px]"
+                    />
+                  </p>
+                </div>
+              )}
               <input
                 id="file-upload"
                 type="file"
                 className="hidden"
+                accept="image/*"
+                onChange={handleEventImageUpload}
               />
             </label>
 
