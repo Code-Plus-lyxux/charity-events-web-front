@@ -30,7 +30,9 @@ const FileUploader = () => {
     const handleUpload = async () => {
         setUploading(true);
         try {
-            const unuploadedFiles = selectedFiles.filter((f) => !f.uploaded);
+            const unuploadedFiles = selectedFiles.filter(
+                (file) => !file.uploaded
+            );
 
             for (const fileObj of unuploadedFiles) {
                 // Replace this with actual upload logic when the backend is connected
@@ -70,7 +72,7 @@ const FileUploader = () => {
                     <UploadIcon />
                 </div>
                 <input {...dropzone.getInputProps()} />
-                <p className="font-bold text-lg">Upload Media</p>
+                <p className="font-bold text-lg p-3">Upload Media</p>
                 <p>Drag & drop images here, or click to select files</p>
             </div>
             {/* {selectedFiles.length > 0 && ( */

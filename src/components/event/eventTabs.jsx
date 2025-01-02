@@ -1,6 +1,9 @@
+"use client";
 import React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { CalendarDays, MapPin, ListFilter, Image } from "lucide-react";
+import { images } from "@/components/ui/mediaViewer";
+import MediaViewer from "./../ui/mediaViewer";
 
 export default function EventTabs({ event }) {
     return (
@@ -58,7 +61,7 @@ export default function EventTabs({ event }) {
                     value="tab2"
                 >
                     <div className="mb-5 text-[15px] leading-normal">
-                        show media here
+                        <MediaViewer />
                     </div>
                 </Tabs.Content>
             </Tabs.Root>

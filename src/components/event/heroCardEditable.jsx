@@ -23,8 +23,8 @@ export default function HeroCardEditable({ event }) {
                     </div>
                 </div>
                 <img
-                    src="/images/dog home.jpeg"
-                    alt="Animal shelter"
+                    src={event.imageSrc}
+                    alt="Event Image"
                     className="w-full h-full object-cover "
                 />
 

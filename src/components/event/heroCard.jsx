@@ -14,8 +14,8 @@ export default function HeroCard({ event }) {
                     ></ArrowLeft>
                 </div>
                 <img
-                    src="/images/dog home.jpeg"
-                    alt="Animal shelter"
+                    src={event.imageSrc}
+                    alt="Event Image"
                     className="w-full h-full object-cover "
                 />
 
