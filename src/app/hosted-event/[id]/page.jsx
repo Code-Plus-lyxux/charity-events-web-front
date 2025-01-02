@@ -1,5 +1,5 @@
 import HeroCardEditable from "@/components/event/heroCardEditable";
-import EventTabs from "@/components/event/eventTabs";
+import EventTabsEditable from "@/components/event/eventTabsEditable";
 import HostCard from "@/components/event/hostCard";
 import ShareBar from "@/components/event/shareBar";
 import { CommentWithIcon } from "@/components/ui/addComment";
@@ -88,7 +88,7 @@ oking to give back,
 
             <main>
                 {/* main content */}
-                <EventTabs event={event}></EventTabs>
+                <EventTabsEditable event={event}></EventTabsEditable>
             </main>
 
             <section>
