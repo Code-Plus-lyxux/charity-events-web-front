@@ -19,7 +19,7 @@ export default function Login() {
                     width={580}
                     height={575}
                     alt="logo with a world behind the supportive hands"
-                    className="border-black border-2"
+                    className="lg:border-black lg:border-2"
                 ></Image>
             </div>
             <div>

@@ -14,6 +14,7 @@ import {
 import { PasswordInput } from "@/components/ui/passwordInput";
 import checkIcon from "@/assets/img/check-icon.png";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // Define the form schema
 const formSchema = z
@@ -46,9 +47,12 @@ export default function ResetPasswordForm() {
         },
     });
 
+    const router = useRouter();
+
     // Handle form submission
     const onSubmit = (values) => {
         console.log("Form submitted with values:", values); //TODO: add changes here to sign up
+        router.push("/auth/login");
     };
 
     return (

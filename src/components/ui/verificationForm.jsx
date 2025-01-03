@@ -12,6 +12,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 // Define the form schema
 const formSchema = z
@@ -36,9 +37,12 @@ export default function VerificationForm() {
         },
     });
 
+    const router = useRouter();
+
     // Handle form submission
     const onSubmit = (values) => {
         console.log("Form submitted with values:", values); //TODO: add changes here to sign up
+        router.push("/auth/reset-password");
     };
 
     return (

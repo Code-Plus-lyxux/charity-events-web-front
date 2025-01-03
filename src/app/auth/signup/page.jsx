@@ -14,7 +14,7 @@ export default function Signup() {
     return (
         <div className="flex flex-col lg:flex-row justify-around">
             <div className="flex justify-center items-center">
-                <div className="border-black border-2 size-[580] flex items-center">
+                <div className="lg:border-black lg:border-2 size-[580] flex items-center">
                     <Image
                         src={signupImg}
                         width={580}
