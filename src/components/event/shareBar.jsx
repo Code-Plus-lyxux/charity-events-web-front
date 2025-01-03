@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { IoHandLeft } from "react-icons/io5";
 import ShareIcon from "@/components/icon/ShareIcon";
 export default function ShareBar() {

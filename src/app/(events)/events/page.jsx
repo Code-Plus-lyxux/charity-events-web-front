@@ -5,12 +5,15 @@ import EventCard from "@/components/event/EventCard";
 import Pagination from "@mui/material/Pagination";
 import "@mui/material/Pagination";
 import "@/app/(events)/events/all-events.css";
+import { useRouter } from "next/navigation";
 
 const event_p_p = 6;
 
 const page = () => {
+    const router = useRouter();
     const events = [
         {
+            id: 1,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -19,6 +22,7 @@ const page = () => {
                 "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
         },
         {
+            id: 2,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -27,6 +31,7 @@ const page = () => {
                 "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
         },
         {
+            id: 3,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -35,6 +40,7 @@ const page = () => {
                 "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
         },
         {
+            id: 4,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -43,6 +49,7 @@ const page = () => {
                 "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
         },
         {
+            id: 5,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -51,6 +58,7 @@ const page = () => {
                 "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
         },
         {
+            id: 6,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -59,6 +67,7 @@ const page = () => {
                 "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
         },
         {
+            id: 7,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -67,6 +76,7 @@ const page = () => {
                 "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
         },
         {
+            id: 8,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -133,7 +143,15 @@ const page = () => {
                 <div className="All-events-cards-container flex flex-wrap justify-center items-start mt-[80px] gap-6">
                     {displayedEvents.length > 0 ? (
                         displayedEvents.map((event, index) => (
-                            <EventCard key={index} {...event} />
+                            <div
+                                key={index}
+                                onClick={() =>
+                                    router.push(`/events/${event.id}`)
+                                }
+                                className="hover:cursor-pointer"
+                            >
+                                <EventCard {...event} />
+                            </div>
                         ))
                     ) : (
                         <div className="no-results-message text-center text-gray-500 text-lg">

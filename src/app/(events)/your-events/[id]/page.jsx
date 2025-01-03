@@ -26,8 +26,7 @@ export default async function HostedEventPage({ params }) {
             cleaning, and playing with the sheltered animals to help them feel loved 
             and cared for. Your efforts will contribute to the overall well-being 
             of the animals and help raise awareness about the importance of adoption.`,
-            `Whether you're an animal enthusiast or someone loimport HeroCardEditable from './../../../components/event/heroCardEditable';
-oking to give back, 
+            `Whether you're an animal enthusiast or someone looking to give back, 
             this event will make a lasting impact on the lives of many animals. 
             Together, we can make a real difference in the community and help create 
             a brighter future for these deserving animals.`,

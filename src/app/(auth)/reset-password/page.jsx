@@ -31,9 +31,7 @@ export default function ResetPassword() {
                     <div className="relative flex items-center mb-4 lg:hidden">
                         <CircleArrowLeft
                             className="absolute -top-10 left-1 w-9 h-9 cursor-pointer text-gray-500"
-                            onClick={() =>
-                                (window.location.href = "/auth/login")
-                            }
+                            onClick={() => (window.location.href = "login")}
                         />
                     </div>
                     <p className="flex justify-center items-center text-2xl font-semibold mb-20 lg:mb-0 lg:pb-10">
@@ -46,7 +44,7 @@ export default function ResetPassword() {
 
                 <div className="flex flex-col justify-center items-center w-full px-4 mb-9">
                     <Button
-                        onClick={() => (window.location.href = "/auth/login")}
+                        onClick={() => (window.location.href = "/login")}
                         className="w-full max-w-sm rounded-3xl py-6 text-lg border-mint-500"
                         variant="outline"
                     >

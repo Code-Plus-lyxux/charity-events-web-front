@@ -36,7 +36,7 @@ export default function ForgotPasswordForm() {
     // Handle form submission
     const onSubmit = (values) => {
         setEmail(values.email);
-        router.push("/auth/verify");
+        router.push("/verify");
         console.log("Form submitted with values:", values); //TODO: add changes here
     };
 

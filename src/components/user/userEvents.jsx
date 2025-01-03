@@ -4,6 +4,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import AllEventsIcon from "@/components/icon/AllEventsIcon";
 import { IoHandLeft } from "react-icons/io5";
 import UserEventCard from "@/components/user/UserEventCard";
+import { useRouter } from "next/navigation";
 
 export default function UserEvents({ user }) {
     const [eventStates, setEventStates] = useState({
@@ -11,6 +12,8 @@ export default function UserEvents({ user }) {
         2: false,
         3: false,
     });
+
+    const router = useRouter();
 
     const toggleGoing = (id) => {
         setEventStates((prevState) => ({
@@ -168,7 +171,11 @@ export default function UserEvents({ user }) {
                                 description,
                             } = event;
                             return (
-                                <div key={id}>
+                                <div
+                                    key={id}
+                                    className="hover:cursor-pointer"
+                                    onClick={() => router.push(`/events/${id}`)}
+                                >
                                     <UserEventCard
                                         isGoing={eventStates[id]}
                                         toggleGoing={toggleGoing}
@@ -197,7 +204,13 @@ export default function UserEvents({ user }) {
                                 //pull from backend db and fill the events
                                 return (
                                     //ignore this section, this is for frontend demo only
-                                    <div key={`user-event-${id}`}>
+                                    <div
+                                        key={`user-event-${id}`}
+                                        className="hover:cursor-pointer"
+                                        onClick={() =>
+                                            router.push(`/events/${id}`)
+                                        }
+                                    >
                                         <UserEventCard
                                             isGoing={eventStates[id]}
                                             toggleGoing={toggleGoing}

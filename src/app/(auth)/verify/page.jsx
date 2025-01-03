@@ -37,9 +37,7 @@ export default function Verify() {
                     <div className="relative flex items-center mb-4 lg:hidden">
                         <CircleArrowLeft
                             className="absolute -top-10 left-1 w-9 h-9 cursor-pointer text-gray-500"
-                            onClick={() =>
-                                (window.location.href = "/auth/login")
-                            }
+                            onClick={() => (window.location.href = "/login")}
                         />
                     </div>
                     <p className="text-2xl font-bold flex justify-center items-center lg:mb-0 lg:pb-0">

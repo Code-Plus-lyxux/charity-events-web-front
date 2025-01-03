@@ -2,6 +2,7 @@
 import { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import UserEventCard from "@/components/user/UserEventCard";
+import { useRouter } from "next/navigation";
 
 export default function YourEventsTabs({ user }) {
     const [eventStates, setEventStates] = useState({
@@ -9,6 +10,8 @@ export default function YourEventsTabs({ user }) {
         2: false,
         3: false,
     });
+
+    const router = useRouter();
 
     const toggleGoing = (id) => {
         setEventStates((prevState) => ({
@@ -260,7 +263,13 @@ export default function YourEventsTabs({ user }) {
                                 //pull from backend db and fill the events
                                 return (
                                     //ignore this section, this is for frontend demo only
-                                    <div key={`user-event-${id}`}>
+                                    <div
+                                        key={`user-event-${id}`}
+                                        className="hover:cursor-pointer"
+                                        onClick={() =>
+                                            router.push(`/your-events/${id}`)
+                                        }
+                                    >
                                         <UserEventCard
                                             isGoing={eventStates[id]}
                                             toggleGoing={toggleGoing}
@@ -292,7 +301,13 @@ export default function YourEventsTabs({ user }) {
                                 //pull from backend db and fill the events
                                 return (
                                     //ignore this section, this is for frontend demo only
-                                    <div key={`user-event-${id}`}>
+                                    <div
+                                        key={`user-event-${id}`}
+                                        className="hover:cursor-pointer"
+                                        onClick={() =>
+                                            router.push(`/events/${id}`)
+                                        }
+                                    >
                                         <UserEventCard
                                             isGoing={eventStates[id]}
                                             toggleGoing={toggleGoing}
@@ -324,7 +339,13 @@ export default function YourEventsTabs({ user }) {
                                 //pull from backend db and fill the events
                                 return (
                                     //ignore this section, this is for frontend demo only
-                                    <div key={`user-event-${id}`}>
+                                    <div
+                                        key={`user-event-${id}`}
+                                        className="hover:cursor-pointer"
+                                        onClick={() =>
+                                            router.push(`/events/${id}`)
+                                        }
+                                    >
                                         <UserEventCard
                                             isGoing={eventStates[id]}
                                             toggleGoing={toggleGoing}

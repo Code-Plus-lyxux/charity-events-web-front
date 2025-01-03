@@ -37,6 +37,8 @@ export default function LoginForm() {
     // Handle form submission
     const onSubmit = (values) => {
         console.log("Form submitted with values:", values); //TODO: add changes here
+        //after successful login
+        window.location.href = "/";
     };
 
     return (
@@ -81,7 +83,7 @@ export default function LoginForm() {
                 />
                 <div className="flex justify-end">
                     <Link
-                        href="/auth/forgot-password"
+                        href="/forgot-password"
                         className="text-sm font-bold text-mint-800 hover:text-mint-600  dark:text-mint-500 dark:hover:text-mint-300 "
                     >
                         Forgot password?

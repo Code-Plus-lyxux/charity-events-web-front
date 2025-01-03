@@ -56,7 +56,7 @@ export default function Signup() {
                     <div className="mt-4 pb-6 w-full text-center">
                         Already have an account?{" "}
                         <a
-                            href="/auth/login"
+                            href="login"
                             className="text-mint-800 underline hover:text-mint-600 font-bold"
                         >
                             Login

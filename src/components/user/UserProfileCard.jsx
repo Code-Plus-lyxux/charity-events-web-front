@@ -1,7 +1,10 @@
 "use client";
 import GearIcon from "@/components/icon/GearIcon";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 export default function ProfileCard({ user }) {
+    const router = useRouter();
+
     const {
         id,
         name,
@@ -17,7 +20,7 @@ export default function ProfileCard({ user }) {
         <div className="flex flex-col">
             <div
                 className="self-end py-3 px-4"
-                onClick={() => console.log("href to profile settings page")}
+                onClick={() => router.push(`/profile/${id}/settings`)}
             >
                 <GearIcon className="self-end hover:cursor-pointer hover:stroke-mint-500" />
             </div>

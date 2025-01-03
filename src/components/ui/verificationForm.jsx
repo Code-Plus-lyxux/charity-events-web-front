@@ -42,7 +42,11 @@ export default function VerificationForm() {
     // Handle form submission
     const onSubmit = (values) => {
         console.log("Form submitted with values:", values); //TODO: add changes here to sign up
-        router.push("/auth/reset-password");
+        router.push("/reset-password");
+    };
+
+    const handleResend = () => {
+        console.log("Resend code");
     };
 
     return (
@@ -201,8 +205,8 @@ export default function VerificationForm() {
                     </p>
                     <div className="flex items-center justify-center">
                         <a
-                            href="/auth/verify"
-                            className="text-mint-800 text-lg hover:underline"
+                            onClick={handleResend}
+                            className="text-mint-800 text-lg hover:underline hover:cursor-pointer"
                             variant="link"
                         >
                             Resend

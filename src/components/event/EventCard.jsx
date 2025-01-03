@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaMapMarkerAlt, FaHandPaper } from "react-icons/fa";
-import "@/app/home.css";
+import "@/app/(home)/home.css";
 
 const EventCard = ({ imageSrc, location, date, title, description }) => {
     const [isHandIconActive, setIsHandIconActive] = useState(false);

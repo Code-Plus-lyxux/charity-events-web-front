@@ -15,7 +15,11 @@ export default function HeroCardEditable({ event }) {
                     ></ArrowLeft>
                 </div>
                 <div className="absolute top-0 right-0 p-4">
-                    <div onClick={() => console.log("go to edit page")}>
+                    <div
+                        onClick={() =>
+                            (window.location.href = `/your-events/${event.id}/edit`)
+                        }
+                    >
                         <EditIcon
                             size={35}
                             className="bg-white rounded-full text-black cursor-pointer p-[7px]"

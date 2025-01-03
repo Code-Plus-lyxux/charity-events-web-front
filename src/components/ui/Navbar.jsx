@@ -1,12 +1,30 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Navbar = () => {
-    const [isLoggedIn, setLoggedIn] = useState(true);
+const Navbar = ({ isUserLoggedIn }) => {
+    const [isLoggedIn, setLoggedIn] = useState(isUserLoggedIn);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const handleResize = () => {
+        if (window.innerWidth >= 768) {
+            setIsMobileMenuOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const user = {
+        id: 1,
+        name: "Lucifer Barret",
+        email: "luciferbarret@gmail.com",
+        profilePicture: "/lucifer-barret.png",
     };
 
     return (
@@ -68,9 +86,9 @@ const Navbar = () => {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/profile/1">
+                                    <a href={`/profile/${user.id}`}>
                                         <img
-                                            src="/nuwan-silva.png"
+                                            src={user.profilePicture}
                                             alt="Profile"
                                             className="w-[40px] h-[40px] rounded-full"
                                         />
@@ -79,10 +97,20 @@ const Navbar = () => {
                             </ul>
                         ) : (
                             <div className="flex gap-4">
-                                <button className="bg-greenbutton text-white rounded-full px-6 py-2">
+                                <button
+                                    className="bg-greenbutton text-white rounded-full px-8 py-2 border-white border hover:bg-white hover:text-greenbutton hover:border-greenbutton"
+                                    onClick={() =>
+                                        (window.location.href = "/login")
+                                    }
+                                >
                                     Login
                                 </button>
-                                <button className="border border-black rounded-full px-6 py-2 hover:bg-greenbutton hover:text-white">
+                                <button
+                                    className="border border-black rounded-full px-6 py-2 hover:bg-greenbutton hover:text-white"
+                                    onClick={() =>
+                                        (window.location.href = "/signup")
+                                    }
+                                >
                                     Sign Up
                                 </button>
                             </div>
@@ -90,7 +118,7 @@ const Navbar = () => {
                     </div>
                 </>
             ) : (
-                <div className="absolute top-0 left-0 w-full h-[300px] bg-greenbutton  md:hidden">
+                <div className="absolute z-10 top-0 left-0 w-full h-[300px] bg-greenbutton  md:hidden">
                     <div className="flex justify-end p-5">
                         <button
                             onClick={toggleMobileMenu}
@@ -107,16 +135,16 @@ const Navbar = () => {
                         <ul className="flex flex-col items-start p-4 gap-4">
                             <li>
                                 <a
-                                    href="/profile/1"
+                                    href={`/profile/${user.id}`}
                                     className="flex items-center gap-2"
                                 >
                                     <img
-                                        src="/nuwan-silva.png"
+                                        src={user.profilePicture}
                                         alt="Profile"
                                         className="w-[40px] h-[40px] rounded-full"
                                     />
                                     <span className="text-white font-semibold text-[12px]">
-                                        Profile
+                                        {user.name}
                                     </span>
                                 </a>
                             </li>
@@ -155,10 +183,20 @@ const Navbar = () => {
                         </ul>
                     ) : (
                         <div className="flex flex-col items-center p-4 gap-4">
-                            <button className="bg-greenbutton text-white rounded-full px-6 py-2">
+                            <button
+                                className="bg-greenbutton text-white rounded-full px-8 py-2 border-white border hover:bg-white hover:text-greenbutton"
+                                onClick={() =>
+                                    (window.location.href = "/login")
+                                }
+                            >
                                 Login
                             </button>
-                            <button className="border border-black rounded-full px-6 py-2 hover:bg-greenbutton hover:text-white">
+                            <button
+                                className="border border-black rounded-full px-6 py-2 hover:bg-greenbutton hover:text-white"
+                                onClick={() =>
+                                    (window.location.href = "/signup")
+                                }
+                            >
                                 Sign Up
                             </button>
                         </div>

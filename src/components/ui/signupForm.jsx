@@ -60,7 +60,7 @@ export default function signupForm() {
     // Handle form submission
     const onSubmit = (values) => {
         setEmail(values.email);
-        router.push("/auth/verify");
+        router.push("/login");
         console.log("Form submitted with values:", values); //TODO: add changes here to sign up
     };
 

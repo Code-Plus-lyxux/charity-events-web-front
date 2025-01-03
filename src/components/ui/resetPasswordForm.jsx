@@ -10,8 +10,8 @@ import {
     FormField,
     FormItem,
     FormMessage,
-} from "@/components/ui/form";
-import { PasswordInput } from "@/components/ui/passwordInput";
+} from "@/components/ui/Form";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import checkIcon from "@/assets/img/check-icon.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -52,7 +52,7 @@ export default function ResetPasswordForm() {
     // Handle form submission
     const onSubmit = (values) => {
         console.log("Form submitted with values:", values); //TODO: add changes here to sign up
-        router.push("/auth/login");
+        router.push("/login");
     };
 
     return (

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import "@/app/(events)/your-events/[id]/edit/edit-event.css";
 import Swal from "sweetalert2";
+import { Trash2 } from "lucide-react";
 
 const Page = () => {
     const [imagePreview, setImagePreview] = useState("/images/dog home.jpeg");
@@ -38,6 +39,7 @@ const Page = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(formData);
     };
 
     const handleDelete = () => {
@@ -67,10 +69,15 @@ const Page = () => {
                     <h1 className="text-[32px] leading-[37.5px] font-semibold">
                         Edit Event
                     </h1>
-                    <img
+                    {/* <img
                         src="/icons/recycle-bin.png"
                         alt="Event"
                         className="w-[40px] h-[40px] ml-auto cursor-pointer "
+                        onClick={handleDelete}
+                    /> */}
+                    <Trash2
+                        size={40}
+                        className="ml-auto cursor-pointer hover:stroke-red-500"
                         onClick={handleDelete}
                     />
                 </div>

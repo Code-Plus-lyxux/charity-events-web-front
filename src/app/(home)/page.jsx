@@ -1,18 +1,22 @@
 "use client";
 import { useState } from "react";
 import { FaMapMarkerAlt, FaCalendarPlus, FaHandPaper } from "react-icons/fa";
-import "@/app/home.css";
+import "@/app/(home)/home.css";
 import { useRouter } from "next/navigation";
 
-const EventCard = ({ imageSrc, location, date, title, description }) => {
+const EventCard = ({ id, imageSrc, location, date, title, description }) => {
     const [isHandIconActive, setIsHandIconActive] = useState(false);
+    const router = useRouter();
 
-    const toggleHandIcon = () => {
-        setIsHandIconActive(!isHandIconActive);
-    };
+    // const toggleHandIcon = () => {         //removed this due to hand icon is not for interactivity just to show the persons interest
+    //     setIsHandIconActive(!isHandIconActive);
+    // };
 
     return (
-        <div className="event-card-container relative flex flex-wrap md:flex-nowrap w-full md:w-[1223px] h-[219px] mt-10 gap-[61px]">
+        <div
+            className="event-card-container relative flex flex-wrap md:flex-nowrap w-full md:w-[1223px] h-[219px] mt-10 gap-[61px] hover:cursor-pointer"
+            onClick={() => router.push(`/events/${id}`)}
+        >
             <div className="relative">
                 <img
                     src={imageSrc}
@@ -23,7 +27,7 @@ const EventCard = ({ imageSrc, location, date, title, description }) => {
                     className={`hand-icon absolute top-4 right-5 p-2 rounded-full shadow cursor-pointer ${
                         isHandIconActive ? "bg-greenhand" : "bg-white"
                     }`}
-                    onClick={toggleHandIcon}
+                    // onClick={toggleHandIcon}
                 >
                     <FaHandPaper
                         className={
@@ -54,8 +58,10 @@ const EventCard = ({ imageSrc, location, date, title, description }) => {
 
 const HomePage = () => {
     const router = useRouter();
+
     const events = [
         {
+            id: 1,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -64,6 +70,7 @@ const HomePage = () => {
                 "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
         },
         {
+            id: 2,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -72,6 +79,7 @@ const HomePage = () => {
                 "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
         },
         {
+            id: 3,
             imageSrc: "/images/dog home.jpeg",
             location: "Haven Paws Animal Shelter, Kandy",
             date: "21 December 2024",
@@ -242,7 +250,10 @@ const HomePage = () => {
                 </div>
 
                 <div className="whatwedo-button-container text-center mt-8 w-[222px] h-[70px] mx-auto">
-                    <button className="whatwedo-button w-[222px] h-[70px] bg-greenbutton text-white font-roboto font-medium text-[22px] leading-[38px] text-center py-4 px-8 rounded-[50px]">
+                    <button
+                        className="whatwedo-button w-[222px] h-[70px] bg-greenbutton text-white font-roboto font-medium text-[22px] leading-[38px] text-center py-4 px-8 rounded-[50px]"
+                        onClick={() => router.push("/host-events")}
+                    >
                         <span>Host Your Event</span>
                     </button>
                 </div>
@@ -281,7 +292,12 @@ const HomePage = () => {
                             className="message-input text-[18px] p-[12px] w-full lg:w-[620px] mt-4 border border-gray-300 rounded-md h-[150px] resize-y"
                         ></textarea>
                         <div>
-                            <button className="send-message-btn bg-greenbutton text-white font-roboto font-medium text-[16px] leading-[32px] text-center py-1.5 px-4 border-none rounded-[50px] w-full lg:w-[174px] h-[54px] mt-4">
+                            <button
+                                className="send-message-btn bg-greenbutton text-white font-roboto font-medium text-[16px] leading-[32px] text-center py-1.5 px-4 border-none rounded-[50px] w-full lg:w-[174px] h-[54px] mt-4"
+                                onClick={() => {
+                                    console.log("send message"); //change this to send message
+                                }}
+                            >
                                 Send Message
                             </button>
                         </div>
