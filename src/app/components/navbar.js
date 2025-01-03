@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Navbar = () => {
   const [isLoggedIn, setLoggedIn] = useState(true); 
@@ -8,6 +8,19 @@ const Navbar = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  const handleResize = () => {
+    if (window.innerWidth >= 768) { 
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
 
   return (
     <nav className="navbar font-roboto flex justify-between items-center p-3 h-[75px] border-b-[1px] border-solid border-[#E5E5E5]">
@@ -51,7 +64,7 @@ const Navbar = () => {
           </div>
         </>
       ) : (
-        <div className="absolute top-0 left-0 w-full h-[300px] bg-greenbutton  md:hidden">
+        <div className="absolute  z-10 top-0 left-0 w-full h-[300px] bg-greenbutton  md:hidden">
           <div className="flex justify-end p-5">
           <button onClick={toggleMobileMenu} className="text-black focus:outline-none">
               <img src="/icons/menu.png" alt="Menu" className="w-[24px] h-[24px] " />
@@ -77,7 +90,7 @@ const Navbar = () => {
           ) : (
             <div className="flex flex-col items-center p-4 gap-4">
               <button className="bg-greenbutton text-white rounded-full px-6 py-2">Login</button>
-              <button className="border border-black rounded-full px-6 py-2 hover:bg-greenbutton hover:text-white">Sign Up</button>
+              <button className="border-2 border-black rounded-full px-6 py-2 hover:bg-greenbutton hover:border-greenbutton hover:text-white">Sign Up</button>
             </div>
           )}
         </div>
