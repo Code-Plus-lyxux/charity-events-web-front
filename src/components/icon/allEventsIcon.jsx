@@ -1,4 +1,3 @@
-import React from "react";
 import CustomIcon from "@/components/ui/customIcon";
 const AllEventsIcon = (props) => (
     <CustomIcon {...props}>

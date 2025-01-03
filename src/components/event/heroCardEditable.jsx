@@ -2,16 +2,25 @@
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import usersIcon from "@/assets/img/users-icon.png";
-export default function HeroCard({ event }) {
+import EditIcon from "@/components/icon/editIcon";
+export default function HeroCardEditable({ event }) {
     return (
         <>
             <div className="relative lg:h-[566px] h-64 rounded-lg overflow-hidden mb-8">
-                <div className="absolute top-0 left-0 p-1 lg:hidden">
+                <div className="absolute top-0 left-0 p-4 lg:hidden">
                     <ArrowLeft
                         size={35}
-                        className="bg-white rounded-full text-black cursor-pointer"
+                        className="bg-white rounded-full text-black cursor-pointer p-[6px]"
                         onClick={() => window.history.back()}
                     ></ArrowLeft>
+                </div>
+                <div className="absolute top-0 right-0 p-4">
+                    <div onClick={() => console.log("go to edit page")}>
+                        <EditIcon
+                            size={35}
+                            className="bg-white rounded-full text-black cursor-pointer p-[7px]"
+                        ></EditIcon>
+                    </div>
                 </div>
                 <img
                     src={event.imageSrc}
