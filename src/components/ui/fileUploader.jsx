@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { X } from "lucide-react";
-import UploadIcon from "@/components/icon/uploadIcon";
+import UploadIcon from "@/components/icon/UploadIcon";
 
 const FileUploader = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);

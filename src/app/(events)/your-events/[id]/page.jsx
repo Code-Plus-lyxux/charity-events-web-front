@@ -1,9 +1,9 @@
-import HeroCardEditable from "@/components/event/heroCardEditable";
-import EventTabsEditable from "@/components/event/eventTabsEditable";
-import HostCard from "@/components/event/hostCard";
-import ShareBar from "@/components/event/shareBar";
-import { CommentWithIcon } from "@/components/ui/addComment";
-import CommentCard from "@/components/ui/commentCard";
+import HeroCardEditable from "@/components/event/HeroCardEditable";
+import EventTabsEditable from "@/components/event/EventTabsEditable";
+import HostCard from "@/components/event/HostCard";
+import ShareBar from "@/components/event/ShareBar";
+import { CommentWithIcon } from "@/components/ui/AddComment";
+import CommentCard from "@/components/ui/CommentCard";
 
 export default async function HostedEventPage({ params }) {
     const id = (await params).id;

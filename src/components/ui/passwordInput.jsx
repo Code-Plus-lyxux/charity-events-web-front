@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input";
 import passwordIcon from "@/assets/img/password-icon.png";
 import Image from "next/image";
 import { cn } from "@/lib/utils";

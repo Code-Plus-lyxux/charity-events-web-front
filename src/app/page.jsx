@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { FaMapMarkerAlt, FaCalendarPlus, FaHandPaper } from "react-icons/fa";
 import "@/app/home.css";
+import { useRouter } from "next/navigation";
 
 const EventCard = ({ imageSrc, location, date, title, description }) => {
     const [isHandIconActive, setIsHandIconActive] = useState(false);
@@ -52,6 +53,7 @@ const EventCard = ({ imageSrc, location, date, title, description }) => {
 };
 
 const HomePage = () => {
+    const router = useRouter();
     const events = [
         {
             imageSrc: "/images/dog home.jpeg",
@@ -104,7 +106,10 @@ const HomePage = () => {
                         </h2>
                     </div>
                 </div>
-                <button className="host-event-btn bg-greenbutton text-white font-roboto font-medium text-lg leading-9 text-center py-4 px-8 mx-auto block border-none rounded-full mt-6 w-[222px] h-[70px]">
+                <button
+                    className="host-event-btn bg-greenbutton text-white font-roboto font-medium text-lg leading-9 text-center py-4 px-8 mx-auto block border-none rounded-full mt-6 w-[222px] h-[70px]"
+                    onClick={() => router.push("/host-events")}
+                >
                     Host your event
                 </button>
                 <div className="image-gallery flex justify-center items-end mt-5 gap-6 w-full max-w-5xl h-132 mx-auto">
@@ -144,7 +149,10 @@ const HomePage = () => {
                         </h2>
                     </div>
                     <div className="explore-button-container w-44 h-14 mt-[-725px] ">
-                        <button className="explore-events-btn bg-greenbutton text-white font-roboto font-medium text-[16px] leading-[32px] text-center py-1.5 px-4 border-none rounded-[50px] w-[174px] h-[54px] ml-[1048px]">
+                        <button
+                            className="explore-events-btn bg-greenbutton text-white font-roboto font-medium text-[16px] leading-[32px] text-center py-1.5 px-4 border-none rounded-[50px] w-[174px] h-[54px] ml-[1048px]"
+                            onClick={() => router.push("/events")}
+                        >
                             Explore Events
                         </button>
                     </div>

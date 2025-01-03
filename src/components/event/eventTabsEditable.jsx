@@ -1,8 +1,8 @@
 import React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { CalendarDays, MapPin, ListFilter, Image } from "lucide-react";
-import FileUploader from "@/components/ui/fileUploader";
-import MediaViewer from "@/components/ui/mediaViewer";
+import FileUploader from "@/components/ui/FileUploader";
+import MediaViewer from "@/components/ui/MediaViewer";
 
 export default function EventTabsEditable({ event }) {
     return (

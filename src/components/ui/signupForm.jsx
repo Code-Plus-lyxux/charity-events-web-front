@@ -4,17 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import emailIcon from "@/assets/img/email-icon.png";
-import { InputWithIcon } from "@/components/ui/inputWithIcon";
+import { InputWithIcon } from "@/components/ui/InputWithIcon";
 import userIcon from "@/assets/img/user-icon.png";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
     Form,
     FormControl,
     FormField,
     FormItem,
     FormMessage,
-} from "@/components/ui/form";
-import { PasswordInput } from "@/components/ui/passwordInput";
+} from "@/components/ui/Form";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/authContext";
 

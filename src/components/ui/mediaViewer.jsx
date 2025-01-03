@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import NoMediaIcon from "@/components/icon/noMediaIcon";
+import NoMediaIcon from "@/components/icon/NoMediaIcon";
 
 const MediaViewer = () => {
     const [selectedImage, setSelectedImage] = useState(null);

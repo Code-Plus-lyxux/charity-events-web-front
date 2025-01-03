@@ -1,7 +1,7 @@
 import Image from "next/image";
 import loginImg from "@/assets/img/world-hands.png";
 import givewellLogo from "@/assets/img/givewell-logo.png";
-import ForgotPasswordForm from "@/components/ui/forgotPasswordForm";
+import ForgotPasswordForm from "@/components/ui/ForgotPasswordForm";
 export default function ForgotPassword() {
     return (
         <div className="flex flex-col lg:flex-row justify-around">

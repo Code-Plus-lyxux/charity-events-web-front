@@ -2,7 +2,7 @@
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import usersIcon from "@/assets/img/users-icon.png";
-import EditIcon from "@/components/icon/editIcon";
+import EditIcon from "@/components/icon/EditIcon";
 export default function HeroCardEditable({ event }) {
     return (
         <>

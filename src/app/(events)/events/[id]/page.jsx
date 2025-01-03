@@ -1,9 +1,9 @@
-import HeroCard from "@/components/event/heroCard";
-import EventTabs from "@/components/event/eventTabs";
-import HostCard from "@/components/event/hostCard";
-import ShareBar from "@/components/event/shareBar";
-import { CommentWithIcon } from "@/components/ui/addComment";
-import CommentCard from "@/components/ui/commentCard";
+import HeroCard from "@/components/event/HeroCard";
+import EventTabs from "@/components/event/EventTabs";
+import HostCard from "@/components/event/HostCard";
+import ShareBar from "@/components/event/ShareBar";
+import { CommentWithIcon } from "@/components/ui/AddComment";
+import CommentCard from "@/components/ui/CommentCard";
 export default async function EventPage({ params }) {
     const id = (await params).id;
 

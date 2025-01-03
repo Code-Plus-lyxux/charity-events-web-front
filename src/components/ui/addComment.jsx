@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input";
 import { cn } from "@/lib/utils";
 import sendIcon from "@/assets/img/send-icon.png";
 

@@ -2,8 +2,8 @@
 import Image from "next/image";
 import signupImg from "@/assets/img/hands-heart.png";
 import givewellLogo from "@/assets/img/givewell-logo.png";
-import SignupForm from "@/components/ui/signupForm";
-import { Button } from "@/components/ui/button";
+import SignupForm from "@/components/ui/SignupForm";
+import { Button } from "@/components/ui/Button";
 import googleColorIcon from "@/assets/img/google-color.png";
 
 export default function Signup() {

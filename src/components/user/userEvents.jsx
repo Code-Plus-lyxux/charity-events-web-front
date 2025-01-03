@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
-import AllEventsIcon from "@/components/icon/allEventsIcon";
+import AllEventsIcon from "@/components/icon/AllEventsIcon";
 import { IoHandLeft } from "react-icons/io5";
-import UserEventCard from "@/components/user/userEventCard";
+import UserEventCard from "@/components/user/UserEventCard";
 
 export default function UserEvents({ user }) {
     const [eventStates, setEventStates] = useState({

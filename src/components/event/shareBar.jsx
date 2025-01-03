@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { IoHandLeft } from "react-icons/io5";
-import ShareIcon from "@/components/icon/shareIcon";
+import ShareIcon from "@/components/icon/ShareIcon";
 export default function ShareBar() {
     //user should be added as a prop here, then it should be passed down
     // to i'm in button to track down, due to unavailable data it is not added

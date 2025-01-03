@@ -1,4 +1,4 @@
-import CustomIcon from "@/components/ui/customIcon";
+import CustomIcon from "@/components/ui/CustomIcon";
 const NoMediaIcon = (props) => (
     <CustomIcon {...props}>
         <path

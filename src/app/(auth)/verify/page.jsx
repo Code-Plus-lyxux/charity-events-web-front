@@ -3,7 +3,7 @@ import Image from "next/image";
 import loginImg from "@/assets/img/world-hands.png";
 import givewellLogo from "@/assets/img/givewell-logo.png";
 import { useAuth } from "@/hooks/authContext";
-import VerificationForm from "@/components/ui/verificationForm";
+import VerificationForm from "@/components/ui/VerificationForm";
 import { CircleArrowLeft } from "lucide-react";
 
 export default function Verify() {

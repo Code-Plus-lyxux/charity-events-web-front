@@ -2,8 +2,8 @@
 import Image from "next/image";
 import loginImg from "@/assets/img/world-hands.png";
 import givewellLogo from "@/assets/img/givewell-logo.png";
-import ResetPasswordForm from "@/components/ui/resetPasswordForm";
-import { Button } from "@/components/ui/button";
+import ResetPasswordForm from "@/components/ui/ResetPasswordForm";
+import { Button } from "@/components/ui/Button";
 import { CircleArrowLeft } from "lucide-react";
 
 export default function ResetPassword() {

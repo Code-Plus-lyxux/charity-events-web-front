@@ -2,8 +2,8 @@
 import Image from "next/image";
 import loginImg from "@/assets/img/world-hands.png";
 import givewellLogo from "@/assets/img/givewell-logo.png";
-import LoginForm from "@/components/ui/loginForm";
-import { Button } from "@/components/ui/button";
+import LoginForm from "@/components/ui/LoginForm";
+import { Button } from "@/components/ui/Button";
 import googleColorIcon from "@/assets/img/google-color.png";
 
 export default function Login() {
