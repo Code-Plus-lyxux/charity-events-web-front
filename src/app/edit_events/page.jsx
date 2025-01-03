@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import './edit_events.css';
+import Swal from 'sweetalert2';
 
 const Page = () => {
   const [imagePreview, setImagePreview] = useState('/images/dog home.jpeg');
@@ -37,11 +38,38 @@ const Page = () => {
     e.preventDefault();
   };
 
+  const handleDelete = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#00B894',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your event has been deleted.',
+          'success'
+        );
+        
+      }
+    });
+  };
+
   return (
     <div className="edit-events-section font-roboto flex flex-col items-center w-full h-full bg-gray-50 p-7">
       <div className="edit-events-form-section mt-4 w-full max-w-5xl">
-      <div className="edit-events-header w-full max-w-5xl mt-16  flex items-start ">
-        <h1 className="text-[32px] leading-[37.5px] font-semibold ">Edit Event</h1>
+      <div className="edit-events-header w-full max-w-5xl mt-16 flex items-start">
+        <h1 className="text-[32px] leading-[37.5px] font-semibold">Edit Event</h1>
+        <img 
+        src="/icons/recycle-bin.png" 
+        alt="Event" 
+        className="w-[40px] h-[40px] ml-auto cursor-pointer " 
+        
+        onClick={handleDelete}/>
       </div>
         <form onSubmit={handleSubmit} className="edit-events-form mt-8">
           <div className="edit-events-form-image relative w-full h-[616px] border border-gray-300 rounded-[6px] overflow-hidden mb-4">
