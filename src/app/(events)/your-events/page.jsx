@@ -1,5 +1,5 @@
-import YourEventsCard from "@/components/event/yourEventsCard";
-import YourEventsTabs from "@/components/event/yourEventsTabs";
+import YourEventsCard from "@/components/event/YourEventsCard";
+import YourEventsTabs from "@/components/event/YourEventsTabs";
 export default function YourEvents() {
     //user should be added as a prop here, then it should be passed down
     const user = {

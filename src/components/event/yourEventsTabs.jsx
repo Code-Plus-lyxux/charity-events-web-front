@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
-import UserEventCard from "@/components/user/userEventCard";
+import UserEventCard from "@/components/user/UserEventCard";
 
 export default function YourEventsTabs({ user }) {
     const [eventStates, setEventStates] = useState({

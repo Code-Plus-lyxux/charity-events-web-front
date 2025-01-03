@@ -1,4 +1,4 @@
-import ProfileCard from "@/components/user/profileCard";
+import ProfileCard from "@/components/user/UserProfileCard";
 import UserEvents from "@/components/user/userEvents";
 export default async function Profile({ params }) {
     const id = (await params).id;
