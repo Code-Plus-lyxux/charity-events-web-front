@@ -12,14 +12,19 @@
     margin-top: -20px;
   }
   
+  
   .edit-events-header h1 {
     font-size: 18px;
     font-weight: 600;
     line-height: 21px;
     margin-bottom: -50px;
-    
   }
+  .edit-events-header img{
+    width: 20px;
+    height: 20px;
   
+  }
+
   .edit-events-form-section {
     width: 100%;
     max-width: 340px;
