@@ -23,6 +23,12 @@ export default function RootLayout({ children }) {
     return (
         <AuthProvider>
             <html lang="en">
+                <link
+                    rel="icon"
+                    href="./images/logo.png"
+                    type="image"
+                    sizes="<generated>"
+                />
                 <body
                     className={`${geistSans.variable} ${geistMono.variable} antialiased`}
                 >
