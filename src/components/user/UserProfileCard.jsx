@@ -7,10 +7,10 @@ export default function ProfileCard({ user }) {
 
     const {
         id,
-        name,
+        firstName,
+        lastName,
         email,
-        profilePicture,
-        bio,
+        profileImage,
         eventsAttended,
         eventsCreated,
         eventsAttending,
@@ -25,13 +25,15 @@ export default function ProfileCard({ user }) {
                 <GearIcon className="self-end hover:cursor-pointer hover:stroke-mint-500" />
             </div>
             <Image
-                src={profilePicture}
-                alt={name}
+                src={profileImage}
+                alt={firstName}
                 width={100}
                 height={100}
                 className="rounded-full flex self-center"
             />
-            <p className="text-center font-bold pt-2">{name}</p>
+            <p className="text-center font-bold pt-2">
+                {firstName + " " + lastName}
+            </p>
             <p className="text-center text-sm">{email}</p>
         </div>
     );

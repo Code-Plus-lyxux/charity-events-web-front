@@ -35,7 +35,7 @@ export const CommentWithIcon = React.forwardRef(
                 >
                     <Image
                         src={sendIcon}
-                        alt={"send icon"}
+                        alt="send icon"
                         width={16}
                         height={16}
                         className="object-contain"

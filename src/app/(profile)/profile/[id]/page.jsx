@@ -1,28 +1,33 @@
+"use server";
 import ProfileCard from "@/components/user/UserProfileCard";
 import UserEvents from "@/components/user/UserEvents";
+import axios from "axios";
 export default async function Profile({ params }) {
     const id = (await params).id;
 
-    const user = {
-        id: 1,
-        name: "Lucifer Barret",
-        email: "luciferbarret@gmail.com",
-        profilePicture: "/lucifer-barret.png",
-        bio: "I like charity events",
-        eventsAttended: [1, 2, 3], //event ids
-        eventsCreated: [4, 5],
-        eventsAttending: [2],
+    const fetchUser = async (userId) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:5001/api/user/${userId}`
+            );
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching user:", error);
+            throw error;
+        }
     };
+
+    const fetchedUser = await fetchUser(id);
 
     return (
         <>
             <section>
                 {/* {"add profile card"} */}
-                <ProfileCard user={user} />
+                <ProfileCard user={fetchedUser} />
             </section>
             <section>
                 {/* {"add tabs component"} */}
-                <UserEvents user={user} />
+                <UserEvents user={fetchedUser} />
             </section>
         </>
     );

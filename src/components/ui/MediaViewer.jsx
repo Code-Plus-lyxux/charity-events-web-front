@@ -57,9 +57,11 @@ const MediaViewer = () => {
         },
         {
             src: "/images/dog home.jpeg",
+            alt: "dog",
         },
         {
             src: "/images/Frame 11.png",
+            alt: "frame",
         },
     ];
 

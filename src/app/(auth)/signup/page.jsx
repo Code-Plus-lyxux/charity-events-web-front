@@ -17,9 +17,9 @@ export default function Signup() {
                 <div className="lg:border-black lg:border-2 size-[580] flex items-center">
                     <Image
                         src={signupImg}
+                        alt="logo with a world behind the heart made out of hands"
                         width={580}
                         height={580}
-                        alt="logo with a world behind the heart made out of hands"
                     ></Image>
                 </div>
             </div>
@@ -27,9 +27,9 @@ export default function Signup() {
                 <div className="flex justify-center items-center z-10">
                     <Image
                         src={givewellLogo}
+                        alt="givewell logo"
                         width={382}
                         height={382}
-                        alt="givewell logo"
                     ></Image>
                 </div>
                 <div className="flex justify-center items-center px-4 mt-[-60px]">

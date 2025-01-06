@@ -16,9 +16,9 @@ export default function Login() {
             <div className="flex justify-center items-center">
                 <Image
                     src={loginImg}
+                    alt="logo with a world behind the supportive hands"
                     width={580}
                     height={575}
-                    alt="logo with a world behind the supportive hands"
                     className="lg:border-black lg:border-2"
                 ></Image>
             </div>
@@ -26,9 +26,9 @@ export default function Login() {
                 <div className="flex justify-center items-center z-10">
                     <Image
                         src={givewellLogo}
+                        alt="givewell logo"
                         width={382}
                         height={382}
-                        alt="givewell logo"
                     ></Image>
                 </div>
                 <div className="flex justify-center items-center px-4 mt-[-60px]">

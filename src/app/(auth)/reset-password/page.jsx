@@ -12,9 +12,9 @@ export default function ResetPassword() {
             <div className="lg:flex justify-center items-center hidden">
                 <Image
                     src={loginImg}
+                    alt="logo with a world behind the supportive hands"
                     width={580}
                     height={575}
-                    alt="logo with a world behind the supportive hands"
                     className="border-black border-2 "
                 ></Image>
             </div>
@@ -22,9 +22,9 @@ export default function ResetPassword() {
                 <div className="lg:flex justify-center items-center z-10 hidden">
                     <Image
                         src={givewellLogo}
+                        alt="givewell logo"
                         width={382}
                         height={382}
-                        alt="givewell logo"
                     ></Image>
                 </div>
                 <div className="lg:flex lg:justify-center lg:mt-[-60px] lg:pb-4 mt-40">
