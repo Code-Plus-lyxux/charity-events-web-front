@@ -15,6 +15,9 @@ import {
     FormMessage,
 } from "@/components/ui/Form";
 import { PasswordInput } from "@/components/ui/PasswordInput";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 // Define the form schema
 const formSchema = z.object({
@@ -23,6 +26,8 @@ const formSchema = z.object({
         message: "Password must be at least 6 characters.",
     }),
 });
+ 
+
 
 export default function LoginForm() {
     // Initialize useForm
@@ -34,11 +39,23 @@ export default function LoginForm() {
         },
     });
 
+
+   const router = useRouter(); 
     // Handle form submission
-    const onSubmit = (values) => {
-        console.log("Form submitted with values:", values); //TODO: add changes here
-        //after successful login
-        window.location.href = "/";
+    const onSubmit = async (data) => {
+        console.log("Form submitted with values:", data); 
+        try {
+            const response = await axios.post('http://localhost:5001/api/auth/login', data);
+            console.log('Success:', response.data);
+            
+            const token = response.data.token;
+            localStorage.setItem('userToken', token);
+            console.log('Token:', token);
+            router.push('/');
+        } catch (error) {
+            console.error('Error:', error.response ? error.response.data : error.message); 
+            setErrorMessage(error.response ? error.response.data.message : 'Invalid email or password');
+        }
     };
 
     return (
