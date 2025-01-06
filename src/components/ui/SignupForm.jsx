@@ -17,6 +17,7 @@ import {
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/authContext";
+import axios from "axios";
 
 // Define the form schema
 const formSchema = z
@@ -58,10 +59,16 @@ export default function signupForm() {
     });
 
     // Handle form submission
-    const onSubmit = (values) => {
-        setEmail(values.email);
-        router.push("/login");
-        console.log("Form submitted with values:", values); //TODO: add changes here to sign up
+    const onSubmit = async (data) => {
+        try {
+            const response = await axios.post('http://localhost:5001/api/auth/register', data);
+            console.log('Success:', response.data);
+            setEmail(data.email);
+         
+            router.push('/login');
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (

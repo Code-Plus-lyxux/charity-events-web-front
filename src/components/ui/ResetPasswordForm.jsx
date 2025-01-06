@@ -15,6 +15,7 @@ import { PasswordInput } from "@/components/ui/PasswordInput";
 import checkIcon from "@/assets/img/check-icon.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 // Define the form schema
 const formSchema = z
@@ -50,10 +51,25 @@ export default function ResetPasswordForm() {
     const router = useRouter();
 
     // Handle form submission
-    const onSubmit = (values) => {
-        console.log("Form submitted with values:", values); //TODO: add changes here to sign up
-        router.push("/login");
+    const onSubmit = async (data) => {
+        try {
+            const token = localStorage.getItem('userToken');
+            if (!token) {
+                throw new Error('No token found');
+            }
+            const response = await axios.put('http://localhost:5001/api/user/profile', data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log('Success:', response.data);
+            router.push("/login");
+        } catch (error) {
+            console.error('Error:', error.response ? error.response.data : error.message); 
+        }
     };
+
+
 
     return (
         <Form {...form}>
