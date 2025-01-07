@@ -18,16 +18,12 @@ import { PasswordInput } from "@/components/ui/PasswordInput";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-
 // Define the form schema
 const formSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(6, {
-        message: "Password must be at least 6 characters.",
-    }),
+    password: z.string(),
+    // .min(8, { message: "Password must be at least 8 characters.",})
 });
- 
-
 
 export default function LoginForm() {
     // Initialize useForm
@@ -39,22 +35,31 @@ export default function LoginForm() {
         },
     });
 
-
-   const router = useRouter(); 
+    const router = useRouter();
     // Handle form submission
     const onSubmit = async (data) => {
-        console.log("Form submitted with values:", data); 
+        console.log("Form submitted with values:", data);
         try {
-            const response = await axios.post('http://localhost:5001/api/auth/login', data);
-            console.log('Success:', response.data);
-            
+            const response = await axios.post(
+                "http://localhost:5001/api/auth/login",
+                data
+            );
+            console.log("Success:", response.data);
+
             const token = response.data.token;
-            localStorage.setItem('userToken', token);
-            console.log('Token:', token);
-            router.push('/');
+            localStorage.setItem("userToken", token);
+            console.log("Token:", token);
+            router.push("/");
         } catch (error) {
-            console.error('Error:', error.response ? error.response.data : error.message); 
-            setErrorMessage(error.response ? error.response.data.message : 'Invalid email or password');
+            console.error(
+                "Error:",
+                error.response ? error.response.data : error.message
+            );
+            setErrorMessage(
+                error.response
+                    ? error.response.data.message
+                    : "Invalid email or password"
+            );
         }
     };
 
