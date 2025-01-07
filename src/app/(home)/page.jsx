@@ -52,7 +52,7 @@ const EventCard = ({
                         {location}
                     </span>
                     <span>•</span>
-                    <span>{startDate}</span>
+                    <span>{startDate.slice(0, 10)}</span>
                 </div>
                 <h3 className="event-title text-[24px] leading-[28.13px] font-semibold text-black mt-[20px]">
                     {eventName}
@@ -81,14 +81,24 @@ const HomePage = () => {
                     setIsLoggedIn(true);
                     const userId = jwt.decode(token).id;
                     const userResponse = await axios.get(
-                        `http://localhost:5001/api/user/${userId}`
+                        `http://localhost:5001/api/user/${userId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
                     );
                     const userData = userResponse.data;
                     setUser(userData);
 
                     // Fetch nearby upcoming events if user is logged in
                     const nearbyResponse = await axios.get(
-                        `http://localhost:5001/api/events/upcoming-by-location/${userData.location}`
+                        `http://localhost:5001/api/events/upcoming-3-by-location/${userData.location}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
                     );
 
                     setEvents(nearbyResponse.data);
@@ -99,6 +109,9 @@ const HomePage = () => {
                         {
                             params: {
                                 limit: 3,
+                            },
+                            headers: {
+                                Authorization: `Bearer ${token}`,
                             },
                         }
                     );

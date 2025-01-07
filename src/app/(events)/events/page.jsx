@@ -1,96 +1,68 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import EventCard from "@/components/event/EventCard";
 import Pagination from "@mui/material/Pagination";
 import "@mui/material/Pagination";
 import "@/app/(events)/events/all-events.css";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import jwt from "jsonwebtoken";
 
 const event_p_p = 6;
 
 const page = () => {
     const router = useRouter();
-    const events = [
-        {
-            id: 1,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Support Animal Welfare: Spend a Day Volunteering at the Local Shelter and Make a Difference",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-        {
-            id: 2,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Animal Rescue Awareness",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-        {
-            id: 3,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Community Dog Walk",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-        {
-            id: 4,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Animal Adoption Day",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-        {
-            id: 5,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Animal Adoption Day",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-        {
-            id: 6,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Animal Rescue Awareness",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-        {
-            id: 7,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Community Dog Walk",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-        {
-            id: 8,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Support Animal Welfare: Spend a Day Volunteering at the Local Shelter and Make a Difference",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-    ];
+
+    const [events, setEvents] = useState([]);
+    const [user, setUser] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const token = localStorage.getItem("userToken");
+
+                if (token) {
+                    setIsLoggedIn(true);
+                    const userId = jwt.decode(token).id;
+                    const userResponse = await axios.get(
+                        `http://localhost:5001/api/user/${userId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+                    const userData = userResponse.data;
+                    setUser(userData);
+
+                    // Fetch all nearby upcoming events
+                    const nearbyResponse = await axios.get(
+                        `http://localhost:5001/api/events/upcoming-all-by-location/${userData.location}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+
+                    setEvents(nearbyResponse.data);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        fetchData();
+    }, []);
+
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
 
     //filter search
     const filteredEvents = events.filter((event) =>
-        event.title.toLowerCase().includes(searchQuery.toLowerCase())
+        event.eventName.toLowerCase().includes(searchQuery.toLowerCase())
     );
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -137,7 +109,7 @@ const page = () => {
                 <div className="All-events-location-container flex justify-end w-full">
                     <h3 className="location-title text-[20px] leading-[23.44px] mt-[-40px] mr-[120px] font-roboto text-gray-600 flex items-center gap-1">
                         <FaMapMarkerAlt className="text-gray-600" />
-                        Kandy, Sri Lanka
+                        {user && user.location}
                     </h3>
                 </div>
                 <div className="All-events-cards-container flex flex-wrap justify-center items-start mt-[80px] gap-6">

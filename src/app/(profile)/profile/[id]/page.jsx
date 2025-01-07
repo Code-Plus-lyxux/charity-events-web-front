@@ -8,7 +8,12 @@ export default async function Profile({ params }) {
     const fetchUser = async (userId) => {
         try {
             const response = await axios.get(
-                `http://localhost:5001/api/user/${userId}`
+                `http://localhost:5001/api/user/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
             return response.data;
         } catch (error) {
