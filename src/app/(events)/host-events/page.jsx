@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "@/app/(events)/host-events/host-events.css";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const HostEventPage = () => {
     const [formData, setFormData] = useState({
@@ -15,6 +16,14 @@ const HostEventPage = () => {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    
+    useEffect(() => {
+        const token = localStorage.getItem("userToken");
+        if (!token) {
+            router.push("/");
+        }
+    }, [router]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
