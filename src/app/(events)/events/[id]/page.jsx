@@ -1,15 +1,19 @@
+"use client";
 import HeroCard from "@/components/event/HeroCard";
 import EventTabs from "@/components/event/EventTabs";
 import HostCard from "@/components/event/HostCard";
 import ShareBar from "@/components/event/ShareBar";
 import { CommentWithIcon } from "@/components/ui/AddComment";
 import CommentCard from "@/components/ui/CommentCard";
-export default async function EventPage({ params }) {
-    const id = (await params).id;
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "next/navigation";
 
-    //retrieve event details here with api call from the backend with event_id
-    //this is a sample event details from the design
-    const event = {
+export default function EventPage() {
+    const id = useParams().id;
+
+    const [eventData, setEventData] = useState(null);
+    const [eventHost, setEventHost] = useState({
         id,
         title: `Support Animal Welfare: Spend a Day Volunteering at the Local 
         Shelter and Make a Difference`,
@@ -76,23 +80,59 @@ export default async function EventPage({ params }) {
                 something meaningful. Can't wait to join in and make a difference!`,
             },
         ],
-    };
+    });
+
+    //retrieve event details here with api call from the backend with event_id
+    //this is a sample event details from the design
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:5001/api/events/${id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "userToken"
+                            )}`,
+                        },
+                    }
+                );
+                setEventData(response.data);
+
+                const hostResponse = await axios.get(
+                    `http://localhost:5001/api/user/${response.data.userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "userToken"
+                            )}`,
+                        },
+                    }
+                );
+                setEventHost(hostResponse.data);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+        fetchData();
+    }, []);
 
     return (
         <>
             <section>
                 {/* hero section */}
-                <HeroCard event={event}></HeroCard>
+                <HeroCard event={eventData}></HeroCard>
             </section>
 
             <main>
                 {/* main content */}
-                <EventTabs event={event}></EventTabs>
+                <EventTabs event={eventData}></EventTabs>
             </main>
 
             <section>
                 {/* host details section */}
-                <HostCard host={event.host}></HostCard>
+                <HostCard host={eventHost}></HostCard>
             </section>
 
             <section>
@@ -110,16 +150,17 @@ export default async function EventPage({ params }) {
                 <div className="flex">
                     <p className="font-semibold">Comments</p>
                     <p className="ml-5 bg-mint-500 px-2 text-white rounded-full">
-                        {event.comments.length}
+                        {eventData?.comments && eventData.comments?.length}
                     </p>
                 </div>
                 <div className="flex flex-col">
-                    {event.comments.map((comment, index) => (
-                        <CommentCard
-                            key={index}
-                            comment={comment}
-                        ></CommentCard>
-                    ))}
+                    {eventData?.comments &&
+                        eventData.comments?.map((comment, index) => (
+                            <CommentCard
+                                key={index}
+                                comment={comment}
+                            ></CommentCard>
+                        ))}
                 </div>
             </section>
         </>

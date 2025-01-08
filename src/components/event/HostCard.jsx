@@ -9,12 +9,12 @@ export default function HostCard({ host }) {
             <div className="flex items-center">
                 <Image
                     className="ml-9 rounded-full"
-                    src={host.avatar}
-                    alt={host.name}
+                    src={host?.profileImage || "/images/user.png"}
+                    alt={host?.fullName || "Host full name"}
                     width={50}
                     height={50}
                 ></Image>
-                <p className="ml-4">{host.name}</p>
+                <p className="ml-4">{host?.fullName}</p>
             </div>
         </div>
     );

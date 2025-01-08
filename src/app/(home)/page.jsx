@@ -201,7 +201,7 @@ const HomePage = () => {
                         </button>
                     </div>
                     {events.map((event, index) => (
-                        <EventCard key={index} {...event} />
+                        <EventCard key={index} id={event._id} {...event} />
                     ))}
                 </div>
             </section>
