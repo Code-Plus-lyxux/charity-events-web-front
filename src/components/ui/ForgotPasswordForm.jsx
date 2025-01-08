@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/Form";
 import { useAuth } from "@/hooks/authContext";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 // Define the form schema
 const formSchema = z.object({
@@ -35,9 +37,35 @@ export default function ForgotPasswordForm() {
 
     // Handle form submission
     const onSubmit = (values) => {
-        setEmail(values.email);
-        router.push("/verify");
-        console.log("Form submitted with values:", values); //TODO: add changes here
+        // setEmail(values.email);
+        // router.push("/verify");
+        // console.log("Form submitted with values:", values); //TODO: add changes here
+        try {
+            // API call to send reset OTP
+            const response = axios.post("http://localhost:5000/api/auth/password/reset", {
+                email: values.email,
+            });
+
+            // Handle success response
+            Swal.fire({
+                icon: "success",
+                title: "OTP Sent!",
+                text:"Password reset OTP has been sent to your email.",
+            });
+
+            // Save email to context and navigate to verify page
+            setEmail(values.email);
+            router.push("/verify");
+        } catch (error) {
+            // Handle error response and display it to the user
+
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: error.response?.data?.error || "Something went wrong. Please try again later.",
+            });
+            console.error("Error sending OTP:", error);
+        }
     };
 
     return (
