@@ -3,13 +3,38 @@ import { Button } from "@/components/ui/Button";
 import { IoHandLeft } from "react-icons/io5";
 import { CircleX } from "lucide-react";
 import ShareIcon from "@/components/icon/ShareIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import jwt from "jsonwebtoken";
 import { useParams } from "next/navigation";
-export default function ShareBar() {
+export default function ShareBar({ setRefreshKey }) {
     const [isGoing, setIsGoing] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
     const { id } = useParams();
+
+    useEffect(() => {
+        const checkAttendance = async () => {
+            const token = localStorage.getItem("userToken");
+            try {
+                const userId = jwt.decode(token).id;
+                const response = await axios.get(
+                    `http://localhost:5001/api/events/${id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                if (response.data.attendUsers?.includes(userId)) {
+                    setIsGoing(true);
+                }
+            } catch (error) {
+                console.error("Error checking attendance:", error);
+            }
+        };
+
+        checkAttendance();
+    }, [id]);
 
     async function handleGoingToggle() {
         try {
@@ -50,6 +75,7 @@ export default function ShareBar() {
         } catch (error) {
             console.error("Error toggling attendance", error);
         }
+        setRefreshKey((prev) => prev + 1);
     }
 
     return (

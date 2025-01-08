@@ -22,7 +22,7 @@ export default function EventPage() {
         location: "Kandy",
         startDate: "21 December 2024",
         status: "Upcoming",
-        attendUsers: 500,
+        attendUsers: ["2", "3", "4"],
         aboutEvent:
             "Join us for a meaningful day at the local animal shelter...",
         comments: [
@@ -99,7 +99,10 @@ export default function EventPage() {
 
             <section>
                 {/* share bar section */}
-                <ShareBar></ShareBar>
+                <ShareBar
+                    setRefreshKey={setRefreshKey}
+                    event={eventData}
+                ></ShareBar>
             </section>
 
             <div className="px-9 mt-9">

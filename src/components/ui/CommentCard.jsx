@@ -1,5 +1,4 @@
 export default function CommentCard({ comment }) {
-    console.log("comment:", comment);
     const { userId: userData, comment: userComment, createdAt } = comment;
 
     return (
