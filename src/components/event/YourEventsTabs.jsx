@@ -14,15 +14,46 @@ export default function YourEventsTab({ user }) {
 
     const router = useRouter();
 
+    const resizeImage = (url, width, height) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.src = url;
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+                resolve(canvas.toDataURL("image/jpeg"));
+            };
+        });
+    };
+
     useEffect(() => {
         if (user) {
-            const categorizedEvents = {
-                eventsCreated: user.eventsCreated || [],
-                eventsAttending: user.eventsAttending || [],
-                eventsAttended: user.eventsAttended || [],
+            const resizeEventImages = async (events) => {
+                return Promise.all(
+                    events.map(async (event) => {
+                        if (event.backgroundImage) {
+                            event.backgroundImage = await resizeImage(event.backgroundImage, 410, 265);
+                        }
+                        return event;
+                    })
+                );
             };
 
-            setAllEvents(categorizedEvents);
+            const categorizeAndResizeEvents = async () => {
+                const categorizedEvents = {
+                    eventsCreated: await resizeEventImages(user.eventsCreated || []),
+                    eventsAttending: await resizeEventImages(user.eventsAttending || []),
+                    eventsAttended: await resizeEventImages(user.eventsAttended || []),
+                };
+
+                setAllEvents(categorizedEvents);
+            };
+
+            categorizeAndResizeEvents();
         }
     }, [user]);
 
@@ -76,9 +107,8 @@ export default function YourEventsTab({ user }) {
                                             title={event.eventName}
                                             date={new Date(event.startDate).toLocaleDateString()}
                                             location={event.location}
-                                            imageSrc={event.backgrounImage}
+                                            imageSrc={event.backgroundImage}
                                             description={event.aboutEvent}
-                                            
                                         />
                                     </div>
                                 );
@@ -106,7 +136,7 @@ export default function YourEventsTab({ user }) {
                                             title={event.eventName}
                                             date={new Date(event.startDate).toLocaleDateString()}
                                             location={event.location}
-                                            imageSrc={event.backgrounImage}
+                                            imageSrc={event.backgroundImage}
                                             description={event.aboutEvent}
                                         />
                                     </div>
@@ -135,7 +165,7 @@ export default function YourEventsTab({ user }) {
                                             title={event.eventName}
                                             date={new Date(event.startDate).toLocaleDateString()}
                                             location={event.location}
-                                            imageSrc={event.backgrounImage}
+                                            imageSrc={event.backgroundImage}
                                             description={event.aboutEvent}
                                         />
                                     </div>
@@ -148,4 +178,3 @@ export default function YourEventsTab({ user }) {
         </div>
     );
 }
-
