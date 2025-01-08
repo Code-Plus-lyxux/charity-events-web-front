@@ -1,19 +1,140 @@
 "use client";
 import React, { useState } from "react";
+import axios from "axios";
 import "@/app/(events)/host-events/host-events.css";
-const page = () => {
+import Swal from "sweetalert2";
+
+const HostEventPage = () => {
+    const [formData, setFormData] = useState({
+        eventName: "",
+        startDate: "",
+        endDate: "",
+        location: "",
+        aboutEvent: "",
+    });
+    const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
     const handleEventImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
+            // Check if the file is an image and within the size limit (e.g., 5MB)
+            if (file.type.startsWith("image/") && file.size <= 5 * 1024 * 1024) {
+                setImage(file);
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImagePreview(reader.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert("Please upload a valid image file (max size 5MB).");
+            }
         }
     };
+    
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        if (!formData.eventName || !formData.startDate || !formData.endDate || !formData.location || !formData.aboutEvent) {
+            alert("All fields are required.");
+            return;
+        }
+    
+        const formattedStartDate = new Date(formData?.startDate).toISOString();
+        const formattedEndDate = new Date(formData?.endDate).toISOString();
+    
+        const data = new FormData();
+        data.append("eventName", formData?.eventName);
+        data.append("startDate", formattedStartDate);
+        data.append("endDate", formattedEndDate);
+        data.append("location", formData?.location);
+        data.append("aboutEvent", formData?.aboutEvent);
+    
+        setLoading(true);
+    
+        if (image) {
+            const imageData = new FormData();
+            imageData.append("images", image);
+        
+            try {
+                const uploadResponse = await axios.post("http://localhost:5000/api/events/upload-images", imageData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+        
+                // Extract the URL from the response and addit to the event data
+                const uploadedFile = uploadResponse.data?.files?.[0];
+                if (!uploadedFile || !uploadedFile.url) {
+                    throw new Error("Image URL not found in the response.");
+                }
+            
+                const imageUrl = uploadedFile.url;
+                // console.log("Image URL:", imageUrl);
+                data.append("backgroundImage", imageUrl);
+        
+                await submitEventData(data);
+            } catch (error) {
+               // console.error("Image upload failed:", error.response?.data || error.message);
+                alert("Image upload failed.");
+                setLoading(false);
+            }
+        }
+        
+    };
+    
+    const submitEventData = async (data) => {
+        const token = localStorage.getItem("userToken");
+    
+        if (!token) {
+            alert("User token not found. Please log in.");
+            setLoading(false);
+            return;
+        }
+        try {
+            const userId = JSON.parse(atob(token.split(".")[1])).id;
+            data.append("userId", userId);
+    
+            const response = await axios.post("http://localhost:5000/api/events/add", data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+    
+            //console.log("Event created successfully:", response.data);
+            setFormData({
+                eventName: "",
+                startDate: "",
+                endDate: "",
+                location: "",
+                aboutEvent: "",
+            });
+            setImage(null);
+            setImagePreview(null);
+            Swal.fire({
+                icon: "success",
+                title: "Event Created!",
+                text: "Your event has been created successfully.",
+                confirmButtonText: "OK",
+            });
+        } catch (error) {
+           // console.error("Error creating event:", error.response?.data || error.message);
+            alert("Failed to create event.");
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    
+    
 
     return (
         <div className="Host-Events-Page">
@@ -23,10 +144,8 @@ const page = () => {
                     style={{ backgroundImage: "url(/images/GridHero.png)" }}
                 >
                     <div className="hero-text-container flex justify-center w-full h-auto">
-                        <div className="hero-heading p-5 font-bold text-[56px] leading-[72px] text-center mt-24 text-black w-full max-w-4xl sm-w-3xl ">
-                            <h1 className="hidden sm:block">
-                                Host Your Events
-                            </h1>
+                        <div className="hero-heading p-5 font-bold text-[56px] leading-[72px] text-center mt-24 text-black w-full max-w-4xl sm-w-3xl">
+                            <h1 className="hidden sm:block">Host Your Events</h1>
                             <h1 className="sm:hidden">Add Events</h1>
                         </div>
                     </div>
@@ -38,7 +157,7 @@ const page = () => {
 
             <section className="host-events-section w-full max-w-full h-[937px] font-roboto flex justify-center px-4">
                 <div className="host-event-upload-container flex justify-center w-full max-w-5xl h-[206px] border rounded-[6px] border-dashed mt-6">
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <label
                             htmlFor="file-upload"
                             className="cursor-pointer flex flex-col items-center text-gray-600 w-full h-full max-w-full"
@@ -82,37 +201,53 @@ const page = () => {
                             />
                         </label>
 
-                        <div className="host-form-input mt-6 text-[18px] leading-[21px] font-[400] text-gray-500 w-full ">
+                        <div className="host-form-input mt-6 text-[18px] leading-[21px] font-[400] text-gray-500 w-full">
                             <input
                                 type="text"
+                                name="eventName"
                                 placeholder="Event Name"
                                 className="w-full border border-gray-300 mb-4 p-2 rounded-[6px]"
+                                value={formData.eventName}
+                                onChange={handleInputChange}
                             />
                             <input
                                 type="datetime-local"
+                                name="startDate"
                                 placeholder="Start date and time"
                                 className="w-full border border-gray-300 mb-4 p-2 rounded-[6px]"
+                                value={formData.startDate}
+                                onChange={handleInputChange}
                             />
                             <input
                                 type="datetime-local"
+                                name="endDate"
                                 placeholder="End date and time"
                                 className="w-full border border-gray-300 mb-4 p-2 rounded-[6px]"
+                                value={formData.endDate}
+                                onChange={handleInputChange}
                             />
                             <input
                                 type="text"
+                                name="location"
                                 placeholder="Location"
                                 className="w-full border border-gray-300 mb-4 p-2 rounded-[6px]"
+                                value={formData.location}
+                                onChange={handleInputChange}
                             />
                             <textarea
+                                name="aboutEvent"
                                 placeholder="About Event"
                                 className="w-full border border-gray-300 mb-4 p-2 rounded-[6px]"
                                 rows="5"
+                                value={formData.aboutEvent}
+                                onChange={handleInputChange}
                             ></textarea>
                             <button
                                 type="submit"
                                 className="w-full h-[54px] bg-greenbutton text-white font-medium rounded-[50px] p-2 text-[18px] leading-[38px] mt-[10px]"
+                                disabled={loading}
                             >
-                                Create Event
+                                {loading ? "Creating Event..." : "Create Event"}
                             </button>
                         </div>
                     </form>
@@ -122,4 +257,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default HostEventPage;
