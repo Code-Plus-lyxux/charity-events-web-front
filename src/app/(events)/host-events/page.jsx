@@ -24,46 +24,17 @@ const HostEventPage = () => {
     const handleEventImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const img = new Image();
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                img.src = event.target.result;
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    const maxWidth = 800;
-                    const maxHeight = 800;
-    
-                    let width = img.width;
-                    let height = img.height;
-    
-                    if (width > height) {
-                        if (width > maxWidth) {
-                            height = Math.round((height * maxWidth) / width);
-                            width = maxWidth;
-                        }
-                    } else {
-                        if (height > maxHeight) {
-                            width = Math.round((width * maxHeight) / height);
-                            height = maxHeight;
-                        }
-                    }
-    
-                    canvas.width = width;
-                    canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-    
-                    canvas.toBlob((blob) => {
-                        setImage(blob);
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                            setImagePreview(reader.result);
-                        };
-                        reader.readAsDataURL(blob);
-                    }, 'image/jpeg', 0.8); 
+            // Check if the file is an image and within the size limit (e.g., 5MB)
+            if (file.type.startsWith("image/") && file.size <= 5 * 1024 * 1024) {
+                setImage(file);
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImagePreview(reader.result);
                 };
-            };
-            reader.readAsDataURL(file);
+                reader.readAsDataURL(file);
+            } else {
+                alert("Please upload a valid image file (max size 5MB).");
+            }
         }
     };
     
@@ -104,6 +75,7 @@ const HostEventPage = () => {
                 if (!uploadedFile || !uploadedFile.url) {
                     throw new Error("Image URL not found in the response.");
                 }
+            
                 const imageUrl = uploadedFile.url;
                 // console.log("Image URL:", imageUrl);
                 data.append("backgroundImage", imageUrl);

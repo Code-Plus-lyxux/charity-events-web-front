@@ -1,21 +1,55 @@
+'use client';
+import { useEffect, useState } from "react";
+import axios from "axios";
 import YourEventsCard from "@/components/event/YourEventsCard";
 import YourEventsTabs from "@/components/event/YourEventsTabs";
+
 export default function YourEvents() {
-    //user should be added as a prop here, then it should be passed down
-    const user = {
-        id: 1,
-        name: "Lucifer Barret",
-        email: "luciferbarret@gmail.com",
-        profilePicture: "/lucifer-barret.png",
-        bio: "I like charity events",
-        eventsAttended: [0, 2], //event ids
-        eventsCreated: [3, 4],
-        eventsAttending: [1],
-    };
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                // Get user token from localStorage
+                const token = localStorage.getItem("userToken");
+                if (!token) {
+                    throw new Error("User token not found");
+                }
+
+                // Decode token to get user ID
+                let userId;
+                try {
+                    userId = JSON.parse(atob(token.split(".")[1])).id;
+                } catch (err) {
+                    throw new Error("Invalid token format");
+                }
+
+                const response = await axios.get(`http://localhost:5000/api/user/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, 
+                    },
+                });
+
+                setUser(response.data);
+            } catch (err) {
+                setError(err.message || "Failed to fetch user data");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
+
     return (
         <>
             <section>
-                <YourEventsCard />
+                <YourEventsCard user={user} />
             </section>
             <section>
                 <YourEventsTabs user={user} />
