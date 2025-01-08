@@ -12,72 +12,34 @@ import { useParams } from "next/navigation";
 export default function EventPage() {
     const id = useParams().id;
 
+    const [refreshKey, setRefreshKey] = useState(0);
+
     const [eventData, setEventData] = useState(null);
     const [eventHost, setEventHost] = useState({
         id,
-        title: `Support Animal Welfare: Spend a Day Volunteering at the Local 
-        Shelter and Make a Difference`,
-        location: "Haven Paws Animal Shelter, Kandy",
-        date: "21 December 2024",
-        time: "09:00 AM to 04:00 PM",
-        imageSrc: "/images/dog home.jpeg",
+        userId: "1",
+        eventName: `Support Animal Welfare`,
+        location: "Kandy",
+        startDate: "21 December 2024",
         status: "Upcoming",
-        attendeeCount: 500,
-        description: [
-            `Join us for a meaningful day at the local animal shelter 
-        in Kandy, where you'll have the opportunity to support animal welfare 
-        by directly engaging with the animals in need. Spend time feeding, 
-        cleaning, and playing with the sheltered animals to help them feel loved 
-        and cared for. Your efforts will contribute to the overall well-being 
-        of the animals and help raise awareness about the importance of adoption.`,
-            `Whether you're an animal enthusiast or someone looking to give back, 
-        this event will make a lasting impact on the lives of many animals. 
-        Together, we can make a real difference in the community and help create 
-        a brighter future for these deserving animals.`,
-            `By volunteering, you'll also have the chance to connect with other 
-        like-minded individuals who share your passion for animal welfare. 
-        It's an excellent opportunity to learn more about the needs of animals 
-        in our community while making new friends and strengthening the bond 
-        we all share for a cause greater than ourselves. Your presence matters, 
-        and together, we can create lasting change.`,
-        ],
-        host: {
-            name: "Haven Paws Animal Shelter",
-            avatar: "/host-avatar.png",
-        },
+        attendUsers: 500,
+        aboutEvent:
+            "Join us for a meaningful day at the local animal shelter...",
         comments: [
             {
-                author: "Lucifer Barret",
-                avatar: "/lucifer-barret.png",
-                content: `Such an amazing event! Excited to participate and 
-                contribute. Thank you for organizing this. Let's make a positive 
-                impact together!`,
+                userId: "2",
+                comment: "Such an amazing event!",
+                createdAt: "22 December 2024",
             },
             {
-                author: "Ayesha Perera",
-                avatar: "/ayesha-perera.png",
-                content: `This event is a perfect opportunity to give back to 
-                the community while also spending time with like-minded people. 
-                Excited to participate!`,
+                userId: "3",
+                comment: "This event is a perfect opportunity",
+                createdAt: "22 December 2024",
             },
             {
-                author: "Nuwan Silva",
-                avatar: "/nuwan-silva.png",
-                content: `I'm so grateful for events like this that bring people 
-                together to support a good cause. Can't wait to join in!`,
-            },
-            {
-                author: "Kavindi Jayasekara",
-                avatar: "/kavindi-jayasekara.png",
-                content: `I'm so excited to participate in this event. It's a 
-                great opportunity to give back to the community and also learn 
-                more about animal welfare.`,
-            },
-            {
-                author: "Amal Fernando",
-                avatar: "/amal-fernando.png",
-                content: `This event is a perfect way to spend a day while doing 
-                something meaningful. Can't wait to join in and make a difference!`,
+                userId: "4",
+                comment: "I'm so grateful for events like thi",
+                createdAt: "22 December 2024",
             },
         ],
     });
@@ -116,7 +78,7 @@ export default function EventPage() {
             }
         };
         fetchData();
-    }, []);
+    }, [refreshKey]);
 
     return (
         <>
@@ -142,7 +104,7 @@ export default function EventPage() {
 
             <div className="px-9 mt-9">
                 {/* add a comment */}
-                <CommentWithIcon />
+                <CommentWithIcon eventId={id} setRefreshKey={setRefreshKey} />
             </div>
 
             <section className="px-9 mt-5">

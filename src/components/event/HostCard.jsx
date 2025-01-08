@@ -11,8 +11,8 @@ export default function HostCard({ host }) {
                     className="ml-9 rounded-full"
                     src={host?.profileImage || "/images/user.png"}
                     alt={host?.fullName || "Host full name"}
-                    width={50}
-                    height={50}
+                    width={64}
+                    height={64}
                 ></Image>
                 <p className="ml-4">{host?.fullName}</p>
             </div>
