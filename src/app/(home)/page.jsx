@@ -1,10 +1,19 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaMapMarkerAlt, FaCalendarPlus, FaHandPaper } from "react-icons/fa";
 import "@/app/(home)/home.css";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import jwt from "jsonwebtoken";
 
-const EventCard = ({ id, imageSrc, location, date, title, description }) => {
+const EventCard = ({
+    id,
+    images,
+    location,
+    startDate,
+    eventName,
+    aboutEvent,
+}) => {
     const [isHandIconActive, setIsHandIconActive] = useState(false);
     const router = useRouter();
 
@@ -14,12 +23,12 @@ const EventCard = ({ id, imageSrc, location, date, title, description }) => {
 
     return (
         <div
-            className="event-card-container relative flex flex-wrap md:flex-nowrap w-full md:w-[1223px] h-[219px] mt-10 gap-[61px] hover:cursor-pointer"
+            className="event-card-container relative flex flex-wrap md:flex-nowrap w-full md:w-[1223px] h-[219px] mt-10 gap-[61px] hover:cursor-pointer overflow-clip"
             onClick={() => router.push(`/events/${id}`)}
         >
             <div className="relative">
                 <img
-                    src={imageSrc}
+                    src={images[0]}
                     alt="Event"
                     className="event-image w-full md:w-[390px] h-[219px] rounded-[23.53px] object-cover"
                 />
@@ -43,13 +52,13 @@ const EventCard = ({ id, imageSrc, location, date, title, description }) => {
                         {location}
                     </span>
                     <span>•</span>
-                    <span>{date}</span>
+                    <span>{startDate.slice(0, 10)}</span>
                 </div>
                 <h3 className="event-title text-[24px] leading-[28.13px] font-semibold text-black mt-[20px]">
-                    {title}
+                    {eventName}
                 </h3>
                 <p className="event-description mt-[14px] text-[18px] leading-[21.09px] text-gray-600">
-                    {description}
+                    {aboutEvent}
                 </p>
             </div>
         </div>
@@ -59,35 +68,62 @@ const EventCard = ({ id, imageSrc, location, date, title, description }) => {
 const HomePage = () => {
     const router = useRouter();
 
-    const events = [
-        {
-            id: 1,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Support Animal Welfare: Spend a Day Volunteering at the Local Shelter and Make a Difference",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-        {
-            id: 2,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Support Animal Welfare: Spend a Day Volunteering at the Local Shelter and Make a Difference",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-        {
-            id: 3,
-            imageSrc: "/images/dog home.jpeg",
-            location: "Haven Paws Animal Shelter, Kandy",
-            date: "21 December 2024",
-            title: "Support Animal Welfare: Spend a Day Volunteering at the Local Shelter and Make a Difference",
-            description:
-                "Join us for a meaningful day at the local animal shelter in Kandy, where you'll have the opportunity to support animal welfare by directly engaging with the animals in need.",
-        },
-    ];
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const token = localStorage.getItem("userToken");
+
+                if (token) {
+                    setIsLoggedIn(true);
+                    const userId = jwt.decode(token).id;
+                    const userResponse = await axios.get(
+                        `http://localhost:5001/api/user/${userId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+                    const userData = userResponse.data;
+                    setUser(userData);
+
+                    // Fetch nearby upcoming events if user is logged in
+                    const nearbyResponse = await axios.get(
+                        `http://localhost:5001/api/events/upcoming-3-by-location/${userData.location}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+
+                    setEvents(nearbyResponse.data);
+                } else {
+                    // Fetch general upcoming events if not logged in
+                    const generalResponse = await axios.get(
+                        "http://localhost:5001/api/events/status/1",
+                        {
+                            params: {
+                                limit: 3,
+                            },
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+                    setEvents(generalResponse.data);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     return (
         <div className="home-page-container overflow-x-hidden">
@@ -148,15 +184,15 @@ const HomePage = () => {
                     <div>
                         <h3 className="location-title text-lg leading-6 font-roboto text-gray-600 flex items-center w-40 h-5 mt-24 mr-auto">
                             <FaMapMarkerAlt className="text-gray-600 mr-2" />
-                            Kandy, Sri Lanka
+                            {isLoggedIn ? user?.location : "location unknown"}
                         </h3>
                     </div>
                     <div className="events-header w-full max-w-full h-[723px] mt-0 ">
                         <h2 className="events-heading font-roboto font-bold text-[40px] leading-[72px] text-black mx-auto">
-                            Upcoming Events in your area
+                            Upcoming Events {isLoggedIn ? "in your area" : ""}
                         </h2>
                     </div>
-                    <div className="explore-button-container w-44 h-14 mt-[-725px] ">
+                    <div className="explore-button-container w-44 h-14 mt-[-725px]">
                         <button
                             className="explore-events-btn bg-greenbutton text-white font-roboto font-medium text-[16px] leading-[32px] text-center py-1.5 px-4 border-none rounded-[50px] w-[174px] h-[54px] ml-[1048px]"
                             onClick={() => router.push("/events")}

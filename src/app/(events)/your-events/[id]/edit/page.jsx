@@ -1,34 +1,61 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "@/app/(events)/your-events/[id]/edit/edit-event.css";
 import Swal from "sweetalert2";
 import { Trash2 } from "lucide-react";
+import axios from "axios";
+import jwt from "jsonwebtoken";
+import { useParams } from "next/navigation";
 
 const Page = () => {
+    const params = useParams();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
     const [imagePreview, setImagePreview] = useState("/images/dog home.jpeg");
+    const [selectedImage, setSelectedImage] = useState(null);
     const [formData, setFormData] = useState({
+        eventId: params.id,
         eventName:
             "Support Animal Welfare: Spend a Day Volunteering at the Local Shelter and Make a Difference",
         startDateTime: "2025-12-21T09:00",
         endDateTime: "2025-12-21T16:00",
         location: "Haven Paws Animal Shelter, Kandy",
         aboutEvent:
-            "Join us for a meaningful day at the local animal shelter in Kandy, where you’ll have the opportunity to support animal welfare by directly engaging with the animals in need. Spend time feeding, cleaning, and playing with the sheltered animals to help them feel loved and cared for. Your efforts will contribute to the overall well-being of the animals and help raise awareness about the importance of adoption. Whether you're an animal enthusiast or someone looking to give back, this event will make a lasting impact on the lives of many animals. Together, we can make a real difference in the community and help create a brighter future for these deserving animals. By volunteering, you'll also have the chance to connect with other like-minded individuals who share your passion for animal welfare. It's an excellent opportunity to learn more about the needs of animals in our community while making new friends and strengthening the bond we all share for a cause greater than ourselves. Your presence matters, and together, we can create lasting change.",
+            "Join us for a meaningful day at the local animal shelter in Kandy...",
+        images: [],
+        backgroundImage: "/images/dog home.jpeg",
     });
 
-    //image upload
-    const handleImageUpload = (e) => {
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const token = localStorage.getItem("userToken");
+                if (token) {
+                    setIsLoggedIn(true);
+                    const userId = jwt.decode(token).id;
+                    const userResponse = await axios.get(
+                        `http://localhost:5001/api/user/${userId}`,
+                        {
+                            headers: { Authorization: `Bearer ${token}` },
+                        }
+                    );
+                    setUser(userResponse.data);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+        fetchData();
+    }, []);
+
+    const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
+            setSelectedImage(file);
+            setImagePreview(URL.createObjectURL(file));
         }
     };
 
-    //input change
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -37,13 +64,84 @@ const Page = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+
+        try {
+            // upload image if new one is selected
+            if (selectedImage) {
+                const imageFormData = new FormData();
+                imageFormData.append("images", selectedImage);
+
+                const imageResponse = await axios.post(
+                    "http://localhost:5001/api/events/upload-images",
+                    imageFormData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "userToken"
+                            )}`,
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
+
+                if (imageResponse.data.files && imageResponse.data.files[0]) {
+                    setFormData((prev) => ({
+                        ...prev,
+                        imageUrl: imageResponse.data.files[0].url,
+                    }));
+                }
+            }
+
+            // update event
+
+            const eventFormData = {
+                eventId: formData.eventId,
+                eventName: formData.eventName,
+                startDate: formData.startDateTime.slice(0, 10),
+                endDate: formData.endDateTime.slice(0, 10),
+                location: formData.location,
+                aboutEvent: formData.aboutEvent,
+                images: formData.images,
+                backgroundImage: formData.imageUrl,
+            };
+
+            console.log("Event FormData:", eventFormData);
+
+            const response = await axios.put(
+                `http://localhost:5001/api/events/update`,
+                eventFormData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "userToken"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                Swal.fire({
+                    title: "Success!",
+                    text: "Event updated successfully",
+                    icon: "success",
+                    confirmButtonColor: "#00B894",
+                });
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Failed to update event",
+                icon: "error",
+                confirmButtonColor: "#00B894",
+            });
+        }
     };
 
-    const handleDelete = () => {
-        Swal.fire({
+    const handleDelete = async () => {
+        const { isConfirmed } = await Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -51,15 +149,27 @@ const Page = () => {
             confirmButtonColor: "#00B894",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
+        });
+
+        if (isConfirmed) {
+            try {
+                await axios.delete(`http://localhost:5001/api/events/delete`, {
+                    data: { eventId: params.id },
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "userToken"
+                        )}`,
+                    },
+                });
+                await Swal.fire(
                     "Deleted!",
                     "Your event has been deleted.",
                     "success"
                 );
+            } catch (error) {
+                await Swal.fire("Error!", "Failed to delete event.", "error");
             }
-        });
+        }
     };
 
     return (
@@ -69,12 +179,6 @@ const Page = () => {
                     <h1 className="text-[32px] leading-[37.5px] font-semibold">
                         Edit Event
                     </h1>
-                    {/* <img
-                        src="/icons/recycle-bin.png"
-                        alt="Event"
-                        className="w-[40px] h-[40px] ml-auto cursor-pointer "
-                        onClick={handleDelete}
-                    /> */}
                     <Trash2
                         size={40}
                         className="ml-auto cursor-pointer hover:stroke-red-500"
@@ -112,7 +216,7 @@ const Page = () => {
                             type="file"
                             className="hidden"
                             accept="image/*"
-                            onChange={handleImageUpload}
+                            onChange={handleImageChange}
                         />
                     </div>
                     <input
@@ -157,7 +261,7 @@ const Page = () => {
                     ></textarea>
                     <button
                         type="submit"
-                        className=" edit-events-form-submit w-full bg-greenbutton text-white font-medium rounded-[50px] h-[54px] text-[18px] leading-[21.09px] text-fc p-2 mt-4"
+                        className="edit-events-form-submit w-full bg-greenbutton text-white font-medium rounded-[50px] h-[54px] text-[18px] leading-[21.09px] text-fc p-2 mt-4"
                     >
                         Update Event
                     </button>
