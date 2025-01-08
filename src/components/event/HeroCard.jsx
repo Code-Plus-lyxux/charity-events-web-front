@@ -37,7 +37,11 @@ export default function HeroCard({ event }) {
                             {event?.eventName}
                         </h1>
                         <div className="inline-block px-3 py-1 bg-white text-mint-500 rounded-full text-sm font-bold mb-2">
-                            {event?.status}
+                            {event?.status == 0
+                                ? "Hosting"
+                                : event?.status == 1
+                                ? "Upcoming"
+                                : "Past Event"}
                         </div>
                         {/* <div className="flex items-center space-x-2">
                             <Calendar className="w-5 h-5" />
