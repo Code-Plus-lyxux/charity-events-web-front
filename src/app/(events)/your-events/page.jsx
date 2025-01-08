@@ -3,11 +3,23 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import YourEventsCard from "@/components/event/YourEventsCard";
 import YourEventsTabs from "@/components/event/YourEventsTabs";
+import { useRouter } from "next/navigation";
 
 export default function YourEvents() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const router = useRouter();
+
+    useEffect(() => {
+        const token = localStorage.getItem("userToken");
+        if (!token) {
+            router.push("/");
+        }
+    }, [router]);
+
+
+
 
     useEffect(() => {
         const fetchUser = async () => {
