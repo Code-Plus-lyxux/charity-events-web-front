@@ -76,7 +76,7 @@ export default function YourEventsTab({ user }) {
                                             title={event.eventName}
                                             date={new Date(event.startDate).toLocaleDateString()}
                                             location={event.location}
-                                            imageSrc={event.backgrounImage}
+                                            imageSrc={event.backgroundImage}
                                             description={event.aboutEvent}
                                             
                                         />
@@ -106,7 +106,7 @@ export default function YourEventsTab({ user }) {
                                             title={event.eventName}
                                             date={new Date(event.startDate).toLocaleDateString()}
                                             location={event.location}
-                                            imageSrc={event.backgrounImage}
+                                            imageSrc={event.backgroundImage}
                                             description={event.aboutEvent}
                                         />
                                     </div>
@@ -135,7 +135,7 @@ export default function YourEventsTab({ user }) {
                                             title={event.eventName}
                                             date={new Date(event.startDate).toLocaleDateString()}
                                             location={event.location}
-                                            imageSrc={event.backgrounImage}
+                                            imageSrc={event.backgroundImage}
                                             description={event.aboutEvent}
                                         />
                                     </div>
