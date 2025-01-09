@@ -5,7 +5,9 @@ import Swal from "sweetalert2";
 import { Trash2 } from "lucide-react";
 import axios from "axios";
 import jwt from "jsonwebtoken";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Page = () => {
     const params = useParams();
@@ -14,6 +16,8 @@ const Page = () => {
     const [event, setEvent] = useState(null);
     const [imagePreview, setImagePreview] = useState("/images/dog home.jpeg");
     const [selectedImage, setSelectedImage] = useState(null);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
     const [formData, setFormData] = useState({
         eventId: params.id,
         eventName:
@@ -25,6 +29,8 @@ const Page = () => {
             "Join us for a meaningful day at the local animal shelter in Kandy...",
         backgroundImage: "/images/dog home.jpeg",
     });
+
+    const router = useRouter();
 
     useEffect(() => {
         async function fetchData() {
@@ -46,6 +52,9 @@ const Page = () => {
                     const event = userResponse.data.eventsCreated.find(
                         (event) => event._id === params.id
                     );
+                    if (!event) {
+                        router.push("/");
+                    }
                     setEvent(() => event);
                     console.log("event", event);
                     setFormData((prev) => ({
@@ -58,8 +67,11 @@ const Page = () => {
                         images: event.images,
                         backgroundImage: event.backgroundImage,
                     }));
+                } else {
+                    router.push("/");
                 }
             } catch (error) {
+                router.push("/");
                 console.error("Error:", error);
             }
         }
@@ -80,6 +92,7 @@ const Page = () => {
             ...prevData,
             [name]: value,
         }));
+        console.log("set:", name, +" : " + value);
     };
 
     const handleSubmit = async (e) => {
@@ -117,8 +130,8 @@ const Page = () => {
             const eventFormData = {
                 eventId: formData.eventId,
                 eventName: formData.eventName,
-                startDate: formData.startDate,
-                endDate: formData.endDate,
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString(),
                 location: formData.location,
                 aboutEvent: formData.aboutEvent,
                 images: formData.images,
@@ -149,12 +162,16 @@ const Page = () => {
             }
         } catch (error) {
             console.error("Error:", error);
+            console.log("Error:", error);
             Swal.fire({
                 title: "Error!",
                 text: "Failed to update event",
                 icon: "error",
                 confirmButtonColor: "#00B894",
             });
+            if (error.status === 401) {
+                router.push("/login");
+            }
         }
     };
 
@@ -245,10 +262,36 @@ const Page = () => {
                         placeholder="Event Name"
                         className="w-full h-[44px] border border-gray-300 mb-4 p-4 rounded-[6px] text-[18px]"
                     />
-                    <input
+                    <div className="flex flex-col items-center lg:flex-row lg:justify-around">
+                        <div className="flex flex-row items-center gap-5">
+                            <p className="text-xs py-5 sm:text-[16px]">
+                                Start Date & Time :
+                            </p>
+                            <DatePicker
+                                className="mt-2 lg:mt-0 border-2 border-slate-500 rounded-md"
+                                selected={startDate}
+                                onChange={(date) => setStartDate(date)}
+                                showTimeSelect
+                                dateFormat="Pp"
+                            />
+                        </div>
+                        <div className="flex flex-row items-center gap-5">
+                            <p className="text-xs py-5 sm:text-[16px]">
+                                End Date & Time :
+                            </p>
+                            <DatePicker
+                                className="mt-2 lg:mt-0 border-2 border-slate-400 rounded-md"
+                                selected={endDate}
+                                onChange={(date) => setEndDate(date)}
+                                showTimeSelect
+                                dateFormat="Pp"
+                            />
+                        </div>
+                    </div>
+                    {/* <input
                         type="datetime-local"
                         name="startDateTime"
-                        value={formData.startDateTime}
+                        value={() => formData.startDate.toISOString()}
                         onChange={handleInputChange}
                         placeholder="Start date and time"
                         className="w-full h-[44px] border border-gray-300 mb-4 p-3 rounded-[6px] text-[18px]"
@@ -256,11 +299,11 @@ const Page = () => {
                     <input
                         type="datetime-local"
                         name="endDateTime"
-                        value={formData.endDateTime}
+                        value={() => formData.endDate.toISOString()}
                         onChange={handleInputChange}
                         placeholder="End date and time"
                         className="w-full h-[44px] border border-gray-300 mb-4 p-3 rounded-[6px] text-[18px]"
-                    />
+                    /> */}
                     <input
                         type="text"
                         name="location"
