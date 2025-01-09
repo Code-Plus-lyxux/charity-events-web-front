@@ -18,13 +18,13 @@ const Page = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem('userToken');
-
+    
             if (!token) {
                 console.error('User token not found in localStorage');
                 router.push('/'); 
                 return;
             }
-
+    
             let userId;
             try {
                 userId = JSON.parse(atob(token.split(".")[1])).id; 
@@ -32,7 +32,7 @@ const Page = () => {
                 console.error('Error decoding token', error);
                 return;
             }
-
+    
             try {
                 const response = await axios.get(`http://localhost:5000/api/user/${userId}`, {
                     headers: {
@@ -40,20 +40,23 @@ const Page = () => {
                     }
                 });
                 const userData = response.data;
-                //console.log('Fetched user data:', userData);
+    
                 setName(userData.fullName);
                 setEmail(userData.email);
                 setAbout(userData.about);
                 setLocation(userData.location);
                 setPhoneNumber(userData.mobile);
+    
+                // Ensure profileImage is valid or use a fallback
                 setProfileImage(userData.profileImage || "/images/Frame 54.png");
             } catch (error) {
                 console.error('Error fetching user data', error);
             }
         };
-
+    
         fetchUserData();
     }, []);
+    
 
     const handleEditClick = () => {
         setIsEditMode(!isEditMode);

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/authContext";
 import axios from "axios";
 
 const ProfileCard = ({ name, email, onUpdateProfile }) => {
@@ -9,7 +8,6 @@ const ProfileCard = ({ name, email, onUpdateProfile }) => {
     const [editProfileImage, setEditProfileImage] = useState(null);
     const [tempProfileImage, setTempProfileImage] = useState(null);
 
-   
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
@@ -27,11 +25,8 @@ const ProfileCard = ({ name, email, onUpdateProfile }) => {
                 });
 
                 const data = response.data;
-               // console.log("Fetched profile data:", data);
                 if (data.user && data.user.profileImage) {
-                    setProfileImage(data.user.profileImage);
-                    setEditProfileImage(data.user.profileImage);
-                    setTempProfileImage(data.user.profileImage);
+                    setProfileImage(data.user.profileImage);  
                 }
             } catch (err) {
                 console.error("Error fetching profile:", err);
@@ -43,7 +38,7 @@ const ProfileCard = ({ name, email, onUpdateProfile }) => {
 
     const handleEditClick = () => {
         if (isEditMode) {
-            setTempProfileImage(editProfileImage); 
+            setTempProfileImage(editProfileImage);
         }
         setIsEditMode(!isEditMode);
     };
@@ -51,38 +46,31 @@ const ProfileCard = ({ name, email, onUpdateProfile }) => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-           
-            setTempProfileImage(URL.createObjectURL(file)); 
-            setEditProfileImage(file); 
+            setTempProfileImage(URL.createObjectURL(file));
+            setEditProfileImage(file);
         }
     };
 
     const handleSaveClick = async () => {
-        if (!editProfileImage) return; 
+        if (!editProfileImage) return;
 
         const formData = new FormData();
-        formData.append("profileImage", editProfileImage); 
+        formData.append("profileImage", editProfileImage);
 
         try {
-            console.log("Uploading image to server..."); 
             const response = await axios.put("http://localhost:5000/api/user/profile", formData, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
-                    "Content-Type": "multipart/form-data", 
                 },
             });
 
             const data = response.data;
-           // console.log("Profile update response:", data); 
-            if (data.user) {
-                setProfileImage(data.user.profileImage); 
-                onUpdateProfile(data.user.profileImage, email); 
+            if (data.user && data.user.profileImage) {  
             }
-            
         } catch (error) {
-           // console.error("Error saving profile image:", error); 
+            console.error("Error saving profile image:", error);
         }
-
+        window.location.reload();
         setIsEditMode(false);
     };
 
@@ -103,7 +91,7 @@ const ProfileCard = ({ name, email, onUpdateProfile }) => {
                     <div className="relative">
                         <label htmlFor="profileImage" className="cursor-pointer relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full flex items-center justify-center bg-transparent">
                             <img
-                                src={tempProfileImage || profileImage}
+                                src={tempProfileImage || "/default-profile.png"} 
                                 alt="Profile"
                                 className="absolute w-full h-full object-cover rounded-full z-10"
                             />
@@ -123,7 +111,7 @@ const ProfileCard = ({ name, email, onUpdateProfile }) => {
                 ) : (
                     <>
                         <img
-                            src={profileImage}
+                            src={profileImage || "http://localhost:5000/usersprofilepics/677b9eac3dba5475999e7278.png"} 
                             alt="Profile"
                             className="profile-image w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full mx-auto"
                         />

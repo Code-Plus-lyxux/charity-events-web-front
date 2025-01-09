@@ -7,8 +7,7 @@ export default function ProfileCard({ user }) {
 
     const {
         id,
-        firstName,
-        lastName,
+        fullName,
         email,
         profileImage,
         eventsAttended,
@@ -26,13 +25,13 @@ export default function ProfileCard({ user }) {
             </div>
             <Image
                 src={profileImage}
-                alt={firstName}
+                alt={fullName}
                 width={100}
                 height={100}
                 className="rounded-full flex self-center"
             />
             <p className="text-center font-bold pt-2">
-                {firstName + " " + lastName}
+                {fullName}
             </p>
             <p className="text-center text-sm">{email}</p>
         </div>
