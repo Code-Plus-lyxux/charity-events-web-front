@@ -11,6 +11,7 @@ const Page = () => {
     const params = useParams();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [event, setEvent] = useState(null);
     const [imagePreview, setImagePreview] = useState("/images/dog home.jpeg");
     const [selectedImage, setSelectedImage] = useState(null);
     const [formData, setFormData] = useState({
@@ -22,7 +23,6 @@ const Page = () => {
         location: "Haven Paws Animal Shelter, Kandy",
         aboutEvent:
             "Join us for a meaningful day at the local animal shelter in Kandy...",
-        images: [],
         backgroundImage: "/images/dog home.jpeg",
     });
 
@@ -39,7 +39,25 @@ const Page = () => {
                             headers: { Authorization: `Bearer ${token}` },
                         }
                     );
-                    setUser(userResponse.data);
+                    setUser((prev) => userResponse.data);
+
+                    console.log("user", userResponse.data);
+
+                    const event = userResponse.data.eventsCreated.find(
+                        (event) => event._id === params.id
+                    );
+                    setEvent(() => event);
+                    console.log("event", event);
+                    setFormData((prev) => ({
+                        eventId: event._id,
+                        eventName: event.eventName,
+                        startDate: event.startDateTime,
+                        endDate: event.endDateTime,
+                        location: event.location,
+                        aboutEvent: event.aboutEvent,
+                        images: event.images,
+                        backgroundImage: event.backgroundImage,
+                    }));
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -99,8 +117,8 @@ const Page = () => {
             const eventFormData = {
                 eventId: formData.eventId,
                 eventName: formData.eventName,
-                startDate: formData.startDateTime.slice(0, 10),
-                endDate: formData.endDateTime.slice(0, 10),
+                startDate: formData.startDate,
+                endDate: formData.endDate,
                 location: formData.location,
                 aboutEvent: formData.aboutEvent,
                 images: formData.images,

@@ -4,13 +4,11 @@ import NoMediaIcon from "@/components/icon/NoMediaIcon";
 import { useParams } from "next/navigation";
 import axios from "axios";
 
-const MediaViewer = () => {
+const MediaViewer = ({ eventImages, setEventImages }) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const { id } = useParams();
-    const [eventImages, setEventImages] = useState([]);
 
     useEffect(() => {
-        console.log("id", id);
         const token = localStorage.getItem("userToken");
         const fetchEvent = async () => {
             try {
@@ -24,7 +22,6 @@ const MediaViewer = () => {
                 );
                 const eventData = response.data;
                 setEventImages(eventData.images);
-                console.log("eventImages", eventData.images);
             } catch (error) {
                 console.error("Error fetching event:", error);
             }
@@ -32,72 +29,13 @@ const MediaViewer = () => {
         fetchEvent();
     }, []);
 
-    // const images = [
-    //     {
-    //         src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-    //         alt: "After Rain (Jeshu John - designerspics.com)",
-    //     },
-    //     {
-    //         src: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
-    //         alt: "Boats (Jeshu John - designerspics.com)",
-    //     },
-    //     {
-    //         src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    //         alt: "Pencils",
-    //     },
-    //     {
-    //         src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-    //         alt: "After Rain (Jeshu John - designerspics.com)",
-    //     },
-    //     {
-    //         src: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
-    //         alt: "Boats (Jeshu John - designerspics.com)",
-    //     },
-    //     {
-    //         src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    //         alt: "Pencils",
-    //     },
-    //     {
-    //         src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-    //         alt: "After Rain (Jeshu John - designerspics.com)",
-    //     },
-    //     {
-    //         src: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
-    //         alt: "Boats (Jeshu John - designerspics.com)",
-    //     },
-    //     {
-    //         src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    //         alt: "Pencils",
-    //     },
-    //     {
-    //         src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-    //         alt: "After Rain (Jeshu John - designerspics.com)",
-    //     },
-    //     {
-    //         src: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
-    //         alt: "Boats (Jeshu John - designerspics.com)",
-    //     },
-    //     {
-    //         src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    //         alt: "Pencils",
-    //     },
-    //     {
-    //         src: "/images/dog home.jpeg",
-    //         alt: "dog",
-    //     },
-    //     {
-    //         src: "/images/Frame 11.png",
-    //         alt: "frame",
-    //     },
-    // ];
-
     const openImage = (image) => setSelectedImage(image);
     const closeModal = () => setSelectedImage(null);
 
     return (
         <div>
             {/* Image Gallery */}
-            {eventImages.length === 0 && (
+            {eventImages?.length === 0 && (
                 <div className="p-6 text-center">
                     <div className="flex flex-col items-center ">
                         <NoMediaIcon />
@@ -106,7 +44,7 @@ const MediaViewer = () => {
                     <p>Oops! Looks like this event has no media for now</p>
                 </div>
             )}
-            {eventImages.length > 0 && (
+            {eventImages?.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
                     {/* <div className="grid grid-auto-cols  gap-4 "> */}
                     {eventImages.map((src, index) => (

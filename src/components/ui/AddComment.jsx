@@ -34,7 +34,6 @@ export const CommentWithIcon = React.forwardRef(
                     }
                 );
                 if (response.status === 200) {
-                    console.log("Comment added successfully");
                     setComment("");
                     setRefreshKey((prev) => prev + 1);
                     Swal.fire({

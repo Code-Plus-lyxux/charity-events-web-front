@@ -21,12 +21,12 @@ const Page = () => {
     const handleSaveChanges = () => {
         setIsEditMode(false);
         setAuthEmail(email);
-        console.log("Changes saved");
-        console.log("Fullname:", fullname);
-        console.log("Email:", email);
-        console.log("About:", about);
-        console.log("Location:", location);
-        console.log("Phone Number:", phoneNumber);
+        // console.log("Changes saved");
+        // console.log("Fullname:", fullname);
+        // console.log("Email:", email);
+        // console.log("About:", about);
+        // console.log("Location:", location);
+        // console.log("Phone Number:", phoneNumber);
     };
 
     return (

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { CalendarDays, MapPin, ListFilter, Image } from "lucide-react";
 import FileUploader from "@/components/ui/FileUploader";
 import MediaViewer from "@/components/ui/MediaViewer";
 
 export default function EventTabsEditable({ event }) {
+    const [eventImages, setEventImages] = useState([]);
+
     return (
         <div className="flex justify-center px-4">
             <Tabs.Root className="flex w-full flex-col " defaultValue="tab1">
@@ -61,8 +63,14 @@ export default function EventTabsEditable({ event }) {
                     value="tab2"
                 >
                     <div className="mb-5 text-[15px] leading-normal">
-                        <MediaViewer></MediaViewer>
-                        <FileUploader></FileUploader>
+                        <MediaViewer
+                            eventImages={eventImages}
+                            setEventImages={setEventImages}
+                        ></MediaViewer>
+                        <FileUploader
+                            eventImages={eventImages}
+                            event={event}
+                        ></FileUploader>
                     </div>
                 </Tabs.Content>
             </Tabs.Root>

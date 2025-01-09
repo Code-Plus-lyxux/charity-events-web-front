@@ -65,7 +65,6 @@ export default function signupForm() {
                 "http://localhost:5000/api/auth/register",
                 data
             );
-            console.log("Success:", response.data);
             setEmail(data.email);
 
             router.push("/login");

@@ -17,7 +17,7 @@ export default function HeroCardEditable({ event }) {
                 <div className="absolute top-0 right-0 p-4">
                     <div
                         onClick={() =>
-                            (window.location.href = `/your-events/${event.id}/edit`)
+                            (window.location.href = `/your-events/${event._id}/edit`)
                         }
                     >
                         <EditIcon

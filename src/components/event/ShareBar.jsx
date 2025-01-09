@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 export default function ShareBar({ setRefreshKey }) {
     const [isGoing, setIsGoing] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const [isHost, setIsHost] = useState(false);
     const { id } = useParams();
 
     useEffect(() => {
@@ -25,6 +26,9 @@ export default function ShareBar({ setRefreshKey }) {
                         },
                     }
                 );
+                if (response.data.userId === userId) {
+                    setIsHost(true);
+                }
                 if (response.data.attendUsers?.includes(userId)) {
                     setIsGoing(true);
                 }
@@ -54,7 +58,6 @@ export default function ShareBar({ setRefreshKey }) {
                 );
                 if (response.status === 200) {
                     setIsGoing(true);
-                    console.log("Event marked: attending successfully");
                 }
             } else {
                 const response = await axios.delete(
@@ -69,7 +72,6 @@ export default function ShareBar({ setRefreshKey }) {
                 );
                 if (response.status === 200) {
                     setIsGoing(false);
-                    console.log("Event marked: not attending successfully");
                 }
             }
         } catch (error) {
@@ -94,6 +96,7 @@ export default function ShareBar({ setRefreshKey }) {
                 } border-2`}
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
+                disabled={isHost}
             >
                 {isGoing && isHovering ? "I'm Out!" : "I'm In!"}
                 <IoHandLeft

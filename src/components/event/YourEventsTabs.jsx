@@ -106,38 +106,33 @@ export default function YourEventsTab({ user }) {
                     value="tab1"
                 >
                     <div>
-                        {console.log("all events", allEvents)}
-
                         {allEvents.eventsCreated.length === 0 ? (
                             <p>No events created</p>
                         ) : (
                             allEvents.eventsCreated.map((event) => {
                                 return (
-                                    console.log("event_oid", event._id),
-                                    (
-                                        <div
-                                            key={event._id}
-                                            className="hover:cursor-pointer"
-                                            onClick={() =>
-                                                router.push(
-                                                    `/your-events/${event._id}`
-                                                )
-                                            }
-                                        >
-                                            <UserEventCard
-                                                isGoing={eventStates[event._id]}
-                                                toggleGoing={toggleGoing}
-                                                id={event._id}
-                                                title={event.eventName}
-                                                date={new Date(
-                                                    event.startDate
-                                                ).toLocaleDateString()}
-                                                location={event.location}
-                                                imageSrc={event.backgroundImage}
-                                                description={event.aboutEvent}
-                                            />
-                                        </div>
-                                    )
+                                    <div
+                                        key={event._id}
+                                        className="hover:cursor-pointer"
+                                        onClick={() =>
+                                            router.push(
+                                                `/your-events/${event._id}`
+                                            )
+                                        }
+                                    >
+                                        <UserEventCard
+                                            isGoing={eventStates[event._id]}
+                                            toggleGoing={toggleGoing}
+                                            id={event._id}
+                                            title={event.eventName}
+                                            date={new Date(
+                                                event.startDate
+                                            ).toLocaleDateString()}
+                                            location={event.location}
+                                            imageSrc={event.backgroundImage}
+                                            description={event.aboutEvent}
+                                        />
+                                    </div>
                                 );
                             })
                         )}
