@@ -35,13 +35,13 @@ export default function EventTabsEditable({ event }) {
                         <div className="flex flex-row mb-5 lg:mr-10">
                             <CalendarDays />
                             <p className="ml-5  text-base leading-normal ">
-                                {event.date} at {event.time}
+                                {event?.startDate.slice(0, 10)}
                             </p>
                         </div>
                         <div className="flex flex-row">
                             <MapPin />
                             <p className="ml-5 text-base leading-normal ">
-                                {event.location}
+                                {event?.location}
                             </p>
                         </div>
                     </div>
@@ -49,11 +49,12 @@ export default function EventTabsEditable({ event }) {
                     <p className="mb-5 text-2xl leading-normal font-bold">
                         About the event
                     </p>
-                    {event.description.map((chapter, index) => (
+                    {/* {event.description.map((chapter, index) => (
                         <p key={`chapter-${index}`} className="mb-5 text-base">
                             {chapter}
                         </p>
-                    ))}
+                    ))} */}
+                    {event?.aboutEvent}
                 </Tabs.Content>
                 <Tabs.Content
                     className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"

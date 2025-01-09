@@ -34,7 +34,7 @@ const Page = () => {
                     setIsLoggedIn(true);
                     const userId = jwt.decode(token).id;
                     const userResponse = await axios.get(
-                        `http://localhost:5001/api/user/${userId}`,
+                        `http://localhost:5000/api/user/${userId}`,
                         {
                             headers: { Authorization: `Bearer ${token}` },
                         }
@@ -74,7 +74,7 @@ const Page = () => {
                 imageFormData.append("images", selectedImage);
 
                 const imageResponse = await axios.post(
-                    "http://localhost:5001/api/events/upload-images",
+                    "http://localhost:5000/api/events/upload-images",
                     imageFormData,
                     {
                         headers: {
@@ -110,7 +110,7 @@ const Page = () => {
             console.log("Event FormData:", eventFormData);
 
             const response = await axios.put(
-                `http://localhost:5001/api/events/update`,
+                `http://localhost:5000/api/events/update`,
                 eventFormData,
                 {
                     headers: {
@@ -153,7 +153,7 @@ const Page = () => {
 
         if (isConfirmed) {
             try {
-                await axios.delete(`http://localhost:5001/api/events/delete`, {
+                await axios.delete(`http://localhost:5000/api/events/delete`, {
                     data: { eventId: params.id },
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem(

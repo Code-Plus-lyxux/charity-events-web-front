@@ -83,7 +83,7 @@ const HomePage = () => {
                     const userId = jwt.decode(token).id;
                     try {
                         const userResponse = await axios.get(
-                            `http://localhost:5001/api/user/${userId}`,
+                            `http://localhost:5000/api/user/${userId}`,
                             {
                                 headers: {
                                     Authorization: `Bearer ${token}`,
@@ -95,7 +95,7 @@ const HomePage = () => {
 
                         // Fetch nearby upcoming events if user is logged in
                         const nearbyResponse = await axios.get(
-                            `http://localhost:5001/api/events/upcoming-3-by-location/${userData.location}`,
+                            `http://localhost:5000/api/events/upcoming-3-by-location/${userData.location}`,
                             {
                                 headers: {
                                     Authorization: `Bearer ${token}`,
@@ -111,7 +111,7 @@ const HomePage = () => {
                 } else {
                     // Fetch general upcoming events if not logged in
                     const generalResponse = await axios.get(
-                        "http://localhost:5001/api/events/status/1",
+                        "http://localhost:5000/api/events/status/1",
                         {
                             params: {
                                 limit: 3,

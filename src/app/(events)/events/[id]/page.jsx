@@ -51,7 +51,7 @@ export default function EventPage() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5001/api/events/${id}`,
+                    `http://localhost:5000/api/events/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -63,7 +63,7 @@ export default function EventPage() {
                 setEventData(response.data);
 
                 const hostResponse = await axios.get(
-                    `http://localhost:5001/api/user/${response.data.userId}`,
+                    `http://localhost:5000/api/user/${response.data.userId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(

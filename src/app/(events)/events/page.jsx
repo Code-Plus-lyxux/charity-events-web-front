@@ -27,7 +27,7 @@ const page = () => {
                     setIsLoggedIn(true);
                     const userId = jwt.decode(token).id;
                     const userResponse = await axios.get(
-                        `http://localhost:5001/api/user/${userId}`,
+                        `http://localhost:5000/api/user/${userId}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ const page = () => {
 
                     // Fetch all nearby upcoming events
                     const nearbyResponse = await axios.get(
-                        `http://localhost:5001/api/events/upcoming-all-by-location/${userData.location}`,
+                        `http://localhost:5000/api/events/upcoming-all-by-location/${userData.location}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${token}`,

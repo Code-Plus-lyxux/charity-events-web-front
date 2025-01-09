@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState, useEffect } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import UserEventCard from "@/components/user/UserEventCard";
@@ -36,7 +36,11 @@ export default function YourEventsTab({ user }) {
                 return Promise.all(
                     events.map(async (event) => {
                         if (event.backgroundImage) {
-                            event.backgroundImage = await resizeImage(event.backgroundImage, 410, 265);
+                            event.backgroundImage = await resizeImage(
+                                event.backgroundImage,
+                                410,
+                                265
+                            );
                         }
                         return event;
                     })
@@ -45,9 +49,15 @@ export default function YourEventsTab({ user }) {
 
             const categorizeAndResizeEvents = async () => {
                 const categorizedEvents = {
-                    eventsCreated: await resizeEventImages(user.eventsCreated || []),
-                    eventsAttending: await resizeEventImages(user.eventsAttending || []),
-                    eventsAttended: await resizeEventImages(user.eventsAttended || []),
+                    eventsCreated: await resizeEventImages(
+                        user.eventsCreated || []
+                    ),
+                    eventsAttending: await resizeEventImages(
+                        user.eventsAttending || []
+                    ),
+                    eventsAttended: await resizeEventImages(
+                        user.eventsAttended || []
+                    ),
                 };
 
                 setAllEvents(categorizedEvents);
@@ -67,7 +77,10 @@ export default function YourEventsTab({ user }) {
     return (
         <div className="flex justify-center px-4">
             <Tabs.Root className="flex w-full flex-col" defaultValue="tab1">
-                <Tabs.List className="flex shrink-0" aria-label="Event Details and Media">
+                <Tabs.List
+                    className="flex shrink-0"
+                    aria-label="Event Details and Media"
+                >
                     <Tabs.Trigger
                         className="flex h-[45px] flex-1 cursor-pointer select-none items-center justify-center bg-white px-5 text-[15px] leading-none text-mauve11 outline-none hover:text-violet11 data-[state=active]:text-violet11 data-[state=active]:border-b-[3px] data-[state=active]:border-mint-500"
                         value="tab1"
@@ -88,36 +101,53 @@ export default function YourEventsTab({ user }) {
                     </Tabs.Trigger>
                 </Tabs.List>
 
-                <Tabs.Content className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500" value="tab1">
+                <Tabs.Content
+                    className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
+                    value="tab1"
+                >
                     <div>
+                        {console.log("all events", allEvents)}
+
                         {allEvents.eventsCreated.length === 0 ? (
                             <p>No events created</p>
                         ) : (
                             allEvents.eventsCreated.map((event) => {
                                 return (
-                                    <div
-                                        key={event._id.$oid}
-                                        className="hover:cursor-pointer"
-                                        onClick={() => router.push(`/your-events/${event._id.$oid}`)}
-                                    >
-                                        <UserEventCard
-                                            isGoing={eventStates[event._id.$oid]}
-                                            toggleGoing={toggleGoing}
-                                            id={event._id.$oid}
-                                            title={event.eventName}
-                                            date={new Date(event.startDate).toLocaleDateString()}
-                                            location={event.location}
-                                            imageSrc={event.backgroundImage}
-                                            description={event.aboutEvent}
-                                        />
-                                    </div>
+                                    console.log("event_oid", event._id),
+                                    (
+                                        <div
+                                            key={event._id}
+                                            className="hover:cursor-pointer"
+                                            onClick={() =>
+                                                router.push(
+                                                    `/your-events/${event._id}`
+                                                )
+                                            }
+                                        >
+                                            <UserEventCard
+                                                isGoing={eventStates[event._id]}
+                                                toggleGoing={toggleGoing}
+                                                id={event._id}
+                                                title={event.eventName}
+                                                date={new Date(
+                                                    event.startDate
+                                                ).toLocaleDateString()}
+                                                location={event.location}
+                                                imageSrc={event.backgroundImage}
+                                                description={event.aboutEvent}
+                                            />
+                                        </div>
+                                    )
                                 );
                             })
                         )}
                     </div>
                 </Tabs.Content>
 
-                <Tabs.Content className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500" value="tab2">
+                <Tabs.Content
+                    className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
+                    value="tab2"
+                >
                     <div>
                         {allEvents.eventsAttending.length === 0 ? (
                             <p>No upcoming events</p>
@@ -125,16 +155,20 @@ export default function YourEventsTab({ user }) {
                             allEvents.eventsAttending.map((event) => {
                                 return (
                                     <div
-                                        key={event._id.$oid}
+                                        key={event._id}
                                         className="hover:cursor-pointer"
-                                        onClick={() => router.push(`/your-events/${event._id.$oid}`)}
+                                        onClick={() =>
+                                            router.push(`/events/${event._id}`)
+                                        }
                                     >
                                         <UserEventCard
-                                            isGoing={eventStates[event._id.$oid]}
+                                            isGoing={eventStates[event._id]}
                                             toggleGoing={toggleGoing}
-                                            id={event._id.$oid}
+                                            id={event._id}
                                             title={event.eventName}
-                                            date={new Date(event.startDate).toLocaleDateString()}
+                                            date={new Date(
+                                                event.startDate
+                                            ).toLocaleDateString()}
                                             location={event.location}
                                             imageSrc={event.backgroundImage}
                                             description={event.aboutEvent}
@@ -146,7 +180,10 @@ export default function YourEventsTab({ user }) {
                     </div>
                 </Tabs.Content>
 
-                <Tabs.Content className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500" value="tab3">
+                <Tabs.Content
+                    className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
+                    value="tab3"
+                >
                     <div>
                         {allEvents.eventsAttended.length === 0 ? (
                             <p>No past events</p>
@@ -154,16 +191,20 @@ export default function YourEventsTab({ user }) {
                             allEvents.eventsAttended.map((event) => {
                                 return (
                                     <div
-                                        key={event._id.$oid}
+                                        key={event._id}
                                         className="hover:cursor-pointer"
-                                        onClick={() => router.push(`/your-events/${event._id.$oid}`)}
+                                        onClick={() =>
+                                            router.push(`/events/${event._id}`)
+                                        }
                                     >
                                         <UserEventCard
-                                            isGoing={eventStates[event._id.$oid]}
+                                            isGoing={eventStates[event._id]}
                                             toggleGoing={toggleGoing}
-                                            id={event._id.$oid}
+                                            id={event._id}
                                             title={event.eventName}
-                                            date={new Date(event.startDate).toLocaleDateString()}
+                                            date={new Date(
+                                                event.startDate
+                                            ).toLocaleDateString()}
                                             location={event.location}
                                             imageSrc={event.backgroundImage}
                                             description={event.aboutEvent}

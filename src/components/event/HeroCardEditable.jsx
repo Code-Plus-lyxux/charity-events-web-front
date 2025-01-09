@@ -27,7 +27,7 @@ export default function HeroCardEditable({ event }) {
                     </div>
                 </div>
                 <img
-                    src={event.imageSrc}
+                    src={event?.backgroundImage || "/placeholder.jpg"}
                     alt="Event Image"
                     className="w-full h-full object-cover "
                 />
@@ -37,20 +37,24 @@ export default function HeroCardEditable({ event }) {
                         <div>
                             <Image
                                 className="inline-block lg:w-8 w-6"
-                                src={usersIcon}
+                                src={usersIcon || "/placeholder.jpg"}
                                 alt="users icon"
                                 width={25}
                                 height={25}
                             />
                             <span className="ml-2 lg:text-xl">
-                                {event.attendeeCount}
+                                {event?.attendUsers.length}
                             </span>
                         </div>
                         <h1 className="lg:text-4xl text-xl font-bold mb-2">
-                            {event.title}
+                            {event?.eventName}
                         </h1>
                         <div className="inline-block px-3 py-1 bg-white text-mint-500 rounded-full text-sm font-bold mb-2">
-                            {event.status}
+                            {event?.status == 0
+                                ? "Hosting"
+                                : event?.status == 1
+                                ? "Upcoming"
+                                : "Past Event"}
                         </div>
                         {/* <div className="flex items-center space-x-2">
                             <Calendar className="w-5 h-5" />

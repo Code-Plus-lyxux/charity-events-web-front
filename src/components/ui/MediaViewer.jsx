@@ -15,7 +15,7 @@ const MediaViewer = () => {
         const fetchEvent = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5001/api/events/${id}`,
+                    `http://localhost:5000/api/events/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
