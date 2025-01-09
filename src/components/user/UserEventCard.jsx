@@ -38,8 +38,9 @@ export default function UserEventCard({
                         <Image
                             src={imageSrc}
                             alt="Event Image"
-                            width={500}
-                            height={500}
+                            width={410}
+                            height={265}
+                            layout="fixed"
                             className="w-full rounded-3xl"
                         />
                         <div className="absolute top-4 right-4">
@@ -67,8 +68,9 @@ export default function UserEventCard({
                     <Image
                         src={imageSrc}
                         alt="Event Image"
-                        width={500}
-                        height={500}
+                        width={410}
+                        height={265}
+                        layout="fixed"
                         className="w-full rounded-3xl max-h-[500px] object-cover"
                     />
                     <div className="absolute top-4 right-4">

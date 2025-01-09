@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/authContext";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 // Define the form schema
 const formSchema = z
@@ -38,15 +41,65 @@ export default function VerificationForm() {
     });
 
     const router = useRouter();
-
+    const { email } = useAuth(); 
+    
     // Handle form submission
-    const onSubmit = (values) => {
-        console.log("Form submitted with values:", values); //TODO: add changes here to sign up
-        router.push("/reset-password");
+    const onSubmit = async (values) => {
+         
+        const otp = `${values.square1}${values.square2}${values.square3}${values.square4}`;
+
+        try {
+            console.log("Form submitted with values:", values,email,otp);
+
+            const response = await axios.post("http://localhost:5000/api/auth/password/verify", {
+                email,
+                otp,
+            });
+
+            console.log("API response:", response.data);
+
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: response.data.message || "OTP verified successfully.",
+            });
+
+            router.push("/reset-password");
+        } catch (error) {
+            const errorMessage = error.response?.data?.error || "An error occurred. Please try again.";
+            Swal.fire({
+                icon: "error",
+                title: "Verification Failed",
+                text: errorMessage,
+            });
+        }
     };
 
-    const handleResend = () => {
-        console.log("Resend code");
+    const handleResend = async () => {
+        try {
+            // API call to send reset OTP
+            const response = await axios.post("http://localhost:5000/api/auth/password/reset", {
+                email, // Use the email from the context
+            });
+    
+            // Handle success response
+            Swal.fire({
+                icon: "success",
+                title: "OTP Sent!",
+                text: "Password reset OTP has been sent to your email.",
+            });
+    
+            // Optionally navigate to the verify page
+            router.push("/verify");
+        } catch (error) {
+            // Handle error response and display it to the user
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: error.response?.data?.error || "Something went wrong. Please try again later.",
+            });
+            console.error("Error sending OTP:", error);
+        }
     };
 
     return (

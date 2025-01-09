@@ -16,6 +16,8 @@ import checkIcon from "@/assets/img/check-icon.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useAuth } from "@/hooks/authContext";
+import Swal from "sweetalert2";
 
 // Define the form schema
 const formSchema = z
@@ -49,24 +51,35 @@ export default function ResetPasswordForm() {
     });
 
     const router = useRouter();
+    const { email } = useAuth(); 
 
     // Handle form submission
     const onSubmit = async (data) => {
+        console.log(data.password,email);
         try {
-            const token = localStorage.getItem('userToken');
-            if (!token) {
-                throw new Error('No token found');
-            }
-            const response = await axios.put('http://localhost:5001/api/user/profile', data, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+
+            const response = await axios.post("http://localhost:5000/api/auth/password/change",{
+                email,
+                newPassword: data.password
             });
-            console.log('Success:', response.data);
+
+            // Show success alert
+            Swal.fire({
+                icon: "success",
+                title: "Password Reset",
+                text: response.data.message || "Your password has been reset successfully.",
+            });
+
             router.push("/login");
         } catch (error) {
-            console.error('Error:', error.response ? error.response.data : error.message); 
-        }
+            console.error("Error:", error.response ? error.response.data : error.message);
+
+            // Show error alert
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: error.response?.data?.error || "Something went wrong. Please try again.",
+            });        }
     };
 
 
