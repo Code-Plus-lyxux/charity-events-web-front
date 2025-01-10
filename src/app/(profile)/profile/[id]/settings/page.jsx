@@ -10,9 +10,10 @@ const Page = () => {
     const [about, setAbout] = useState("");
     const [location, setLocation] = useState("");
     const [mobile, setPhoneNumber] = useState("");
-    const [profileImage, setProfileImage] = useState(""); 
     const [isEditMode, setIsEditMode] = useState(false);
     const [imageFile, setImageFile] = useState(null); 
+    const [profileImage, setProfileImage] = useState(""); 
+    const [errors, setErrors] = useState({});
     const router = useRouter();
 
     useEffect(() => {
@@ -46,9 +47,7 @@ const Page = () => {
                 setAbout(userData.about);
                 setLocation(userData.location);
                 setPhoneNumber(userData.mobile);
-    
-                // Ensure profileImage is valid or use a fallback
-                setProfileImage(userData.profileImage || "/images/Frame 54.png");
+                setProfileImage(userData.profileImage || "");
             } catch (error) {
                 console.error('Error fetching user data', error);
             }
@@ -57,12 +56,28 @@ const Page = () => {
         fetchUserData();
     }, []);
     
+    const validateInputs = () => {
+        const newErrors = {};
+        if (!fullName.trim()) newErrors.fullName = "Full Name is required";
+        if (!email.trim()) newErrors.email = "Email is required";
+        if (!about.trim()) newErrors.about = "About is required";
+        if (!location.trim()) newErrors.location = "Location is required";
+        if (!mobile.trim()) newErrors.mobile = "Phone Number is required";
+        if (mobile && !/^\d+$/.test(mobile)) newErrors.mobile = "Phone Number must be numbers only";
+        return newErrors;
+    };
 
     const handleEditClick = () => {
         setIsEditMode(!isEditMode);
     };
 
     const handleSaveChanges = async () => {
+        const validationErrors = validateInputs();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
         setIsEditMode(false);
 
         const token = localStorage.getItem('userToken');
@@ -102,26 +117,22 @@ const Page = () => {
             );
 
             console.log('Changes saved', response.data);
-            setProfileImage(response.data.profileImage || "/images/Frame 54.png"); 
+            setProfileImage(response.data.profileImage || ""); 
         } catch (error) {
             console.error('Error updating profile', error);
         }
-    };
 
-    // Function passed to ProfileCard
-    const onUpdateProfile = (newProfileImage, email) => {
-        setProfileImage(newProfileImage);
-        setEmail(email);
+        window.location.reload();
+
     };
 
     return (
         <div className="profile-settings-section font-roboto w-full h-auto mt-[-50px] bg-cover flex flex-col md:flex-row justify-between items-start gap-6 p-4 md:p-8">
             <div className="profile-card-container w-full md:w-[392px] h-auto md:h-[539px] mt-6 md:mt-[146px] flex-shrink-0">
                 <ProfileCard
-                    ProfileImage={profileImage}
                     name={fullName}
-                    email={email} 
-                    onUpdateProfile={onUpdateProfile} 
+                    email={email}
+                    profileImage={profileImage}  
                 />
             </div>
             <div className="profile-personal-info-section p-4 md:p-6 rounded-lg bg-white w-full h-auto mt-6 md:mt-[140px] flex flex-col">
@@ -152,6 +163,7 @@ const Page = () => {
                             onChange={(e) => setName(e.target.value)}
                             readOnly={!isEditMode}
                         />
+                        {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
                     </div>
                     <div className="w-full mt-3">
                         <label className="text-base md:text-[20px] leading-[23.44px] font-semibold">
@@ -164,6 +176,7 @@ const Page = () => {
                             onChange={(e) => setAbout(e.target.value)}
                             readOnly={!isEditMode}
                         />
+                        {errors.about && <p className="text-red-500 text-sm">{errors.about}</p>}
                     </div>
                     <div className="w-full mt-3">
                         <label className="text-base md:text-[20px] leading-[23.44px] font-semibold">
@@ -176,6 +189,7 @@ const Page = () => {
                             onChange={(e) => setLocation(e.target.value)}
                             readOnly={!isEditMode}
                         />
+                        {errors.location && <p className="text-red-500 text-sm">{errors.location}</p>}
                     </div>
                     <div className="w-full mt-3">
                         <label className="text-base md:text-[20px] leading-[23.44px] font-semibold">
@@ -188,6 +202,7 @@ const Page = () => {
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             readOnly={!isEditMode}
                         />
+                        {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile}</p>}
                     </div>
 
                     {isEditMode && (
