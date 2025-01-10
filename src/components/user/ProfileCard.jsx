@@ -1,40 +1,12 @@
-"use client";
-import React, { useState, useEffect } from "react";
+'use client';
+import React, { useState } from "react";
 import axios from "axios";
 
-const ProfileCard = ({ name, email, onUpdateProfile }) => {
+const ProfileCard = ({ name, email, profileImage }) => {
     const [isEditMode, setIsEditMode] = useState(false);
-    const [profileImage, setProfileImage] = useState(null);
     const [editProfileImage, setEditProfileImage] = useState(null);
     const [tempProfileImage, setTempProfileImage] = useState(null);
-
-    useEffect(() => {
-        const fetchProfileData = async () => {
-            try {
-                const token = localStorage.getItem("userToken");
-                if (!token) {
-                    throw new Error("Token not found");
-                }
-
-                const userId = JSON.parse(atob(token.split(".")[1])).id;
-
-                const response = await axios.get(`http://localhost:5000/api/user/${userId}`, {
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                    },
-                });
-
-                const data = response.data;
-                if (data.user && data.user.profileImage) {
-                    setProfileImage(data.user.profileImage);  
-                }
-            } catch (err) {
-                console.error("Error fetching profile:", err);
-            }
-        };
-
-        fetchProfileData();
-    }, []);
+    const [savedProfileImage, setSavedProfileImage] = useState(profileImage);
 
     const handleEditClick = () => {
         if (isEditMode) {
@@ -43,35 +15,96 @@ const ProfileCard = ({ name, email, onUpdateProfile }) => {
         setIsEditMode(!isEditMode);
     };
 
-    const handleImageChange = (e) => {
+    const resizeImage = (file) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+
+                    const maxSize = 200;
+                    const width = img.width > maxSize ? maxSize : img.width;
+                    const height = (img.height / img.width) * width;
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob(
+                        (blob) => resolve(blob),
+                        "image/jpeg",
+                        0.8
+                    );
+                };
+                img.src = e.target.result;
+            };
+
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            setTempProfileImage(URL.createObjectURL(file));
-            setEditProfileImage(file);
+            try {
+                const resizedBlob = await resizeImage(file);
+                const resizedFile = new File([resizedBlob], file.name, { type: file.type });
+
+                setTempProfileImage(URL.createObjectURL(resizedFile));
+
+                const formData = new FormData();
+                formData.append("profileImage", resizedFile);
+
+                const response = await axios.put("http://localhost:5000/api/user/profile", formData, {
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
+                    },
+                });
+
+                const { profileImage } = response.data.user;
+
+                if (profileImage) {
+                    setSavedProfileImage(profileImage);
+                } else {
+                    throw new Error("Profile image upload failed.");
+                }
+
+            } catch (error) {
+                console.error("Error handling image change:", error);
+            }
         }
     };
 
     const handleSaveClick = async () => {
-        if (!editProfileImage) return;
-
-        const formData = new FormData();
-        formData.append("profileImage", editProfileImage);
+        if (!savedProfileImage) return;
 
         try {
+            const formData = new FormData();
+            formData.append("profileImage", savedProfileImage);
+
             const response = await axios.put("http://localhost:5000/api/user/profile", formData, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
                 },
             });
 
-            const data = response.data;
-            if (data.user && data.user.profileImage) {  
+            const { profileImage } = response.data.user;
+            if (profileImage) {
+                setSavedProfileImage(profileImage);
+            } else {
+                throw new Error("Profile image save failed.");
             }
+
+            setIsEditMode(false);
         } catch (error) {
             console.error("Error saving profile image:", error);
         }
         window.location.reload();
-        setIsEditMode(false);
     };
 
     const handleLogoutClick = () => {
@@ -91,7 +124,7 @@ const ProfileCard = ({ name, email, onUpdateProfile }) => {
                     <div className="relative">
                         <label htmlFor="profileImage" className="cursor-pointer relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full flex items-center justify-center bg-transparent">
                             <img
-                                src={tempProfileImage || "/default-profile.png"} 
+                                src={tempProfileImage || savedProfileImage || "/default-profile.png"}
                                 alt="Profile"
                                 className="absolute w-full h-full object-cover rounded-full z-10"
                             />
@@ -111,9 +144,10 @@ const ProfileCard = ({ name, email, onUpdateProfile }) => {
                 ) : (
                     <>
                         <img
-                            src={profileImage || "http://localhost:5000/usersprofilepics/677b9eac3dba5475999e7278.png"} 
+                            src={profileImage }
                             alt="Profile"
                             className="profile-image w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full mx-auto"
+                            onError={(e) => e.target.src = "/images/Frame 12.jpg"}
                         />
                         <h2 className="profile-name text-lg md:text-xl lg:text-2xl font-medium text-black mt-4">{name}</h2>
                         <p className="profile-email text-sm md:text-base lg:text-lg text-gray-600 mt-2">{email}</p>
