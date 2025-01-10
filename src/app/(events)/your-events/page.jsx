@@ -1,8 +1,9 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import YourEventsCard from "@/components/event/YourEventsCard";
 import YourEventsTabs from "@/components/event/YourEventsTabs";
+import Spinner from "@/components/ui/Spinner";
 import { useRouter } from "next/navigation";
 
 export default function YourEvents() {
@@ -17,9 +18,6 @@ export default function YourEvents() {
             router.push("/");
         }
     }, [router]);
-
-
-
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -38,11 +36,14 @@ export default function YourEvents() {
                     throw new Error("Invalid token format");
                 }
 
-                const response = await axios.get(`http://localhost:5000/api/user/${userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`, 
-                    },
-                });
+                const response = await axios.get(
+                    `http://localhost:5000/api/user/${userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
 
                 setUser(response.data);
             } catch (err) {
@@ -55,7 +56,7 @@ export default function YourEvents() {
         fetchUser();
     }, []);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <Spinner />;
     if (error) return <p>Error: {error}</p>;
 
     return (

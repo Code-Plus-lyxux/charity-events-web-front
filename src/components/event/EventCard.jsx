@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { FaMapMarkerAlt, FaHandPaper } from "react-icons/fa";
 import "@/app/(home)/home.css";
 
-const EventCard = ({ backgroundImage, location, eventName, aboutEvent, startDate }) => {
+const EventCard = ({
+    backgroundImage,
+    location,
+    eventName,
+    aboutEvent,
+    startDate,
+}) => {
     const [isHandIconActive, setIsHandIconActive] = useState(false);
 
     const toggleHandIcon = () => {
