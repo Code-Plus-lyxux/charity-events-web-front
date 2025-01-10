@@ -64,10 +64,10 @@ export default function signupForm() {
             const response = await axios.post('http://localhost:5000/api/auth/register', data);
             console.log('Success:', response.data);
             setEmail(data.email);
-         
-            router.push('/login');
+
+            router.push("/login");
         } catch (error) {
-            console.error('Error:', error);
+            console.error("Error:", error);
         }
     };
 

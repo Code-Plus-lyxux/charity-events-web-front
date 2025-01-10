@@ -9,6 +9,7 @@ import jwt from "jsonwebtoken";
 const EventCard = ({
     id,
     images,
+    backgroundImage,
     location,
     startDate,
     eventName,
@@ -28,7 +29,7 @@ const EventCard = ({
         >
             <div className="relative">
                 <img
-                    src={images[0]}
+                    src={backgroundImage}
                     alt="Event"
                     className="event-image w-full md:w-[390px] h-[219px] rounded-[23.53px] object-cover"
                 />
@@ -80,38 +81,40 @@ const HomePage = () => {
                 if (token) {
                     setIsLoggedIn(true);
                     const userId = jwt.decode(token).id;
-                    const userResponse = await axios.get(
-                        `http://localhost:5001/api/user/${userId}`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
-                    );
-                    const userData = userResponse.data;
-                    setUser(userData);
+                    try {
+                        const userResponse = await axios.get(
+                            `http://localhost:5000/api/user/${userId}`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
+                            }
+                        );
+                        const userData = userResponse.data;
+                        setUser(userData);
 
-                    // Fetch nearby upcoming events if user is logged in
-                    const nearbyResponse = await axios.get(
-                        `http://localhost:5001/api/events/upcoming-3-by-location/${userData.location}`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
-                    );
+                        // Fetch nearby upcoming events if user is logged in
+                        const nearbyResponse = await axios.get(
+                            `http://localhost:5000/api/events/upcoming-3-by-location/${userData.location}`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
+                            }
+                        );
 
-                    setEvents(nearbyResponse.data);
+                        setEvents(nearbyResponse.data);
+                    } catch (error) {
+                        console.warn("User not found:", error);
+                        localStorage.removeItem("userToken");
+                    }
                 } else {
                     // Fetch general upcoming events if not logged in
                     const generalResponse = await axios.get(
-                        "http://localhost:5001/api/events/status/1",
+                        "http://localhost:5000/api/events/status/1",
                         {
                             params: {
                                 limit: 3,
-                            },
-                            headers: {
-                                Authorization: `Bearer ${token}`,
                             },
                         }
                     );
@@ -184,7 +187,7 @@ const HomePage = () => {
                     <div>
                         <h3 className="location-title text-lg leading-6 font-roboto text-gray-600 flex items-center w-40 h-5 mt-24 mr-auto">
                             <FaMapMarkerAlt className="text-gray-600 mr-2" />
-                            {isLoggedIn ? user?.location : "location unknown"}
+                            {isLoggedIn ? user?.location : "Global"}
                         </h3>
                     </div>
                     <div className="events-header w-full max-w-full h-[723px] mt-0 ">
@@ -201,7 +204,7 @@ const HomePage = () => {
                         </button>
                     </div>
                     {events.map((event, index) => (
-                        <EventCard key={index} {...event} />
+                        <EventCard key={index} id={event._id} {...event} />
                     ))}
                 </div>
             </section>

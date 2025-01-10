@@ -17,7 +17,7 @@ const HostEventPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-    
+
     useEffect(() => {
         const token = localStorage.getItem("userToken");
         if (!token) {
@@ -34,7 +34,10 @@ const HostEventPage = () => {
         const file = e.target.files[0];
         if (file) {
             // Check if the file is an image and within the size limit (e.g., 5MB)
-            if (file.type.startsWith("image/") && file.size <= 5 * 1024 * 1024) {
+            if (
+                file.type.startsWith("image/") &&
+                file.size <= 5 * 1024 * 1024
+            ) {
                 setImage(file);
                 const reader = new FileReader();
                 reader.onloadend = () => {
@@ -46,62 +49,70 @@ const HostEventPage = () => {
             }
         }
     };
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        if (!formData.eventName || !formData.startDate || !formData.endDate || !formData.location || !formData.aboutEvent) {
+
+        if (
+            !formData.eventName ||
+            !formData.startDate ||
+            !formData.endDate ||
+            !formData.location ||
+            !formData.aboutEvent
+        ) {
             alert("All fields are required.");
             return;
         }
-    
+
         const formattedStartDate = new Date(formData?.startDate).toISOString();
         const formattedEndDate = new Date(formData?.endDate).toISOString();
-    
+
         const data = new FormData();
         data.append("eventName", formData?.eventName);
         data.append("startDate", formattedStartDate);
         data.append("endDate", formattedEndDate);
         data.append("location", formData?.location);
         data.append("aboutEvent", formData?.aboutEvent);
-    
+
         setLoading(true);
-    
+
         if (image) {
             const imageData = new FormData();
             imageData.append("images", image);
-        
+
             try {
-                const uploadResponse = await axios.post("http://localhost:5000/api/events/upload-images", imageData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
-        
+                const uploadResponse = await axios.post(
+                    "http://localhost:5000/api/events/upload-images",
+                    imageData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
+
                 // Extract the URL from the response and addit to the event data
                 const uploadedFile = uploadResponse.data?.files?.[0];
                 if (!uploadedFile || !uploadedFile.url) {
                     throw new Error("Image URL not found in the response.");
                 }
-            
+
                 const imageUrl = uploadedFile.url;
                 // console.log("Image URL:", imageUrl);
                 data.append("backgroundImage", imageUrl);
-        
+
                 await submitEventData(data);
             } catch (error) {
-               // console.error("Image upload failed:", error.response?.data || error.message);
+                // console.error("Image upload failed:", error.response?.data || error.message);
                 alert("Image upload failed.");
                 setLoading(false);
             }
         }
-        
     };
-    
+
     const submitEventData = async (data) => {
         const token = localStorage.getItem("userToken");
-    
+
         if (!token) {
             alert("User token not found. Please log in.");
             setLoading(false);
@@ -110,15 +121,18 @@ const HostEventPage = () => {
         try {
             const userId = JSON.parse(atob(token.split(".")[1])).id;
             data.append("userId", userId);
-    
-            const response = await axios.post("http://localhost:5000/api/events/add", data, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            });
-    
-            //console.log("Event created successfully:", response.data);
+
+            const response = await axios.post(
+                "http://localhost:5000/api/events/add",
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
             setFormData({
                 eventName: "",
                 startDate: "",
@@ -135,15 +149,12 @@ const HostEventPage = () => {
                 confirmButtonText: "OK",
             });
         } catch (error) {
-           // console.error("Error creating event:", error.response?.data || error.message);
+            // console.error("Error creating event:", error.response?.data || error.message);
             alert("Failed to create event.");
         } finally {
             setLoading(false);
         }
     };
-    
-    
-    
 
     return (
         <div className="Host-Events-Page">
@@ -154,7 +165,9 @@ const HostEventPage = () => {
                 >
                     <div className="hero-text-container flex justify-center w-full h-auto">
                         <div className="hero-heading p-5 font-bold text-[56px] leading-[72px] text-center mt-24 text-black w-full max-w-4xl sm-w-3xl">
-                            <h1 className="hidden sm:block">Host Your Events</h1>
+                            <h1 className="hidden sm:block">
+                                Host Your Events
+                            </h1>
                             <h1 className="sm:hidden">Add Events</h1>
                         </div>
                     </div>
