@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 import { useParams, useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { set } from "react-hook-form";
+import Spinner from "@/components/ui/Spinner";
 
 const Page = () => {
     const params = useParams();
@@ -201,7 +201,7 @@ const Page = () => {
 
     return (
         <>
-            {isLoading && <div>Loading ... </div>}{" "}
+            {isLoading && <Spinner />}{" "}
             {!isLoading && (
                 <div className="edit-events-section font-roboto flex flex-col items-center w-full h-full bg-gray-50 p-7">
                     <div className="edit-events-form-section mt-4 w-full max-w-5xl">

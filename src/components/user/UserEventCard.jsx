@@ -17,7 +17,10 @@ export default function UserEventCard({
     status,
     isImageLoading,
 }) {
+    const [imageLoaded, setImageLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
+
+    const showNoImage = !imageSrc || imageError;
 
     const handleOnClick = (id) => {
         console.log("clicked event ID: ", id);

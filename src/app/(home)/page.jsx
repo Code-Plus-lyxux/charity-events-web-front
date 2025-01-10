@@ -35,8 +35,8 @@ const EventCard = ({
                     </div>
                 )}
                 {showNoImage ? (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 rounded-[23.53px]">
-                        <FaImage className="w-12 h-12 text-gray-400 mb-2" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-mint-100 rounded-[23.53px]">
+                        <FaImage className="w-12 h-12 text-mint-400 mb-2" />
                         <span className="text-gray-500 text-sm">
                             No Image Available
                         </span>
@@ -170,7 +170,7 @@ const HomePage = () => {
                 (console.log("events:", events),
                 (
                     <div className="home-page-container overflow-x-hidden">
-                        <section className="hero-section w-full max-w-full h-[1001px]">
+                        <div className="hero-section w-full max-w-full h-[1001px]">
                             <div
                                 className="hero-bg bg-cover"
                                 style={{
@@ -229,20 +229,20 @@ const HomePage = () => {
                                     className="gallery-image w-72 h-132 rounded-lg"
                                 />
                             </div>
-                        </section>
-                        <section className="events-section w-full max-w-full h-[1046px] flex justify-center items-center mx-auto">
+                        </div>
+                        <div className="events-section w-full max-w-full flex justify-center items-center mx-auto">
                             <div>
                                 <div>
                                     <h3 className="location-title text-lg leading-6 font-roboto text-gray-600 flex items-center w-40 h-5 mt-24 mr-auto">
                                         <FaMapMarkerAlt className="text-gray-600 mr-2" />
                                         {isLoggedIn ? user?.location : "Global"}
                                     </h3>
-                                </div>
-                                <div className="events-header w-full max-w-full h-[723px] mt-0 ">
-                                    <h2 className="events-heading font-roboto font-bold text-[40px] leading-[72px] text-black mx-auto">
-                                        Upcoming Events{" "}
-                                        {isLoggedIn ? "in your area" : ""}
-                                    </h2>
+                                    <div className="events-header w-full max-w-full h-[723px] mt-0 ">
+                                        <h2 className="events-heading font-roboto font-bold text-[40px] leading-[72px] text-black mx-auto">
+                                            Upcoming Events{" "}
+                                            {isLoggedIn ? "in your area" : ""}
+                                        </h2>
+                                    </div>
                                 </div>
                                 <div className="explore-button-container w-44 h-14 mt-[-725px]">
                                     <button
@@ -260,17 +260,15 @@ const HomePage = () => {
                                     </button>
                                 </div>
                                 {events.map((event, index) => (
-                                    <EventCard
-                                        key={index}
-                                        id={event._id}
-                                        {...event}
-                                    />
+                                    <div key={index}>
+                                        <EventCard id={event._id} {...event} />
+                                    </div>
                                 ))}
                             </div>
-                        </section>
+                        </div>
 
-                        <section className="whatwedo-section w-full max-w-full h-[758px] mt-[108px]">
-                            <div className="whatwedo-header text-center mt-[10px] gap-[24px] font-roboto w-[1016px] h-[172px] align-center mx-auto">
+                        <div className="whatwedo-section w-full max-w-full mt-[108px]">
+                            <div className="whatwedo-header text-center md:mt-[10px] md:gap-[24px] font-roboto md:w-full md:align-center mx-auto">
                                 <h2 className="whatwedo-title text-gray-500 text-[18px] leading-[21.09px] font-bold">
                                     What we do
                                 </h2>
@@ -366,7 +364,7 @@ const HomePage = () => {
                                     <span>Host Your Event</span>
                                 </button>
                             </div>
-                        </section>
+                        </div>
 
                         <section className="contact-section w-full max-w-full h-[711px] mt-[108px]">
                             <div className="contact-header text-center lg:text-left w-full lg:w-[1016px] mx-auto mt-[42px] gap-[24px] flex flex-col lg:flex-row lg:items-center">
