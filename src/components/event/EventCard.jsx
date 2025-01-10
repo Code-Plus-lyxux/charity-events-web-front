@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaMapMarkerAlt, FaHandPaper } from "react-icons/fa";
 import "@/app/(home)/home.css";
 
-const EventCard = ({ images, location, eventName, aboutEvent, startDate }) => {
+const EventCard = ({ backgroundImage, location, eventName, aboutEvent, startDate }) => {
     const [isHandIconActive, setIsHandIconActive] = useState(false);
 
     const toggleHandIcon = () => {
@@ -13,7 +13,7 @@ const EventCard = ({ images, location, eventName, aboutEvent, startDate }) => {
         <div className="event-card-container relative flex flex-wrap md:flex-nowrap w-full md:w-[1223px] h-[219px] mt-10 gap-[61px]">
             <div className="relative">
                 <img
-                    src={images[0]}
+                    src={backgroundImage}
                     alt="Event"
                     className="event-image w-full md:w-[390px] h-[219px] rounded-[23.53px] object-cover"
                 />
