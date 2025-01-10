@@ -41,7 +41,7 @@ export default function LoginForm() {
         console.log("Form submitted with values:", data);
         try {
             const response = await axios.post(
-                "http://localhost:5001/api/auth/login",
+                "http://localhost:5000/api/auth/login",
                 data
             );
             console.log("Success:", response.data);

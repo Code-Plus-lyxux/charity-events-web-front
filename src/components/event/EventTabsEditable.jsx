@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { CalendarDays, MapPin, ListFilter, Image } from "lucide-react";
 import FileUploader from "@/components/ui/FileUploader";
 import MediaViewer from "@/components/ui/MediaViewer";
 
 export default function EventTabsEditable({ event }) {
+    const [eventImages, setEventImages] = useState([]);
+
     return (
         <div className="flex justify-center px-4">
             <Tabs.Root className="flex w-full flex-col " defaultValue="tab1">
@@ -35,13 +37,13 @@ export default function EventTabsEditable({ event }) {
                         <div className="flex flex-row mb-5 lg:mr-10">
                             <CalendarDays />
                             <p className="ml-5  text-base leading-normal ">
-                                {event.date} at {event.time}
+                                {event?.startDate.slice(0, 10)}
                             </p>
                         </div>
                         <div className="flex flex-row">
                             <MapPin />
                             <p className="ml-5 text-base leading-normal ">
-                                {event.location}
+                                {event?.location}
                             </p>
                         </div>
                     </div>
@@ -49,19 +51,26 @@ export default function EventTabsEditable({ event }) {
                     <p className="mb-5 text-2xl leading-normal font-bold">
                         About the event
                     </p>
-                    {event.description.map((chapter, index) => (
+                    {/* {event.description.map((chapter, index) => (
                         <p key={`chapter-${index}`} className="mb-5 text-base">
                             {chapter}
                         </p>
-                    ))}
+                    ))} */}
+                    {event?.aboutEvent}
                 </Tabs.Content>
                 <Tabs.Content
                     className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
                     value="tab2"
                 >
                     <div className="mb-5 text-[15px] leading-normal">
-                        <MediaViewer></MediaViewer>
-                        <FileUploader></FileUploader>
+                        <MediaViewer
+                            eventImages={eventImages}
+                            setEventImages={setEventImages}
+                        ></MediaViewer>
+                        <FileUploader
+                            eventImages={eventImages}
+                            event={event}
+                        ></FileUploader>
                     </div>
                 </Tabs.Content>
             </Tabs.Root>
