@@ -211,7 +211,7 @@ const Page = () => {
                             </h1>
                             <Trash2
                                 size={40}
-                                className="ml-auto cursor-pointer hover:stroke-red-500"
+                                className="ml-auto cursor-pointer hover:stroke-red-500 w-5 sm:w-10 mt-[-10px] sm:mt-[-4px]"
                                 onClick={handleDelete}
                             />
                         </div>

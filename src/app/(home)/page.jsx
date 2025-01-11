@@ -249,10 +249,7 @@ const HomePage = () => {
                                         className="explore-events-btn bg-greenbutton text-white font-roboto font-medium text-[16px] leading-[32px] text-center py-1.5 px-4 border-none rounded-[50px] w-[174px] h-[54px] ml-[1048px]"
                                         onClick={
                                             isLoggedIn
-                                                ? () =>
-                                                      router.push(
-                                                          "/host-events"
-                                                      )
+                                                ? () => router.push("/events")
                                                 : () => router.push("/login")
                                         }
                                     >

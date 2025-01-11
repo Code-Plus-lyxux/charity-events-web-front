@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
-import UserEventCard from "@/components/user/UserEventCard";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/ui/Spinner";
 import EventCard from "@/components/event/EventCard";
@@ -191,7 +190,7 @@ export default function YourEventsTab({ user }) {
                         </Tabs.List>
 
                         <Tabs.Content
-                            className="grow mx-auto rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
+                            className="grow mx-auto rounded-b-md bg-white p-0 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
                             value="tab1"
                         >
                             <div>
@@ -206,7 +205,7 @@ export default function YourEventsTab({ user }) {
                         </Tabs.Content>
 
                         <Tabs.Content
-                            className="grow mx-auto rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
+                            className="grow mx-auto rounded-b-md bg-white p-0 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
                             value="tab2"
                         >
                             <div>
@@ -221,7 +220,7 @@ export default function YourEventsTab({ user }) {
                         </Tabs.Content>
 
                         <Tabs.Content
-                            className="grow mx-auto rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
+                            className="grow mx-auto rounded-b-md bg-white p-0 outline-none focus:shadow-[0_0_0_2px] focus:shadow-mint-500"
                             value="tab3"
                         >
                             <div>
