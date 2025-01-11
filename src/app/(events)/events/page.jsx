@@ -110,8 +110,8 @@ const page = () => {
                         </div>
                     </div>
 
-                    <div className="All-events-container w-full mt-[20px] flex flex-col p-[16px] relative">
-                        <div className="All-events-search mt-[60px] ml-[120px] mx-auto w-[499px] h-[45px] flex items-center p-[12px 16px] border-[1px] border-solid border-subtitlecolor rounded-[50px] transition-all duration-300 hover:shadow-lg focus-within:shadow-xl">
+                    <div className="All-events-container w-full mt-[20px] flex flex-col p-[16px] relative justify-center items-center">
+                        <div className="All-events-search mt-[60px] ml-[120px] md:ml-10 lg:ml-32 mx-auto w-[499px] lg:w-[600px] h-[45px] flex items-center p-[12px 16px] border-[1px] border-solid border-subtitlecolor rounded-[50px] transition-all duration-300 hover:shadow-lg focus-within:shadow-xl">
                             <input
                                 type="text"
                                 className="search-input w-full h-full pl-5 pr-10 rounded-[25px] bg-white text-lg text-gray-700 placeholder-gray-400 focus:outline-none"
@@ -123,7 +123,7 @@ const page = () => {
                         </div>
 
                         <div className="All-events-location-container flex justify-end w-full">
-                            <h3 className="location-title text-[20px] leading-[23.44px] mt-[-40px] mr-[120px] font-roboto text-gray-600 flex items-center gap-1">
+                            <h3 className="location-title text-[20px] leading-[23.44px] mt-[-40px] mr-[120px] md:mr-[50px] lg:mr-[100px] font-roboto text-gray-600 flex items-center gap-1">
                                 <FaMapMarkerAlt className="text-gray-600" />
                                 {user && user.location}
                             </h3>

@@ -17,15 +17,15 @@ const EventCard = ({
     const showNoImage = !backgroundImage || imageError;
 
     return (
-        <div className="event-card-container relative flex flex-wrap w-full md:w-[1223px] sm:w-[800px] lg:w-[1300px] h-[219px] mt-10 gap-[61px] hover:cursor-pointer overflow-clip sm:gap-y-10">
-            <div className="relative w-full md:w-[390px] h-[219px]">
+        <div className="event-card-container relative flex flex-wrap w-full h-[219px] md:max-lg:w-[800px] lg:w-[1000px]  mt-10 gap-[61px] md:gap-3 lg:gap-10 hover:cursor-pointer overflow-clip sm:gap-y-10">
+            <div className="relative w-full md:w-[300px] h-[219px]">
                 {!imageLoaded && !showNoImage && (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-[23.53px]">
                         <div className="w-8 h-8 border-4 border-mint-500 border-t-transparent rounded-full animate-spin" />
                     </div>
                 )}
                 {showNoImage ? (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-mint-100 rounded-[23.53px]">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-mint-100 rounded-[23.53px] md:w-[300px] ">
                         <FaImage className="w-12 h-12 text-mint-400 mb-2" />
                         <span className="text-gray-500 text-sm">
                             No Image Available
@@ -35,7 +35,7 @@ const EventCard = ({
                     <img
                         src={backgroundImage}
                         alt="Event"
-                        className={`event-image w-full md:w-[390px] h-[219px] rounded-[23.53px] object-cover transition-opacity duration-300 ${
+                        className={`event-image w-full md:w-[300px] h-[219px] rounded-[23.53px] object-cover transition-opacity duration-300 ${
                             imageLoaded ? "opacity-100" : "opacity-0"
                         }`}
                         onLoad={() => {
@@ -60,7 +60,7 @@ const EventCard = ({
                     />
                 </div>
             </div>
-            <div className="event-info border border-gray-300 rounded-[20px] p-[24px] shadow-sm w-full md:w-[772px] h-[219px]">
+            <div className="event-info flex flex-col border border-gray-400 rounded-[20px] md:w-[485px] lg:w-[660px] w-full h-[219px] p-[24px] md:p-3 lg:p-4 shadow-sm">
                 <div className="event-details flex items-center gap-2 text-[16px] leading-[18.75px] text-gray-600">
                     <span className="flex items-center gap-1">
                         <FaMapMarkerAlt className="text-gray-600" />

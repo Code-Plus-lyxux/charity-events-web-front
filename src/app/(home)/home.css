@@ -63,11 +63,24 @@
         flex-direction: row;
         gap: 7.65px;
         align-items: end;
-        width: 100%;
+        width: fit-content;
         /* width: 87.5px; */
         /*adding this would make the images smaller on firefox, on edge  not adding this would cause the images to be same size*/
         /* height: 168.24px; */
         /* margin-top: -14px; */
+    }
+
+    .gallery-image:nth-child(1) {
+        height: 175px;
+    }
+    .gallery-image:nth-child(2) {
+        height: 150px;
+    }
+    .gallery-image:nth-child(3) {
+        height: 150px;
+    }
+    .gallery-image:nth-child(4) {
+        height: 175px;
     }
 
     .gallery-image {
