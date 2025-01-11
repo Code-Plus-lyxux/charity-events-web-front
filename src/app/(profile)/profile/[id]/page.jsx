@@ -3,13 +3,17 @@ import ProfileCard from "@/components/user/UserProfileCard";
 import UserEvents from "@/components/user/UserEvents";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import Spinner from "@/components/ui/Spinner";
 
 export default function Profile() {
     const router = useRouter();
     const [fetchedUser, setFetchedUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const linkUserId = useParams().id;
 
     useEffect(() => {
+        setIsLoading(true);
         const token = localStorage.getItem("userToken");
 
         if (!token) {
@@ -20,6 +24,10 @@ export default function Profile() {
         const decodeToken = (token) => {
             try {
                 const payload = JSON.parse(atob(token.split(".")[1]));
+                if (linkUserId !== payload.id) {
+                    router.push("/");
+                    return;
+                }
                 return payload;
             } catch (error) {
                 console.error("Invalid token format:", error);
@@ -50,10 +58,11 @@ export default function Profile() {
         };
 
         fetchUser();
+        setIsLoading(false);
     }, [router]);
 
     if (!fetchedUser) {
-        return <div>Loading...</div>;
+        return <Spinner />;
     }
 
     return (

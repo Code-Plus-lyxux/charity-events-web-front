@@ -260,7 +260,17 @@ const HomePage = () => {
                                     </button>
                                 </div>
                                 {events.map((event, index) => (
-                                    <div key={index}>
+                                    <div
+                                        key={index}
+                                        onClick={
+                                            isLoggedIn
+                                                ? () =>
+                                                      router.push(
+                                                          `/events/${event._id}`
+                                                      )
+                                                : () => router.push("/login")
+                                        }
+                                    >
                                         <EventCard id={event._id} {...event} />
                                     </div>
                                 ))}

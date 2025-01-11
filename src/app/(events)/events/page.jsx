@@ -26,6 +26,12 @@ const page = () => {
                 setIsLoading(true);
                 const token = localStorage.getItem("userToken");
 
+                if (!token) {
+                    setIsLoggedIn(false);
+                    router.push("/");
+                    return;
+                }
+
                 if (token) {
                     setIsLoggedIn(true);
                     const userId = jwt.decode(token).id;

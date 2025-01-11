@@ -7,11 +7,13 @@ import { CommentWithIcon } from "@/components/ui/AddComment";
 import CommentCard from "@/components/ui/CommentCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "next/navigation";
-import { use } from "react";
+import { useParams, useRouter } from "next/navigation";
+import jwt from "jsonwebtoken";
+import Spinner from "@/components/ui/Spinner";
 
 export default function HostedEventPage({ params }) {
     const id = useParams().id;
+    const router = useRouter();
 
     const [refreshKey, setRefreshKey] = useState(0);
 
@@ -48,14 +50,18 @@ export default function HostedEventPage({ params }) {
 
     useEffect(() => {
         const fetchData = async () => {
+            const token = localStorage.getItem("userToken");
+            if (!token) {
+                router.push("/");
+                return;
+            }
+            const tokenUserId = jwt.decode(token).id;
             try {
                 const response = await axios.get(
                     `http://localhost:5000/api/events/${id}`,
                     {
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem(
-                                "userToken"
-                            )}`,
+                            Authorization: `Bearer ${token}`,
                         },
                     }
                 );
@@ -71,6 +77,12 @@ export default function HostedEventPage({ params }) {
                         },
                     }
                 );
+
+                if (tokenUserId !== response.data.userId) {
+                    router.push("/");
+                    return;
+                }
+
                 setEventHost(hostResponse.data);
             } catch (error) {
                 console.error("Error:", error);

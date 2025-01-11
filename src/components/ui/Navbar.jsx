@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { set } from "react-hook-form";
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -9,6 +8,12 @@ const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [profileRefresh, setProfileRefresh] = useState(0);
+
+    useEffect(() => {
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     useEffect(() => {
         try {
@@ -27,7 +32,7 @@ const Navbar = () => {
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [profileRefresh]);
 
     const fetchUserData = async (token) => {
         const userId = JSON.parse(atob(token.split(".")[1])).id;
@@ -40,7 +45,7 @@ const Navbar = () => {
                     },
                 }
             );
-            setUserData(response.data);
+            setUserData((prev) => response.data);
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 setIsLoggedIn(false);
@@ -58,11 +63,6 @@ const Navbar = () => {
             setIsMobileMenuOpen(false);
         }
     };
-
-    useEffect(() => {
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
 
     const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
@@ -107,7 +107,10 @@ const Navbar = () => {
                     </li>
                     <li className="relative">
                         <button
-                            onClick={toggleDropdown}
+                            onClick={() => {
+                                toggleDropdown();
+                                setProfileRefresh((prev) => prev + 1);
+                            }}
                             className="flex items-center gap-2"
                         >
                             <img
@@ -116,11 +119,11 @@ const Navbar = () => {
                                     "/images/default-profile.png"
                                 }
                                 alt="Profile"
-                                className="w-[40px] h-[40px] rounded-full"
+                                className="w-[40px] h-[40px] rounded-full object-cover"
                             />
                         </button>
                         {isDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white rounded shadow-lg">
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-10">
                                 <div className="p-2 border-b">
                                     <span className="block text-gray-700 text-lg font-bold px-2 ">
                                         {userData?.fullName}
@@ -129,7 +132,7 @@ const Navbar = () => {
                                 <ul>
                                     <li>
                                         <a
-                                            href={`/profile/${userData?.id}`}
+                                            href={`/profile/${userData?._id}`}
                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         >
                                             View Profile
@@ -185,7 +188,7 @@ const Navbar = () => {
                 <ul className="flex flex-col items-start p-4 gap-4 mt-[-35px]">
                     <li>
                         <a
-                            href={`/profile/${userData?.id}`}
+                            href={`/profile/${userData?._id}`}
                             className="flex items-center gap-2"
                         >
                             <img
@@ -278,9 +281,10 @@ const Navbar = () => {
                     <img src="/icons/menu.png" alt="Menu" className="w-6 h-6" />
                 </button>
             </div>
-            {!isMobileMenuOpen && !isLoading
-                ? renderDesktopMenu()
-                : renderMobileMenu()}
+
+            {isMobileMenuOpen
+                ? renderMobileMenu()
+                : !isLoading && renderDesktopMenu()}
         </nav>
     );
 };

@@ -81,7 +81,6 @@ const HostEventPage = () => {
             imageData.append("images", image);
 
             try {
-                setLoading(true);
                 const uploadResponse = await axios.post(
                     "http://localhost:5000/api/events/upload-images",
                     imageData,
