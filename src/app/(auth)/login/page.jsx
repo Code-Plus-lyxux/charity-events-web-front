@@ -40,7 +40,7 @@ export default function Login() {
                     <div className="border-t border-gray-500 w-[180px]"></div>
                 </div>
                 <div className="flex flex-col justify-center items-center w-full px-4">
-                    <Button
+                    {/* <Button                                   deactivated this because of higher management decision
                         onClick={handleGoogleLogin}
                         className="w-full max-w-sm rounded-3xl py-6 text-lg"
                         variant="outline"
@@ -51,7 +51,7 @@ export default function Login() {
                             width={20}
                         ></Image>
                         Sign in with Google
-                    </Button>
+                    </Button> */}
                     <div className="mt-4 pb-6 w-full text-center">
                         Don't have an account?{" "}
                         <a
