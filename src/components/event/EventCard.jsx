@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaMapMarkerAlt, FaHandPaper, FaImage } from "react-icons/fa";
 import "@/app/(home)/home.css";
 
@@ -9,12 +9,21 @@ const EventCard = ({
     startDate,
     eventName,
     aboutEvent,
+    user,
 }) => {
-    const [isHandIconActive] = useState(false);
+    const [isHandIconActive, setIsHandIconActive] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
 
     const showNoImage = !backgroundImage || imageError;
+
+    useEffect(() => {
+        if (user) {
+            user.eventsAttending.map((event) => event._id).includes(id)
+                ? setIsHandIconActive(() => true)
+                : setIsHandIconActive(() => false);
+        }
+    }, []);
 
     return (
         <div className="event-card-container relative flex flex-wrap w-full h-[219px] md:max-lg:w-[800px] lg:w-[1000px]  mt-10 gap-[61px] md:gap-3 lg:gap-10 hover:cursor-pointer overflow-clip sm:gap-y-10">
@@ -49,15 +58,13 @@ const EventCard = ({
                 )}
 
                 <div
-                    className={`hand-icon absolute top-4 right-5 p-2 rounded-full shadow ${
-                        isHandIconActive ? "bg-greenhand" : "bg-white"
-                    }`}
+                    className={
+                        isHandIconActive
+                            ? `hand-icon absolute top-4 right-5 p-2 rounded-full bg-mint-500`
+                            : `hand-icon absolute top-4 right-5 p-2 rounded-full bg-mint-500 hidden`
+                    }
                 >
-                    <FaHandPaper
-                        className={
-                            isHandIconActive ? "text-white" : "text-greenhand"
-                        }
-                    />
+                    <FaHandPaper className={`text-white bg-mint-500`} />
                 </div>
             </div>
             <div className="event-info flex flex-col border border-gray-400 rounded-[20px] md:w-[485px] lg:w-[660px] w-full h-[219px] p-[24px] md:p-3 lg:p-4 shadow-sm">

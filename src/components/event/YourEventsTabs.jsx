@@ -152,6 +152,7 @@ export default function YourEventsTab({ user }) {
                 location={event.location}
                 backgroundImage={event.backgroundImage}
                 aboutEvent={event.aboutEvent}
+                user={user}
             />
         </div>
     );

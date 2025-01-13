@@ -71,6 +71,7 @@ export default function UserEvents({ user }) {
                                         location={event.location}
                                         aboutEvent={event.aboutEvent}
                                         backgroundImage={event.backgroundImage}
+                                        user={user}
                                     />
                                 </div>
                             );
@@ -105,6 +106,7 @@ export default function UserEvents({ user }) {
                                             backgroundImage={
                                                 event.backgroundImage
                                             }
+                                            user={user}
                                         />
                                     </div>
                                 );

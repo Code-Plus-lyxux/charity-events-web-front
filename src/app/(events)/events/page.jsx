@@ -148,7 +148,11 @@ const page = () => {
                                         }
                                         className="hover:cursor-pointer"
                                     >
-                                        <EventCard {...event} />
+                                        <EventCard
+                                            id={event._id}
+                                            {...event}
+                                            user={user}
+                                        />
                                     </div>
                                 ))
                             ) : (

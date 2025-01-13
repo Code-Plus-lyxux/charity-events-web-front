@@ -19,12 +19,21 @@ const EventCard = ({
     startDate,
     eventName,
     aboutEvent,
+    user,
 }) => {
-    const [isHandIconActive] = useState(false);
+    const [isHandIconActive, setIsHandIconActive] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
 
     const showNoImage = !backgroundImage || imageError;
+
+    useEffect(() => {
+        if (user) {
+            user.eventsAttending.map((event) => event._id).includes(id)
+                ? setIsHandIconActive(true)
+                : setIsHandIconActive(false);
+        }
+    }, []);
 
     return (
         <div className="event-card-container relative flex flex-wrap md:flex-nowrap w-full md:w-[1223px] h-[219px] mt-10 gap-[61px] hover:cursor-pointer overflow-clip">
@@ -61,15 +70,13 @@ const EventCard = ({
                 )}
 
                 <div
-                    className={`hand-icon absolute top-4 right-5 p-2 rounded-full shadow ${
-                        isHandIconActive ? "bg-greenhand" : "bg-white"
-                    }`}
+                    className={
+                        isHandIconActive
+                            ? `hand-icon absolute top-4 right-5 p-2 rounded-full bg-mint-500`
+                            : `hand-icon absolute top-4 right-5 p-2 rounded-full bg-mint-500 hidden`
+                    }
                 >
-                    <FaHandPaper
-                        className={
-                            isHandIconActive ? "text-white" : "text-greenhand"
-                        }
-                    />
+                    <FaHandPaper className={`text-white bg-mint-500`} />
                 </div>
             </div>
             <div className="event-info border border-gray-300 rounded-[20px] p-[24px] shadow-sm w-full md:w-[772px] h-[219px]">
@@ -265,7 +272,11 @@ const HomePage = () => {
                                             : () => router.push("/login")
                                     }
                                 >
-                                    <EventCard id={event._id} {...event} />
+                                    <EventCard
+                                        id={event._id}
+                                        {...event}
+                                        user={user}
+                                    />
                                 </div>
                             ))}
                         </div>
