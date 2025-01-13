@@ -65,7 +65,6 @@ export default function signupForm() {
                 `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/register`,
                 data
             );
-            console.log("Success:", response.data);
             setEmail(data.email);
 
             router.push("/login");

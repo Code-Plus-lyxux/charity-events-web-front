@@ -48,8 +48,6 @@ export default function VerificationForm() {
         const otp = `${values.square1}${values.square2}${values.square3}${values.square4}`;
 
         try {
-            console.log("Form submitted with values:", values, email, otp);
-
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/password/verify`,
                 {
@@ -57,8 +55,6 @@ export default function VerificationForm() {
                     otp,
                 }
             );
-
-            console.log("API response:", response.data);
 
             Swal.fire({
                 icon: "success",

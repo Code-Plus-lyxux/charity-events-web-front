@@ -40,17 +40,14 @@ export default function LoginForm() {
     const router = useRouter();
     // Handle form submission
     const onSubmit = async (data) => {
-        // console.log("Form submitted with values:", data);
         try {
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/login`,
                 data
             );
-            console.log("Success:", response.data);
 
             const token = response.data.token;
             localStorage.setItem("userToken", token);
-            //console.log("Token:", token);
             router.push("/");
         } catch (error) {
             console.error(

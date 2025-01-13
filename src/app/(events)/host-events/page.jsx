@@ -135,7 +135,6 @@ const HostEventPage = () => {
                 }
 
                 const imageUrl = uploadedFile.url;
-                // console.log("Image URL:", imageUrl);
                 data.append("backgroundImage", imageUrl);
 
                 await submitEventData(data);

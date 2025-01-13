@@ -135,7 +135,6 @@ const Page = () => {
                 }
             );
 
-            console.log("Changes saved", response.data);
             setProfileImage(response.data.profileImage || "");
         } catch (error) {
             console.error("Error updating profile", error);

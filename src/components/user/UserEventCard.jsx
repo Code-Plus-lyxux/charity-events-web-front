@@ -23,7 +23,6 @@ export default function UserEventCard({
     const showNoImage = !imageSrc || imageError;
 
     const handleOnClick = (id) => {
-        console.log("clicked event ID: ", id);
         toggleGoing(id);
     };
 
