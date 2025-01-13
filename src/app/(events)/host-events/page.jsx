@@ -35,7 +35,7 @@ const HostEventPage = () => {
                 if (token) {
                     const userId = jwt.decode(token).id;
                     const userResponse = await axios.get(
-                        `http://localhost:5000/api/user/${userId}`,
+                        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${token}`,
@@ -119,7 +119,7 @@ const HostEventPage = () => {
 
             try {
                 const uploadResponse = await axios.post(
-                    "http://localhost:5000/api/events/upload-images",
+                    "${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/upload-images",
                     imageData,
                     {
                         headers: {
@@ -160,7 +160,7 @@ const HostEventPage = () => {
             data.append("userId", userId);
 
             const response = await axios.post(
-                "http://localhost:5000/api/events/add",
+                "${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/add",
                 data,
                 {
                     headers: {

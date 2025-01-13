@@ -17,7 +17,7 @@ import {
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 // Define the form schema
 const formSchema = z.object({
@@ -35,22 +35,22 @@ export default function LoginForm() {
             password: "",
         },
     });
-    const [errorMessage, setErrorMessage] = useState("");   
+    const [errorMessage, setErrorMessage] = useState("");
 
     const router = useRouter();
     // Handle form submission
     const onSubmit = async (data) => {
-       // console.log("Form submitted with values:", data);
+        // console.log("Form submitted with values:", data);
         try {
             const response = await axios.post(
-                "http://localhost:5000/api/auth/login",
+                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/login`,
                 data
             );
             console.log("Success:", response.data);
-    
+
             const token = response.data.token;
             localStorage.setItem("userToken", token);
-           //console.log("Token:", token);
+            //console.log("Token:", token);
             router.push("/");
         } catch (error) {
             console.error(

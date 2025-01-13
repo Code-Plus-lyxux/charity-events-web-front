@@ -45,7 +45,7 @@ const Page = () => {
                 }
 
                 const userResponse = await axios.get(
-                    `http://localhost:5000/api/user/${userId}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     }
@@ -113,7 +113,7 @@ const Page = () => {
                 imageFormData.append("images", selectedImage);
 
                 const imageResponse = await axios.post(
-                    "http://localhost:5000/api/events/upload-images",
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/upload-images`,
                     imageFormData,
                     {
                         headers: {
@@ -138,7 +138,7 @@ const Page = () => {
             };
 
             const response = await axios.put(
-                "http://localhost:5000/api/events/update",
+                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/update`,
                 eventFormData,
                 {
                     headers: {
@@ -187,14 +187,17 @@ const Page = () => {
         if (isConfirmed) {
             setUpdateLoading(true);
             try {
-                await axios.delete("http://localhost:5000/api/events/delete", {
-                    data: { eventId: params.id },
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "userToken"
-                        )}`,
-                    },
-                });
+                await axios.delete(
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/delete`,
+                    {
+                        data: { eventId: params.id },
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "userToken"
+                            )}`,
+                        },
+                    }
+                );
                 await Swal.fire(
                     "Deleted!",
                     "Your event has been deleted.",

@@ -19,7 +19,7 @@ export default function ShareBar({ setRefreshKey }) {
             try {
                 const userId = jwt.decode(token).id;
                 const response = await axios.get(
-                    `http://localhost:5000/api/events/${id}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ export default function ShareBar({ setRefreshKey }) {
             //after clicking next state will be true
             if (!isGoing) {
                 const response = await axios.post(
-                    `http://localhost:5000/api/events/${id}/attend`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/${id}/attend`,
                     {},
                     {
                         headers: {
@@ -61,7 +61,7 @@ export default function ShareBar({ setRefreshKey }) {
                 }
             } else {
                 const response = await axios.delete(
-                    `http://localhost:5000/api/events/${id}/attend`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/${id}/attend`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(

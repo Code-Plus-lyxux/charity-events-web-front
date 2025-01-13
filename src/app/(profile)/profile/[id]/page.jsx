@@ -43,7 +43,7 @@ export default function Profile() {
                 }
 
                 const response = await axios.get(
-                    `http://localhost:5000/api/user/${decodedToken.id}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${decodedToken.id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

@@ -44,7 +44,7 @@ const Page = () => {
 
             try {
                 const response = await axios.get(
-                    `http://localhost:5000/api/user/${userId}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -125,7 +125,7 @@ const Page = () => {
 
         try {
             const response = await axios.put(
-                `http://localhost:5000/api/user/profile`,
+                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/profile`,
                 formData,
                 {
                     headers: {

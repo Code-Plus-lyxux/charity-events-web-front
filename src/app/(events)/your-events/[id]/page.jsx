@@ -43,7 +43,7 @@ export default function HostedEventPage({ params }) {
                 }
 
                 const response = await axios.get(
-                    `http://localhost:5000/api/user/${userId}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     }
@@ -71,7 +71,7 @@ export default function HostedEventPage({ params }) {
             try {
                 const tokenUserId = jwt.decode(token).id;
                 const response = await axios.get(
-                    `http://localhost:5000/api/events/${id}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/${id}`,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     }
@@ -86,7 +86,7 @@ export default function HostedEventPage({ params }) {
                 setEventData(response.data);
 
                 const hostResponse = await axios.get(
-                    `http://localhost:5000/api/user/${response.data.userId}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${response.data.userId}`,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     }
