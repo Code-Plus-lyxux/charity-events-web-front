@@ -4,6 +4,8 @@ import axios from "axios";
 import "@/app/(events)/host-events/host-events.css";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import jwt from "jsonwebtoken";
+import Spinner from "@/components/ui/Spinner";
 
 const HostEventPage = () => {
     const [formData, setFormData] = useState({
@@ -17,12 +19,47 @@ const HostEventPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("userToken");
-        if (!token) {
-            router.push("/");
-        }
+        const fetchUser = async () => {
+            setLoading(true);
+            try {
+                const token = localStorage.getItem("userToken");
+
+                if (!token) {
+                    router.push("/");
+                    return;
+                }
+
+                if (token) {
+                    const userId = jwt.decode(token).id;
+                    const userResponse = await axios.get(
+                        `http://localhost:5000/api/user/${userId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+
+                    const userData = userResponse.data;
+                    if (userResponse.status === 200) {
+                        setUser(userData);
+                    } else {
+                        router.push("/");
+                        return;
+                    }
+                }
+            } catch (error) {
+                router.push("/");
+                console.error("Error:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
     }, [router]);
 
     const handleInputChange = (e) => {
@@ -155,6 +192,10 @@ const HostEventPage = () => {
             setLoading(false);
         }
     };
+
+    if (!user) {
+        return <Spinner />;
+    }
 
     return (
         <div className="Host-Events-Page">

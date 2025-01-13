@@ -1,8 +1,9 @@
-'use client';
+"use client";
 import React, { useState, useEffect } from "react";
 import ProfileCard from "@/components/user/ProfileCard";
 import { useRouter } from "next/navigation";
-import axios from 'axios';
+import axios from "axios";
+import Spinner from "@/components/ui/Spinner";
 
 const Page = () => {
     const [fullName, setName] = useState("");
@@ -11,37 +12,48 @@ const Page = () => {
     const [location, setLocation] = useState("");
     const [mobile, setPhoneNumber] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
-    const [imageFile, setImageFile] = useState(null); 
-    const [profileImage, setProfileImage] = useState(""); 
+    const [imageFile, setImageFile] = useState(null);
+    const [profileImage, setProfileImage] = useState("");
     const [errors, setErrors] = useState({});
     const router = useRouter();
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const token = localStorage.getItem('userToken');
-    
+            const token = localStorage.getItem("userToken");
+
             if (!token) {
-                console.error('User token not found in localStorage');
-                router.push('/'); 
+                console.error("User token not found in localStorage");
+                router.push("/");
                 return;
             }
-    
+
             let userId;
             try {
-                userId = JSON.parse(atob(token.split(".")[1])).id; 
+                userId = JSON.parse(atob(token.split(".")[1])).id;
             } catch (error) {
-                console.error('Error decoding token', error);
+                router.push("/");
+                console.error("Error decoding token", error);
                 return;
             }
-    
+
             try {
-                const response = await axios.get(`http://localhost:5000/api/user/${userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+                const response = await axios.get(
+                    `http://localhost:5000/api/user/${userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
                     }
-                });
+                );
                 const userData = response.data;
-    
+                if (response.status === 200) {
+                    setUser(userData);
+                } else {
+                    router.push("/");
+                    return;
+                }
+
                 setName(userData.fullName);
                 setEmail(userData.email);
                 setAbout(userData.about);
@@ -49,13 +61,14 @@ const Page = () => {
                 setPhoneNumber(userData.mobile);
                 setProfileImage(userData.profileImage || "");
             } catch (error) {
-                console.error('Error fetching user data', error);
+                router.push("/");
+                console.error("Error fetching user data", error);
             }
         };
-    
+
         fetchUserData();
     }, []);
-    
+
     const validateInputs = () => {
         const newErrors = {};
         if (!fullName.trim()) newErrors.fullName = "Full Name is required";
@@ -63,7 +76,8 @@ const Page = () => {
         if (!about.trim()) newErrors.about = "About is required";
         if (!location.trim()) newErrors.location = "Location is required";
         if (!mobile.trim()) newErrors.mobile = "Phone Number is required";
-        if (mobile && !/^\d+$/.test(mobile)) newErrors.mobile = "Phone Number must be numbers only";
+        if (mobile && !/^\d+$/.test(mobile))
+            newErrors.mobile = "Phone Number must be numbers only";
         return newErrors;
     };
 
@@ -80,28 +94,28 @@ const Page = () => {
 
         setIsEditMode(false);
 
-        const token = localStorage.getItem('userToken');
+        const token = localStorage.getItem("userToken");
 
         if (!token) {
-            console.error('User token not found in localStorage');
+            console.error("User token not found in localStorage");
             return;
         }
 
         let userId;
         try {
-            userId = JSON.parse(atob(token.split(".")[1])).id; 
+            userId = JSON.parse(atob(token.split(".")[1])).id;
         } catch (error) {
-            console.error('Error decoding token', error);
+            console.error("Error decoding token", error);
             return;
         }
 
         const formData = new FormData();
-        formData.append('fullName', fullName);
-        formData.append('about', about);
-        formData.append('location', location);
-        formData.append('mobile', mobile);
+        formData.append("fullName", fullName);
+        formData.append("about", about);
+        formData.append("location", location);
+        formData.append("mobile", mobile);
         if (imageFile) {
-            formData.append('profileImage', imageFile); 
+            formData.append("profileImage", imageFile);
         }
 
         try {
@@ -111,20 +125,23 @@ const Page = () => {
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data' 
-                    }
+                        "Content-Type": "multipart/form-data",
+                    },
                 }
             );
 
-            console.log('Changes saved', response.data);
-            setProfileImage(response.data.profileImage || ""); 
+            console.log("Changes saved", response.data);
+            setProfileImage(response.data.profileImage || "");
         } catch (error) {
-            console.error('Error updating profile', error);
+            console.error("Error updating profile", error);
         }
 
         window.location.reload();
-
     };
+
+    if (!user) {
+        return <Spinner />;
+    }
 
     return (
         <div className="profile-settings-section font-roboto w-full h-auto mt-[-50px] bg-cover flex flex-col md:flex-row justify-between items-start gap-6 p-4 md:p-8">
@@ -132,7 +149,7 @@ const Page = () => {
                 <ProfileCard
                     name={fullName}
                     email={email}
-                    profileImage={profileImage}  
+                    profileImage={profileImage}
                 />
             </div>
             <div className="profile-personal-info-section p-4 md:p-6 rounded-lg bg-white w-full h-auto mt-6 md:mt-[140px] flex flex-col">
@@ -144,7 +161,9 @@ const Page = () => {
                     </h1>
                     <div className="cursor-pointer flex justify-end">
                         <img
-                            src={isEditMode ? "/icons/X.png" : "/icons/edit.png"}
+                            src={
+                                isEditMode ? "/icons/X.png" : "/icons/edit.png"
+                            }
                             alt="Edit"
                             className="p-edit-icon w-6 h-6 md:w-[30px] md:h-[30px] items-baseline"
                             onClick={handleEditClick}
@@ -163,7 +182,11 @@ const Page = () => {
                             onChange={(e) => setName(e.target.value)}
                             readOnly={!isEditMode}
                         />
-                        {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
+                        {errors.fullName && (
+                            <p className="text-red-500 text-sm">
+                                {errors.fullName}
+                            </p>
+                        )}
                     </div>
                     <div className="w-full mt-3">
                         <label className="text-base md:text-[20px] leading-[23.44px] font-semibold">
@@ -176,7 +199,11 @@ const Page = () => {
                             onChange={(e) => setAbout(e.target.value)}
                             readOnly={!isEditMode}
                         />
-                        {errors.about && <p className="text-red-500 text-sm">{errors.about}</p>}
+                        {errors.about && (
+                            <p className="text-red-500 text-sm">
+                                {errors.about}
+                            </p>
+                        )}
                     </div>
                     <div className="w-full mt-3">
                         <label className="text-base md:text-[20px] leading-[23.44px] font-semibold">
@@ -189,7 +216,11 @@ const Page = () => {
                             onChange={(e) => setLocation(e.target.value)}
                             readOnly={!isEditMode}
                         />
-                        {errors.location && <p className="text-red-500 text-sm">{errors.location}</p>}
+                        {errors.location && (
+                            <p className="text-red-500 text-sm">
+                                {errors.location}
+                            </p>
+                        )}
                     </div>
                     <div className="w-full mt-3">
                         <label className="text-base md:text-[20px] leading-[23.44px] font-semibold">
@@ -202,7 +233,11 @@ const Page = () => {
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             readOnly={!isEditMode}
                         />
-                        {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile}</p>}
+                        {errors.mobile && (
+                            <p className="text-red-500 text-sm">
+                                {errors.mobile}
+                            </p>
+                        )}
                     </div>
 
                     {isEditMode && (

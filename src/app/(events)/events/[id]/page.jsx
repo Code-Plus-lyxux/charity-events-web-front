@@ -9,10 +9,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import Spinner from "@/components/ui/Spinner";
+import jwt from "jsonwebtoken";
 
 export default function EventPage() {
     const id = useParams().id;
     const router = useRouter();
+    const [user, setUser] = useState(null);
 
     const [refreshKey, setRefreshKey] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -62,6 +64,26 @@ export default function EventPage() {
                     return;
                 }
 
+                if (token) {
+                    const userId = jwt.decode(token).id;
+                    const userResponse = await axios.get(
+                        `http://localhost:5000/api/user/${userId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+
+                    const userData = userResponse.data;
+                    if (userResponse.status === 200) {
+                        setUser(userData);
+                    } else {
+                        router.push("/");
+                        return;
+                    }
+                }
+
                 const response = await axios.get(
                     `http://localhost:5000/api/events/${id}`,
                     {
@@ -86,6 +108,7 @@ export default function EventPage() {
                 );
                 setEventHost(hostResponse.data);
             } catch (error) {
+                router.push("/");
                 console.error("Error:", error);
             } finally {
                 setIsLoading(false);
@@ -93,6 +116,10 @@ export default function EventPage() {
         };
         fetchData();
     }, [refreshKey]);
+
+    if (!user) {
+        return <Spinner />;
+    }
 
     return !isLoading ? (
         <>

@@ -13,19 +13,16 @@ export default function YourEvents() {
     const router = useRouter();
 
     useEffect(() => {
-        const token = localStorage.getItem("userToken");
-        if (!token) {
-            router.push("/");
-        }
-    }, [router]);
-
-    useEffect(() => {
         const fetchUser = async () => {
+            setLoading(true);
             try {
                 // Get user token from localStorage
                 const token = localStorage.getItem("userToken");
                 if (!token) {
-                    throw new Error("User token not found");
+                    if (!token) {
+                        router.push("/");
+                        return;
+                    }
                 }
 
                 // Decode token to get user ID
@@ -33,7 +30,8 @@ export default function YourEvents() {
                 try {
                     userId = JSON.parse(atob(token.split(".")[1])).id;
                 } catch (err) {
-                    throw new Error("Invalid token format");
+                    router.push("/");
+                    console.error("Error:", error);
                 }
 
                 const response = await axios.get(
@@ -47,6 +45,7 @@ export default function YourEvents() {
 
                 setUser(response.data);
             } catch (err) {
+                router.push("/");
                 setError(err.message || "Failed to fetch user data");
             } finally {
                 setLoading(false);
@@ -54,19 +53,29 @@ export default function YourEvents() {
         };
 
         fetchUser();
-    }, []);
+    }, [router]);
 
-    if (loading) return <Spinner />;
-    if (error) return <p>Error: {error}</p>;
+    // if (loading) return <Spinner />;
+    // if (error) return <p>Error: {error}</p>;
+
+    if (!user) {
+        <Spinner />;
+        router.push("/");
+    }
 
     return (
         <>
-            <section>
-                <YourEventsCard user={user} />
-            </section>
-            <section>
-                <YourEventsTabs user={user} />
-            </section>
+            {loading && <Spinner />}
+            {!loading && (
+                <>
+                    <section>
+                        <YourEventsCard user={user} />
+                    </section>
+                    <section>
+                        <YourEventsTabs user={user} />
+                    </section>
+                </>
+            )}
         </>
     );
 }

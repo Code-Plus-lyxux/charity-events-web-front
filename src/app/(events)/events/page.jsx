@@ -33,7 +33,6 @@ const page = () => {
                 }
 
                 if (token) {
-                    setIsLoggedIn(true);
                     const userId = jwt.decode(token).id;
                     const userResponse = await axios.get(
                         `http://localhost:5000/api/user/${userId}`,
@@ -44,7 +43,13 @@ const page = () => {
                         }
                     );
                     const userData = userResponse.data;
-                    setUser(userData);
+                    if (userResponse.status === 200) {
+                        setIsLoggedIn(true);
+                        setUser(userData);
+                    } else {
+                        router.push("/");
+                        return;
+                    }
 
                     // Fetch all nearby upcoming events
                     const nearbyResponse = await axios.get(
@@ -59,6 +64,7 @@ const page = () => {
                     setEvents(nearbyResponse.data);
                 }
             } catch (error) {
+                router.push("/");
                 console.error("Error:", error);
             } finally {
                 setIsLoading(false);
@@ -90,6 +96,10 @@ const page = () => {
         (currentPage - 1) * event_p_p,
         currentPage * event_p_p
     );
+
+    if (!user) {
+        return <Spinner />;
+    }
 
     return (
         <>
