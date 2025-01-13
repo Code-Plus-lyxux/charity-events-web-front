@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import ProfileCard from "@/components/user/ProfileCard";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import Spinner from "@/components/ui/Spinner";
 
@@ -18,6 +18,8 @@ const Page = () => {
     const router = useRouter();
     const [user, setUser] = useState(null);
 
+    const linkUserId = useParams().id;
+
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("userToken");
@@ -31,6 +33,9 @@ const Page = () => {
             let userId;
             try {
                 userId = JSON.parse(atob(token.split(".")[1])).id;
+                if (linkUserId !== userId) {
+                    router / push("/");
+                }
             } catch (error) {
                 router.push("/");
                 console.error("Error decoding token", error);

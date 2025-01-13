@@ -8,21 +8,18 @@ import { useRouter } from "next/navigation";
 
 export default function YourEvents() {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [initialLoading, setInitialLoading] = useState(true);
     const [error, setError] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
         const fetchUser = async () => {
-            setLoading(true);
             try {
                 // Get user token from localStorage
                 const token = localStorage.getItem("userToken");
                 if (!token) {
-                    if (!token) {
-                        router.push("/");
-                        return;
-                    }
+                    router.push("/");
+                    return;
                 }
 
                 // Decode token to get user ID
@@ -31,7 +28,7 @@ export default function YourEvents() {
                     userId = JSON.parse(atob(token.split(".")[1])).id;
                 } catch (err) {
                     router.push("/");
-                    console.error("Error:", error);
+                    return;
                 }
 
                 const response = await axios.get(
@@ -45,37 +42,33 @@ export default function YourEvents() {
 
                 setUser(response.data);
             } catch (err) {
-                router.push("/");
                 setError(err.message || "Failed to fetch user data");
+                router.push("/");
             } finally {
-                setLoading(false);
+                setInitialLoading(false);
             }
         };
 
         fetchUser();
-    }, [router]);
+    }, []);
 
-    // if (loading) return <Spinner />;
-    // if (error) return <p>Error: {error}</p>;
+    if (initialLoading) {
+        return <Spinner />;
+    }
 
-    if (!user) {
-        <Spinner />;
-        router.push("/");
+    // Return null during initial loading or if validation failed
+    if (initialLoading || !user) {
+        return null;
     }
 
     return (
         <>
-            {loading && <Spinner />}
-            {!loading && (
-                <>
-                    <section>
-                        <YourEventsCard user={user} />
-                    </section>
-                    <section>
-                        <YourEventsTabs user={user} />
-                    </section>
-                </>
-            )}
+            <section>
+                <YourEventsCard user={user} />
+            </section>
+            <section>
+                <YourEventsTabs user={user} />
+            </section>
         </>
     );
 }
