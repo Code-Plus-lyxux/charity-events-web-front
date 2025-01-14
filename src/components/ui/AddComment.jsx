@@ -21,7 +21,7 @@ export const CommentWithIcon = React.forwardRef(
             e.preventDefault();
             try {
                 const response = await axios.post(
-                    `http://localhost:5000/api/events/add-comment/${eventId}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/add-comment/${eventId}`,
                     {
                         comment: comment,
                     },

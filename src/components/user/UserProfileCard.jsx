@@ -6,7 +6,7 @@ export default function ProfileCard({ user }) {
     const router = useRouter();
 
     const {
-        id,
+        _id,
         fullName,
         email,
         profileImage,
@@ -19,7 +19,7 @@ export default function ProfileCard({ user }) {
         <div className="flex flex-col">
             <div
                 className="self-end py-3 px-4"
-                onClick={() => router.push(`/profile/${id}/settings`)}
+                onClick={() => router.push(`/profile/${_id}/settings`)}
             >
                 <GearIcon className="self-end hover:cursor-pointer hover:stroke-mint-500" />
             </div>
@@ -30,10 +30,8 @@ export default function ProfileCard({ user }) {
                 height={100}
                 className="rounded-full flex self-center"
             />
-            <p className="text-center font-bold pt-2">
-                {fullName}
-            </p>
-            <p className="text-center text-sm">{email}</p>
+            <p className="text-center font-bold text-2xl pt-2">{fullName}</p>
+            <p className="text-center text-md">{email}</p>
         </div>
     );
 }

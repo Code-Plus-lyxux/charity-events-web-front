@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -34,11 +34,7 @@ const ProfileCard = ({ name, email, profileImage }) => {
 
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    canvas.toBlob(
-                        (blob) => resolve(blob),
-                        "image/jpeg",
-                        0.8
-                    );
+                    canvas.toBlob((blob) => resolve(blob), "image/jpeg", 0.8);
                 };
                 img.src = e.target.result;
             };
@@ -53,18 +49,26 @@ const ProfileCard = ({ name, email, profileImage }) => {
         if (file) {
             try {
                 const resizedBlob = await resizeImage(file);
-                const resizedFile = new File([resizedBlob], file.name, { type: file.type });
+                const resizedFile = new File([resizedBlob], file.name, {
+                    type: file.type,
+                });
 
                 setTempProfileImage(URL.createObjectURL(resizedFile));
 
                 const formData = new FormData();
                 formData.append("profileImage", resizedFile);
 
-                const response = await axios.put("http://localhost:5000/api/user/profile", formData, {
-                    headers: {
-                        "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
-                    },
-                });
+                const response = await axios.put(
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/profile`,
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "userToken"
+                            )}`,
+                        },
+                    }
+                );
 
                 const { profileImage } = response.data.user;
 
@@ -73,7 +77,6 @@ const ProfileCard = ({ name, email, profileImage }) => {
                 } else {
                     throw new Error("Profile image upload failed.");
                 }
-
             } catch (error) {
                 console.error("Error handling image change:", error);
             }
@@ -87,11 +90,17 @@ const ProfileCard = ({ name, email, profileImage }) => {
             const formData = new FormData();
             formData.append("profileImage", savedProfileImage);
 
-            const response = await axios.put("http://localhost:5000/api/user/profile", formData, {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
-                },
-            });
+            const response = await axios.put(
+                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/profile`,
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "userToken"
+                        )}`,
+                    },
+                }
+            );
 
             const { profileImage } = response.data.user;
             if (profileImage) {
@@ -115,16 +124,30 @@ const ProfileCard = ({ name, email, profileImage }) => {
     return (
         <div className="profile-card-container relative flex flex-col items-center w-full max-w-sm md:max-w-md lg:max-w-lg mt-5 border-2 border-gray-300 bg-white font-roboto shadow-md mx-auto">
             <div className="absolute flex justify-center items-center top-5 right-5">
-                <div className="edit-icon w-6 h-6 cursor-pointer" onClick={handleEditClick}>
-                    <img src={isEditMode ? "/icons/X.png" : "/icons/edit.png"} alt="Edit" className="w-6 h-6" />
+                <div
+                    className="edit-icon w-6 h-6 cursor-pointer"
+                    onClick={handleEditClick}
+                >
+                    <img
+                        src={isEditMode ? "/icons/X.png" : "/icons/edit.png"}
+                        alt="Edit"
+                        className="w-6 h-6"
+                    />
                 </div>
             </div>
             <div className="profile-card-content w-full mt-2 px-4 md:px-6 lg:px-8 flex flex-col items-center">
                 {isEditMode ? (
                     <div className="relative">
-                        <label htmlFor="profileImage" className="cursor-pointer relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full flex items-center justify-center bg-transparent">
+                        <label
+                            htmlFor="profileImage"
+                            className="cursor-pointer relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full flex items-center justify-center bg-transparent"
+                        >
                             <img
-                                src={tempProfileImage || savedProfileImage || "/default-profile.png"}
+                                src={
+                                    tempProfileImage ||
+                                    savedProfileImage ||
+                                    "/default-profile.png"
+                                }
                                 alt="Profile"
                                 className="absolute w-full h-full object-cover rounded-full z-10"
                             />
@@ -144,18 +167,26 @@ const ProfileCard = ({ name, email, profileImage }) => {
                 ) : (
                     <>
                         <img
-                            src={profileImage }
+                            src={profileImage}
                             alt="Profile"
                             className="profile-image w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full mx-auto"
-                            onError={(e) => e.target.src = "/images/Frame 12.jpg"}
+                            onError={(e) =>
+                                (e.target.src = "/images/Frame 12.jpg")
+                            }
                         />
-                        <h2 className="profile-name text-lg md:text-xl lg:text-2xl font-medium text-black mt-4">{name}</h2>
-                        <p className="profile-email text-sm md:text-base lg:text-lg text-gray-600 mt-2">{email}</p>
+                        <h2 className="profile-name text-lg md:text-xl lg:text-2xl font-medium text-black mt-4">
+                            {name}
+                        </h2>
+                        <p className="profile-email text-sm md:text-base lg:text-lg text-gray-600 mt-2">
+                            {email}
+                        </p>
                     </>
                 )}
                 <button
                     onClick={isEditMode ? handleSaveClick : handleLogoutClick}
-                    className={`profile-logout ${isEditMode ? "bg-green-500" : "bg-red-500"} mt-4 w-32 md:w-36 lg:w-40 h-12 text-white text-sm md:text-base font-semibold rounded-full mb-6`}
+                    className={`profile-logout ${
+                        isEditMode ? "bg-green-500" : "bg-red-500"
+                    } mt-4 w-32 md:w-36 lg:w-40 h-12 text-white text-sm md:text-base font-semibold rounded-full mb-6`}
                 >
                     {isEditMode ? "Save" : "Logout"}
                 </button>

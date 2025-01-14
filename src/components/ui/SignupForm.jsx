@@ -61,8 +61,10 @@ export default function signupForm() {
     // Handle form submission
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/register', data);
-            console.log('Success:', response.data);
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/register`,
+                data
+            );
             setEmail(data.email);
 
             router.push("/login");

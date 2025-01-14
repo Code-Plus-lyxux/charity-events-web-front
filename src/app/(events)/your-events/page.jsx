@@ -1,25 +1,16 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import YourEventsCard from "@/components/event/YourEventsCard";
 import YourEventsTabs from "@/components/event/YourEventsTabs";
+import Spinner from "@/components/ui/Spinner";
 import { useRouter } from "next/navigation";
 
 export default function YourEvents() {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [initialLoading, setInitialLoading] = useState(true);
     const [error, setError] = useState(null);
     const router = useRouter();
-
-    useEffect(() => {
-        const token = localStorage.getItem("userToken");
-        if (!token) {
-            router.push("/");
-        }
-    }, [router]);
-
-
-
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -27,7 +18,8 @@ export default function YourEvents() {
                 // Get user token from localStorage
                 const token = localStorage.getItem("userToken");
                 if (!token) {
-                    throw new Error("User token not found");
+                    router.push("/");
+                    return;
                 }
 
                 // Decode token to get user ID
@@ -35,28 +27,39 @@ export default function YourEvents() {
                 try {
                     userId = JSON.parse(atob(token.split(".")[1])).id;
                 } catch (err) {
-                    throw new Error("Invalid token format");
+                    router.push("/");
+                    return;
                 }
 
-                const response = await axios.get(`http://localhost:5000/api/user/${userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`, 
-                    },
-                });
+                const response = await axios.get(
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
 
                 setUser(response.data);
             } catch (err) {
                 setError(err.message || "Failed to fetch user data");
+                router.push("/");
             } finally {
-                setLoading(false);
+                setInitialLoading(false);
             }
         };
 
         fetchUser();
     }, []);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+    if (initialLoading) {
+        return <Spinner />;
+    }
+
+    // Return null during initial loading or if validation failed
+    if (initialLoading || !user) {
+        return null;
+    }
 
     return (
         <>

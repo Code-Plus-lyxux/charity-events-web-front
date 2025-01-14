@@ -4,6 +4,8 @@ import axios from "axios";
 import "@/app/(events)/host-events/host-events.css";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import jwt from "jsonwebtoken";
+import Spinner from "@/components/ui/Spinner";
 
 const HostEventPage = () => {
     const [formData, setFormData] = useState({
@@ -17,12 +19,47 @@ const HostEventPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("userToken");
-        if (!token) {
-            router.push("/");
-        }
+        const fetchUser = async () => {
+            setLoading(true);
+            try {
+                const token = localStorage.getItem("userToken");
+
+                if (!token) {
+                    router.push("/");
+                    return;
+                }
+
+                if (token) {
+                    const userId = jwt.decode(token).id;
+                    const userResponse = await axios.get(
+                        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+
+                    const userData = userResponse.data;
+                    if (userResponse.status === 200) {
+                        setUser(userData);
+                    } else {
+                        router.push("/");
+                        return;
+                    }
+                }
+            } catch (error) {
+                router.push("/");
+                console.error("Error:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
     }, [router]);
 
     const handleInputChange = (e) => {
@@ -82,7 +119,7 @@ const HostEventPage = () => {
 
             try {
                 const uploadResponse = await axios.post(
-                    "http://localhost:5000/api/events/upload-images",
+                    "${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/upload-images",
                     imageData,
                     {
                         headers: {
@@ -98,7 +135,6 @@ const HostEventPage = () => {
                 }
 
                 const imageUrl = uploadedFile.url;
-                // console.log("Image URL:", imageUrl);
                 data.append("backgroundImage", imageUrl);
 
                 await submitEventData(data);
@@ -123,7 +159,7 @@ const HostEventPage = () => {
             data.append("userId", userId);
 
             const response = await axios.post(
-                "http://localhost:5000/api/events/add",
+                "${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/add",
                 data,
                 {
                     headers: {
@@ -155,6 +191,10 @@ const HostEventPage = () => {
             setLoading(false);
         }
     };
+
+    if (!user) {
+        return <Spinner />;
+    }
 
     return (
         <div className="Host-Events-Page">

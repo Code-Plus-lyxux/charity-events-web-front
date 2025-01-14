@@ -83,7 +83,7 @@ const FileUploader = ({ eventImages = [], event }) => {
             });
 
             const imageResponse = await axios.post(
-                `http://localhost:5000/api/events/upload-images`,
+                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/upload-images`,
                 imageFormData,
                 {
                     headers: {
@@ -117,7 +117,7 @@ const FileUploader = ({ eventImages = [], event }) => {
 
             // Update event with new images
             const response = await axios.put(
-                `http://localhost:5000/api/events/update`,
+                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/update`,
                 editEvent,
                 {
                     headers: {

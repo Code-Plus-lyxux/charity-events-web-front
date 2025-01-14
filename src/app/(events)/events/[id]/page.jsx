@@ -7,12 +7,17 @@ import { CommentWithIcon } from "@/components/ui/AddComment";
 import CommentCard from "@/components/ui/CommentCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import Spinner from "@/components/ui/Spinner";
+import jwt from "jsonwebtoken";
 
 export default function EventPage() {
     const id = useParams().id;
+    const router = useRouter();
+    const [user, setUser] = useState(null);
 
     const [refreshKey, setRefreshKey] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [eventData, setEventData] = useState(null);
     const [eventHost, setEventHost] = useState({
@@ -50,8 +55,37 @@ export default function EventPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setIsLoading(true);
+                const token = localStorage.getItem("userToken");
+
+                if (!token) {
+                    setIsLoading(false);
+                    router.push("/");
+                    return;
+                }
+
+                if (token) {
+                    const userId = jwt.decode(token).id;
+                    const userResponse = await axios.get(
+                        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+
+                    const userData = userResponse.data;
+                    if (userResponse.status === 200) {
+                        setUser(userData);
+                    } else {
+                        router.push("/");
+                        return;
+                    }
+                }
+
                 const response = await axios.get(
-                    `http://localhost:5000/api/events/${id}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -63,7 +97,7 @@ export default function EventPage() {
                 setEventData(response.data);
 
                 const hostResponse = await axios.get(
-                    `http://localhost:5000/api/user/${response.data.userId}`,
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${response.data.userId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -74,13 +108,20 @@ export default function EventPage() {
                 );
                 setEventHost(hostResponse.data);
             } catch (error) {
+                router.push("/");
                 console.error("Error:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchData();
     }, [refreshKey]);
 
-    return (
+    if (!user) {
+        return <Spinner />;
+    }
+
+    return !isLoading ? (
         <>
             <section>
                 {/* hero section */}
@@ -129,5 +170,7 @@ export default function EventPage() {
                 </div>
             </section>
         </>
+    ) : (
+        <Spinner />
     );
 }

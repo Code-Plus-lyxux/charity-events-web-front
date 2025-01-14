@@ -37,20 +37,20 @@ export default function ForgotPasswordForm() {
 
     // Handle form submission
     const onSubmit = (values) => {
-        // setEmail(values.email);
-        // router.push("/verify");
-        // console.log("Form submitted with values:", values); //TODO: add changes here
         try {
             // API call to send reset OTP
-            const response = axios.post("http://localhost:5000/api/auth/password/reset", {
-                email: values.email,
-            });
+            const response = axios.post(
+                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/password/reset`,
+                {
+                    email: values.email,
+                }
+            );
 
             // Handle success response
             Swal.fire({
                 icon: "success",
                 title: "OTP Sent!",
-                text:"Password reset OTP has been sent to your email.",
+                text: "Password reset OTP has been sent to your email.",
             });
 
             // Save email to context and navigate to verify page
@@ -62,7 +62,9 @@ export default function ForgotPasswordForm() {
             Swal.fire({
                 icon: "error",
                 title: "Error",
-                text: error.response?.data?.error || "Something went wrong. Please try again later.",
+                text:
+                    error.response?.data?.error ||
+                    "Something went wrong. Please try again later.",
             });
             console.error("Error sending OTP:", error);
         }
