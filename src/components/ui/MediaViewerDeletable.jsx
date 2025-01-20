@@ -137,10 +137,7 @@ const MediaViewerDeletable = ({ eventImages, setEventImages, event }) => {
                                         onClick={() => openImage(src)}
                                     />
                                     <button
-                                        onClick={() => {
-                                            console.log("pressed dx button");
-                                            handleRemoveFile(index);
-                                        }}
+                                        onClick={() => handleRemoveFile(index)}
                                         className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full 
                                              opacity-50 hover:opacity-100 transition-opacity duration-200 "
                                         title="Remove image from server"

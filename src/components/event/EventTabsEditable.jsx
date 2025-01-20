@@ -6,6 +6,7 @@ import MediaViewerDeletable from "@/components/ui/MediaViewerDeletable";
 
 export default function EventTabsEditable({ event }) {
     const [eventImages, setEventImages] = useState([]);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     return (
         <div className="flex justify-center px-4">
@@ -67,10 +68,12 @@ export default function EventTabsEditable({ event }) {
                             eventImages={eventImages}
                             setEventImages={setEventImages}
                             event={event}
+                            key={refreshKey}
                         ></MediaViewerDeletable>
                         <FileUploader
                             eventImages={eventImages}
                             event={event}
+                            setRefreshKey={setRefreshKey}
                         ></FileUploader>
                     </div>
                 </Tabs.Content>
