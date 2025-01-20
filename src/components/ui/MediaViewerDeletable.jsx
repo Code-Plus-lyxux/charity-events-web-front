@@ -53,8 +53,8 @@ const MediaViewerDeletable = ({ eventImages, setEventImages, event }) => {
             cancelButtonText: "Cancel",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                setEventImages((prevImages) => {
-                    const newImages = prevImages.filter((_, i) => i !== index);
+                try {
+                    const newImages = eventImages.filter((_, i) => i !== index);
 
                     const updatedEventData = {
                         eventId: event._id,
@@ -66,32 +66,37 @@ const MediaViewerDeletable = ({ eventImages, setEventImages, event }) => {
                         images: newImages,
                         backgroundImage: event.backgroundImage,
                     };
-                    try {
-                        axios
-                            .put(
-                                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/update`,
-                                updatedEventData,
-                                {
-                                    headers: {
-                                        Authorization: `Bearer ${localStorage.getItem(
-                                            "userToken"
-                                        )}`,
-                                    },
-                                }
-                            )
-                            .then((response) => {
-                                if (response.status === 200) {
-                                    console.log("Image deleted successfully");
-                                } else {
-                                    console.error("Failed to delete image");
-                                }
-                            });
-                    } catch (error) {
-                        console.error("Error deleting image:", error);
-                    }
 
-                    return newImages;
-                });
+                    const response = await axios.put(
+                        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/update`,
+                        updatedEventData,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem(
+                                    "userToken"
+                                )}`,
+                            },
+                        }
+                    );
+
+                    if (response.status === 200) {
+                        setEventImages(newImages);
+
+                        Swal.fire({
+                            title: "Success!",
+                            text: "Image deleted successfully",
+                            icon: "success",
+                            timer: 1500,
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error deleting image:", error);
+                    Swal.fire({
+                        title: "Error",
+                        text: "Failed to delete image",
+                        icon: "error",
+                    });
+                }
             }
         });
     };
