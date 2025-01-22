@@ -7,7 +7,7 @@ import UploadIcon from "@/components/icon/UploadIcon";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const FileUploader = ({ eventImages = [], event }) => {
+const FileUploader = ({ eventImages = [], event, setRefreshKey }) => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(null);
@@ -134,6 +134,7 @@ const FileUploader = ({ eventImages = [], event }) => {
                     icon: "success",
                     confirmButtonColor: "#00B894",
                 });
+                setRefreshKey((prev) => prev + 1);
             }
 
             // Clear selected files and notify parent

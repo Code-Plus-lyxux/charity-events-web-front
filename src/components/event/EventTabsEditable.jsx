@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { CalendarDays, MapPin, ListFilter, Image } from "lucide-react";
 import FileUploader from "@/components/ui/FileUploader";
-import MediaViewer from "@/components/ui/MediaViewer";
+import MediaViewerDeletable from "@/components/ui/MediaViewerDeletable";
 
 export default function EventTabsEditable({ event }) {
     const [eventImages, setEventImages] = useState([]);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     return (
         <div className="flex justify-center px-4">
@@ -63,13 +64,16 @@ export default function EventTabsEditable({ event }) {
                     value="tab2"
                 >
                     <div className="mb-5 text-[15px] leading-normal">
-                        <MediaViewer
+                        <MediaViewerDeletable
                             eventImages={eventImages}
                             setEventImages={setEventImages}
-                        ></MediaViewer>
+                            event={event}
+                            key={refreshKey}
+                        ></MediaViewerDeletable>
                         <FileUploader
                             eventImages={eventImages}
                             event={event}
+                            setRefreshKey={setRefreshKey}
                         ></FileUploader>
                     </div>
                 </Tabs.Content>
