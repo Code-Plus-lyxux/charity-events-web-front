@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import ProfileCard from "@/components/user/ProfileCard";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import Spinner from "@/components/ui/Spinner";
 
-const Page = () => {
+const ProfileContent = () => {
     const [fullName, setName] = useState("");
     const [email, setEmail] = useState("");
     const [about, setAbout] = useState("");
@@ -18,7 +18,8 @@ const Page = () => {
     const router = useRouter();
     const [user, setUser] = useState(null);
 
-    const linkUserId = useParams().id;
+    const params = useSearchParams();
+    const linkUserId = params.get("id");
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -34,7 +35,7 @@ const Page = () => {
             try {
                 userId = JSON.parse(atob(token.split(".")[1])).id;
                 if (linkUserId !== userId) {
-                    router / push("/");
+                    router.push("/");
                 }
             } catch (error) {
                 router.push("/");
@@ -275,4 +276,4 @@ const Page = () => {
     );
 };
 
-export default Page;
+export default ProfileContent;

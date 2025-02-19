@@ -27,13 +27,25 @@ const HostEventPage = () => {
             try {
                 const token = localStorage.getItem("userToken");
 
+                console.log(token);
+
                 if (!token) {
                     router.push("/");
                     return;
                 }
 
                 if (token) {
-                    const userId = jwt.decode(token).id;
+                    const tokenParts = token.split('.');
+                    if (tokenParts.length !== 3) {
+                        throw new Error('Invalid token format');
+                    }
+
+                    const payload = JSON.parse(atob(tokenParts[1]));
+                    const userId = payload.id;
+
+                    if (!userId) {
+                        throw new Error('User ID not found in token');
+                    }
                     const userResponse = await axios.get(
                         `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
                         {
@@ -119,7 +131,7 @@ const HostEventPage = () => {
 
             try {
                 const uploadResponse = await axios.post(
-                    "${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/upload-images",
+                    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/upload-images`,
                     imageData,
                     {
                         headers: {
@@ -159,7 +171,7 @@ const HostEventPage = () => {
             data.append("userId", userId);
 
             const response = await axios.post(
-                "${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/add",
+                `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/add`,
                 data,
                 {
                     headers: {
@@ -185,6 +197,9 @@ const HostEventPage = () => {
                 confirmButtonText: "OK",
             });
         } catch (error) {
+            const {response} = error;
+            console.log(response.data);
+            console.log(error);
             // console.error("Error creating event:", error.response?.data || error.message);
             alert("Failed to create event.");
         } finally {

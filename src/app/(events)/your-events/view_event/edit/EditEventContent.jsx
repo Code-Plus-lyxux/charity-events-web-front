@@ -1,17 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import "@/app/(events)/your-events/[id]/edit/edit-event.css";
+import "@/app/(events)/your-events/view_event/edit/edit-event.css";
 import Swal from "sweetalert2";
 import { Trash2 } from "lucide-react";
 import axios from "axios";
 import jwt from "jsonwebtoken";
-import { useParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Spinner from "@/components/ui/Spinner";
 
-const Page = () => {
-    const params = useParams();
+const EditEventContent = () => {
+
+    const params = useSearchParams();
     const router = useRouter();
 
     // Separate loading states
@@ -52,7 +53,7 @@ const Page = () => {
                 );
 
                 const event = userResponse.data.eventsCreated.find(
-                    (event) => event._id === params.id
+                    (event) => event._id === params.get("id")
                 );
 
                 if (!event) {
@@ -190,7 +191,7 @@ const Page = () => {
                 await axios.delete(
                     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/events/delete`,
                     {
-                        data: { eventId: params.id },
+                        data: { eventId: params.get("id") },
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
                                 "userToken"
@@ -340,4 +341,4 @@ const Page = () => {
     );
 };
 
-export default Page;
+export default EditEventContent;

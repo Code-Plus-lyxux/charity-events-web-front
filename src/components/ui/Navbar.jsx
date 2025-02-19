@@ -132,7 +132,7 @@ const Navbar = () => {
                                 <ul>
                                     <li>
                                         <a
-                                            href={`/profile/${userData?._id}`}
+                                            href={`/profile?id=${userData?._id}`}
                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         >
                                             View Profile
@@ -188,7 +188,7 @@ const Navbar = () => {
                 <ul className="flex flex-col items-start p-4 gap-4 mt-[-35px]">
                     <li>
                         <a
-                            href={`/profile/${userData?._id}`}
+                            href={`/profile?id=${userData?._id}`}
                             className="flex items-center gap-2"
                         >
                             <img

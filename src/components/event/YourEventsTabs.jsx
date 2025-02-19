@@ -132,7 +132,7 @@ export default function YourEventsTab({ user }) {
         <div
             key={event._id}
             className="hover:cursor-pointer"
-            onClick={() => router.push(`${pathPrefix}/${event._id}`)}
+            onClick={() => router.push(`${pathPrefix}/view_event?id=${event._id}`)}
         >
             {/* <UserEventCard
                 isGoing={eventStates[event._id]}

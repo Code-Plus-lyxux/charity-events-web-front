@@ -12,7 +12,6 @@ import {
     FormMessage,
 } from "@/components/ui/Form";
 import { PasswordInput } from "@/components/ui/PasswordInput";
-import checkIcon from "@/assets/img/check-icon.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -133,7 +132,7 @@ export default function ResetPasswordForm() {
                     <ul>
                         <li className="flex items-center gap-2 mt-10">
                             <Image
-                                src={checkIcon}
+                                src='./../../assets/img/check-icon.png'
                                 alt="checkmark"
                                 width={16}
                                 height={16}
@@ -142,7 +141,7 @@ export default function ResetPasswordForm() {
                         </li>
                         <li className="flex items-center gap-2">
                             <Image
-                                src={checkIcon}
+                                src='./../../assets/img/check-icon.png'
                                 alt="checkmark"
                                 width={16}
                                 height={16}
@@ -151,7 +150,7 @@ export default function ResetPasswordForm() {
                         </li>
                         <li className="flex items-center gap-2">
                             <Image
-                                src={checkIcon}
+                                src='./../../assets/img/check-icon.png'
                                 alt="checkmark"
                                 width={16}
                                 height={16}

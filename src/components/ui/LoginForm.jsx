@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
-import emailIcon from "@/assets/img/email-icon.png";
 import { InputWithIcon } from "@/components/ui/InputWithIcon";
 import { Button } from "@/components/ui/Button";
 import {
@@ -47,7 +46,9 @@ export default function LoginForm() {
             );
 
             const token = response.data.token;
-            localStorage.setItem("userToken", token);
+            console.log(token)
+            console.log(response.data)
+            localStorage.setItem("userToken", token.toString());
             router.push("/");
         } catch (error) {
             console.error(
@@ -77,7 +78,7 @@ export default function LoginForm() {
                                 <InputWithIcon
                                     className="pl-10 placeholder:text-gray-500"
                                     type="email"
-                                    iconSrc={emailIcon}
+                                    iconSrc='./../../assets/img/email-icon.png'
                                     alt="email icon"
                                     placeholder="E-mail"
                                     {...field}

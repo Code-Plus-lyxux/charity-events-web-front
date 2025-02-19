@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/Input";
-import passwordIcon from "@/assets/img/password-icon.png";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -13,7 +12,7 @@ const PasswordInput = React.forwardRef(({ className, ...props }, ref) => {
         <div className="relative">
             <div className="absolute left-3 top-1/2 -translate-y-1/2">
                 <Image
-                    src={passwordIcon}
+                    src='./../../assets/img/password-icon.png'
                     alt="password icon"
                     width={20}
                     height={20}

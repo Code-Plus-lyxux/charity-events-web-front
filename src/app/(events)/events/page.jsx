@@ -43,12 +43,14 @@ const page = () => {
                         }
                     );
                     const userData = userResponse.data;
+                    console.log(userData);
                     if (userResponse.status === 200) {
                         setIsLoggedIn(true);
                         setUser(userData);
                     } else {
-                        router.push("/");
-                        return;
+                        console.log(userData);
+                        // router.push("/");
+                        // return;
                     }
 
                     // Fetch all nearby upcoming events
@@ -144,7 +146,7 @@ const page = () => {
                                     <div
                                         key={index}
                                         onClick={() =>
-                                            router.push(`/events/${event._id}`)
+                                            router.push(`/events/view_event?id=${event._id}`)
                                         }
                                         className="hover:cursor-pointer"
                                     >

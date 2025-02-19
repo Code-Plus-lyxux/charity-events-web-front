@@ -1,7 +1,6 @@
 "use client";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
-import usersIcon from "@/assets/img/users-icon.png";
 import EditIcon from "@/components/icon/EditIcon";
 export default function HeroCardEditable({ event }) {
     return (
@@ -17,7 +16,7 @@ export default function HeroCardEditable({ event }) {
                 <div className="absolute top-0 right-0 p-4">
                     <div
                         onClick={() =>
-                            (window.location.href = `/your-events/${event._id}/edit`)
+                            (window.location.href = `/your-events/view_event/edit?id=${event._id}`)
                         }
                     >
                         <EditIcon
@@ -37,7 +36,7 @@ export default function HeroCardEditable({ event }) {
                         <div>
                             <Image
                                 className="inline-block lg:w-8 w-6"
-                                src={usersIcon || "/placeholder.jpg"}
+                                src={'./../../assets/img/users-icon.png' || "/placeholder.jpg"}
                                 alt="users icon"
                                 width={25}
                                 height={25}

@@ -7,12 +7,13 @@ import { CommentWithIcon } from "@/components/ui/AddComment";
 import CommentCard from "@/components/ui/CommentCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import jwt from "jsonwebtoken";
 import Spinner from "@/components/ui/Spinner";
 
-export default function HostedEventPage({ params }) {
-    const id = useParams().id;
+export default function HostedEventView() {
+    // Get the event ID directly from the URL
+    const [id, setId] = useState(null);
     const router = useRouter();
 
     const [user, setUser] = useState(null);
@@ -21,6 +22,13 @@ export default function HostedEventPage({ params }) {
     const [refreshKey, setRefreshKey] = useState(0);
     const [eventData, setEventData] = useState(null);
     const [eventHost, setEventHost] = useState(null);
+
+    // Get the ID from URL
+    useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const eventId = searchParams.get("id");
+        setId(eventId);
+    }, []);
 
     // First useEffect for user authentication and initial validation
     useEffect(() => {
@@ -58,12 +66,12 @@ export default function HostedEventPage({ params }) {
         };
 
         validateUser();
-    }, []);
+    }, [router]);
 
     // Second useEffect for event data and comments
     useEffect(() => {
         const fetchEventData = async () => {
-            if (!user) return; // Don't fetch if user isn't validated
+            if (!user || !id) return; // Don't fetch if user isn't validated or id isn't available
 
             setDataLoading(true);
             const token = localStorage.getItem("userToken");
@@ -102,7 +110,7 @@ export default function HostedEventPage({ params }) {
         };
 
         fetchEventData();
-    }, [user, refreshKey]);
+    }, [user, refreshKey, id, router]);
 
     // Show spinner only during initial load
     if (initialLoading) {

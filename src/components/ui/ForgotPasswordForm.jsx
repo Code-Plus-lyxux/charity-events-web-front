@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import emailIcon from "@/assets/img/email-icon.png";
 import { InputWithIcon } from "@/components/ui/InputWithIcon";
 import { Button } from "@/components/ui/Button";
 import {
@@ -85,7 +84,7 @@ export default function ForgotPasswordForm() {
                                 <InputWithIcon
                                     className="pl-10 placeholder:text-gray-500"
                                     type="email"
-                                    iconSrc={emailIcon}
+                                    iconSrc='./../../assets/img/email-icon.png'
                                     alt="email icon"
                                     placeholder="E-mail"
                                     {...field}

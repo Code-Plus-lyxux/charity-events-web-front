@@ -19,7 +19,7 @@ export default function ProfileCard({ user }) {
         <div className="flex flex-col">
             <div
                 className="self-end py-3 px-4"
-                onClick={() => router.push(`/profile/${_id}/settings`)}
+                onClick={() => router.push(`/profile/settings?id=${_id}`)}
             >
                 <GearIcon className="self-end hover:cursor-pointer hover:stroke-mint-500" />
             </div>

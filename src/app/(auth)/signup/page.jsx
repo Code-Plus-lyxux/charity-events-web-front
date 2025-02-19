@@ -1,10 +1,6 @@
 "use client";
 import Image from "next/image";
-import signupImg from "@/assets/img/hands-heart.png";
-import givewellLogo from "@/assets/img/givewell-logo.png";
 import SignupForm from "@/components/ui/SignupForm";
-import { Button } from "@/components/ui/Button";
-import googleColorIcon from "@/assets/img/google-color.png";
 
 export default function Signup() {
     const handleGoogleLogin = () => {
@@ -16,7 +12,7 @@ export default function Signup() {
             <div className="flex justify-center items-center">
                 <div className="lg:border-black lg:border-2 size-[580] flex items-center">
                     <Image
-                        src={signupImg}
+                        src='./../assets/img/hands-heart.png'
                         alt="logo with a world behind the heart made out of hands"
                         width={580}
                         height={580}
@@ -26,7 +22,7 @@ export default function Signup() {
             <div>
                 <div className="flex justify-center items-center z-10">
                     <Image
-                        src={givewellLogo}
+                        src='./../assets/img/givewell-logo.png'
                         alt="givewell logo"
                         width={382}
                         height={382}

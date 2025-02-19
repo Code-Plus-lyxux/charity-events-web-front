@@ -3,9 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import emailIcon from "@/assets/img/email-icon.png";
 import { InputWithIcon } from "@/components/ui/InputWithIcon";
-import userIcon from "@/assets/img/user-icon.png";
 import { Button } from "@/components/ui/Button";
 import {
     Form,
@@ -88,7 +86,7 @@ export default function signupForm() {
                                 <InputWithIcon
                                     className="pl-10 placeholder:text-gray-500"
                                     type="email"
-                                    iconSrc={emailIcon}
+                                    iconSrc='./../../assets/img/email-icon.png'
                                     alt="email icon"
                                     placeholder="E-mail"
                                     {...field}
@@ -107,7 +105,7 @@ export default function signupForm() {
                                 <InputWithIcon
                                     className="pl-10 placeholder:text-gray-500"
                                     type="text"
-                                    iconSrc={userIcon}
+                                    iconSrc='./../../assets/img/user-icon.png'
                                     alt="user icon"
                                     placeholder="Full Name"
                                     {...field}

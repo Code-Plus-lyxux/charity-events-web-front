@@ -7,80 +7,51 @@ import { CommentWithIcon } from "@/components/ui/AddComment";
 import CommentCard from "@/components/ui/CommentCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Spinner from "@/components/ui/Spinner";
 import jwt from "jsonwebtoken";
 
-export default function EventPage() {
-    const id = useParams().id;
+export default function EventView() {
+    // Get the search params directly from window
+    const [id, setId] = useState(null);
     const router = useRouter();
     const [user, setUser] = useState(null);
-
     const [refreshKey, setRefreshKey] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-
     const [eventData, setEventData] = useState(null);
-    const [eventHost, setEventHost] = useState({
-        id,
-        userId: "1",
-        eventName: `Support Animal Welfare`,
-        location: "Kandy",
-        startDate: "21 December 2024",
-        status: "Upcoming",
-        attendUsers: ["2", "3", "4"],
-        aboutEvent:
-            "Join us for a meaningful day at the local animal shelter...",
-        comments: [
-            {
-                userId: "2",
-                comment: "Such an amazing event!",
-                createdAt: "22 December 2024",
-            },
-            {
-                userId: "3",
-                comment: "This event is a perfect opportunity",
-                createdAt: "22 December 2024",
-            },
-            {
-                userId: "4",
-                comment: "I'm so grateful for events like thi",
-                createdAt: "22 December 2024",
-            },
-        ],
-    });
+    const [eventHost, setEventHost] = useState(null);
 
-    //retrieve event details here with api call from the backend with event_id
-    //this is a sample event details from the design
+    // Effect to get ID from URL
+    useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const eventId = searchParams.get("id");
+        setId(eventId);
+    }, []);
 
+    // Effect to fetch data
     useEffect(() => {
         const fetchData = async () => {
+            if (!id) return;
+            
             try {
                 setIsLoading(true);
                 const token = localStorage.getItem("userToken");
 
-                if (!token) {
-                    setIsLoading(false);
-                    router.push("/");
-                    return;
-                }
-
                 if (token) {
-                    const userId = jwt.decode(token).id;
-                    const userResponse = await axios.get(
-                        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
-                    );
-
-                    const userData = userResponse.data;
-                    if (userResponse.status === 200) {
+                    try {
+                        const userId = jwt.decode(token).id;
+                        const userResponse = await axios.get(
+                            `${process.env.NEXT_PUBLIC_API_SERVER_URL}/user/${userId}`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
+                            }
+                        );
+                        const userData = userResponse.data;
                         setUser(userData);
-                    } else {
-                        router.push("/");
-                        return;
+                    } catch (userError) {
+                        console.error("Error fetching user:", userError);
                     }
                 }
 
@@ -108,20 +79,21 @@ export default function EventPage() {
                 );
                 setEventHost(hostResponse.data);
             } catch (error) {
-                router.push("/");
                 console.error("Error:", error);
+                // Handle error appropriately - maybe show error message
             } finally {
                 setIsLoading(false);
             }
         };
-        fetchData();
-    }, [refreshKey]);
 
-    if (!user) {
+        fetchData();
+    }, [refreshKey, id]);
+
+    if (isLoading) {
         return <Spinner />;
     }
 
-    return !isLoading ? (
+    return (
         <>
             <section>
                 {/* hero section */}
@@ -170,7 +142,5 @@ export default function EventPage() {
                 </div>
             </section>
         </>
-    ) : (
-        <Spinner />
     );
 }

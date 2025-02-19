@@ -1,10 +1,6 @@
 "use client";
 import Image from "next/image";
-import loginImg from "@/assets/img/world-hands.png";
-import givewellLogo from "@/assets/img/givewell-logo.png";
 import LoginForm from "@/components/ui/LoginForm";
-import { Button } from "@/components/ui/Button";
-import googleColorIcon from "@/assets/img/google-color.png";
 
 export default function Login() {
     const handleGoogleLogin = () => {
@@ -15,7 +11,7 @@ export default function Login() {
         <div className="flex flex-col lg:flex-row justify-around">
             <div className="flex justify-center items-center">
                 <Image
-                    src={loginImg}
+                    src='./../assets/img/world-hands.png'
                     alt="logo with a world behind the supportive hands"
                     width={580}
                     height={575}
@@ -25,7 +21,7 @@ export default function Login() {
             <div>
                 <div className="flex justify-center items-center z-10">
                     <Image
-                        src={givewellLogo}
+                        src='./../assets/img/givewell-logo.png'
                         alt="givewell logo"
                         width={382}
                         height={382}

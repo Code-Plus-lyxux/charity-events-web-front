@@ -61,7 +61,7 @@ export default function UserEvents({ user }) {
                                     key={`event-${index}`}
                                     className="hover:cursor-pointer"
                                     onClick={() =>
-                                        router.push(`/events/${event._id}`)
+                                        router.push(`/events/view_event?id=${event._id}`)
                                     }
                                 >
                                     <EventCard
@@ -94,7 +94,7 @@ export default function UserEvents({ user }) {
                                         key={`attending-${index}`}
                                         className="hover:cursor-pointer"
                                         onClick={() =>
-                                            router.push(`/events/${event._id}`)
+                                            router.push(`/events/view_event?id=${event._id}`)
                                         }
                                     >
                                         <EventCard

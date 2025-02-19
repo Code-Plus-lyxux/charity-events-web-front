@@ -3,7 +3,6 @@ import * as React from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/Input";
 import { cn } from "@/lib/utils";
-import sendIcon from "@/assets/img/send-icon.png";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -73,7 +72,7 @@ export const CommentWithIcon = React.forwardRef(
                     className="absolute top-1/2 right-3 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-full hover:bg-mint-600"
                 >
                     <Image
-                        src={sendIcon}
+                        src='./../../assets/img/send-icon.png'
                         alt="send icon"
                         width={16}
                         height={16}

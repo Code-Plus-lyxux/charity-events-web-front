@@ -3,14 +3,15 @@ import ProfileCard from "@/components/user/UserProfileCard";
 import UserEvents from "@/components/user/UserEvents";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Spinner from "@/components/ui/Spinner";
 
-export default function Profile() {
+export default function ProfileView() {
     const router = useRouter();
     const [fetchedUser, setFetchedUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const linkUserId = useParams().id;
+    const params = useSearchParams();
+    const linkUserId = params.get("id");
 
     useEffect(() => {
         setIsLoading(true);

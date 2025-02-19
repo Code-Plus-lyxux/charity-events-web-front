@@ -1,7 +1,6 @@
 "use client";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
-import usersIcon from "@/assets/img/users-icon.png";
 export default function HeroCard({ event }) {
     return (
         <>
@@ -24,7 +23,7 @@ export default function HeroCard({ event }) {
                         <div>
                             <Image
                                 className="inline-block lg:w-8 w-6"
-                                src={usersIcon || "/placeholder.jpg"}
+                                src={"./../../assets/img/users-icon.png" || "/placeholder.jpg"}
                                 alt="users icon"
                                 width={25}
                                 height={25}

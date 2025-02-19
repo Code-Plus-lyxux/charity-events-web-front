@@ -1,7 +1,5 @@
 "use client";
 import Image from "next/image";
-import loginImg from "@/assets/img/world-hands.png";
-import givewellLogo from "@/assets/img/givewell-logo.png";
 import { useAuth } from "@/hooks/authContext";
 import VerificationForm from "@/components/ui/VerificationForm";
 import { CircleArrowLeft } from "lucide-react";
@@ -16,7 +14,7 @@ export default function Verify() {
         <div className="flex flex-col lg:flex-row justify-around">
             <div className="lg:flex lg:justify-center lg:items-center hidden">
                 <Image
-                    src={loginImg}
+                    src='./../assets/img/world-hands.png'
                     width={580}
                     height={575}
                     alt="logo with a world behind the supportive hands"
@@ -26,7 +24,7 @@ export default function Verify() {
             <div>
                 <div className="lg:flex lg:justify-center lg:items-center lg:z-10 hidden">
                     <Image
-                        src={givewellLogo}
+                        src='./../assets/img/givewell-logo.png'
                         width={382}
                         height={382}
                         alt="givewell logo"

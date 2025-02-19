@@ -141,7 +141,6 @@ const HomePage = () => {
                         setEvents(nearbyResponse.data);
                     } catch (error) {
                         console.warn("User not found:", error);
-                        localStorage.removeItem("userToken");
                     }
                 } else {
                     setIsLoggedIn(false);
@@ -267,7 +266,7 @@ const HomePage = () => {
                                         isLoggedIn
                                             ? () =>
                                                   router.push(
-                                                      `/events/${event._id}`
+                                                      `/events/view_event?id=${event._id}`
                                                   )
                                             : () => router.push("/login")
                                     }
